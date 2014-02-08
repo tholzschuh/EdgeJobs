@@ -2,6 +2,9 @@ package net.edgecraft.edgejobs.api;
 
 import java.util.ArrayList;
 
+import net.edgecraft.edgecore.user.User;
+import net.edgecraft.edgejobs.util.ConfigHandler;
+
 public abstract class JobManager {
 
 	private static ArrayList<AbstractJob> jobs = new ArrayList<>();
@@ -57,6 +60,14 @@ public abstract class JobManager {
 		}
 		
 		return null;
+	}
+	
+	public AbstractJob getUserJob(User u){
+		return getJobByName(ConfigHandler.getJob(u));
+	}
+	
+	public AbstractSidejob getUserSidejob(User u){
+		return getSidejobByName(ConfigHandler.getSidejob(u));
 	}
 	
 }
