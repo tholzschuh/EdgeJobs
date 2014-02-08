@@ -20,9 +20,8 @@ public abstract class ConfigHandler {
 	public static void prepare(){
 		
 		config().options().copyDefaults(true);
-		config().options().header("User values der Nebenjobs und Datenbank der Jobs der User");
 		
-		if(!config().contains("gehalt")) prepareJobs(); // Gehälter der Jobs festlegen
+		if(!config().contains("pay")) prepareJobs(); // Gehälter der Jobs festlegen
 		if(!config().contains("user")) config().createSection("user"); // Job der User
 		
 		save();
@@ -57,32 +56,32 @@ public abstract class ConfigHandler {
 	 * @param u - User
 	 * @param job - Set null for 'none'
 	 */
-	public static void setNebenjob(User u, AbstractSidejob job){
+	public static void setSidejob(User u, AbstractSidejob job){
 		
 		if(job == null){
 			
-			config().set("user." + u.getID() + ".nebenjob", "none");
+			config().set("user." + u.getID() + ".sidejob", "none");
 			
 		}
 		else{
 			
-			config().set("user." + u.getID() + ".nebenjob", job.getName());
+			config().set("user." + u.getID() + ".sidejob", job.getName());
 			
 		}
 		
 		save();
 	}
 	
-	public static void setJobGehalt(AbstractJob job, double gehalt){
+	public static void setJobPay(AbstractJob job, double pay){
 		
-		config().set("gehalt." + job.getName()	, gehalt);
+		config().set("pay." + job.getName()	, pay);
 		
 		save();
 	}
 	
-	public static void setNebenjobGehalt(AbstractSidejob job, double gehalt){
+	public static void setSidejobPay(AbstractSidejob job, double pay){
 		
-		config().set("gehalt." + job.getName()	, gehalt);
+		config().set("pay." + job.getName()	, pay);
 		
 		save();
 	}
@@ -91,8 +90,8 @@ public abstract class ConfigHandler {
 		return config().getString("user." + u.getID() + ".job");
 	}
 	
-	public static String getNebenjob(User u){
-		return config().getString("user." + u.getID() + ".nebenjob");
+	public static String getSidejob(User u){
+		return config().getString("user." + u.getID() + ".sidejob");
 	}
 	
 }
