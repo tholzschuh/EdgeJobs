@@ -3,7 +3,7 @@ package net.edgecraft.edgejobs.util;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
-import net.edgecraft.edgejobs.api.AbstractNebenjob;
+import net.edgecraft.edgejobs.api.AbstractSidejob;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -57,7 +57,7 @@ public abstract class ConfigHandler {
 	 * @param u - User
 	 * @param job - Set null for 'none'
 	 */
-	public static void setNebenjob(User u, AbstractNebenjob job){
+	public static void setNebenjob(User u, AbstractSidejob job){
 		
 		if(job == null){
 			
@@ -80,7 +80,7 @@ public abstract class ConfigHandler {
 		save();
 	}
 	
-	public static void setNebenjobGehalt(AbstractNebenjob job, double gehalt){
+	public static void setNebenjobGehalt(AbstractSidejob job, double gehalt){
 		
 		config().set("gehalt." + job.getName()	, gehalt);
 		

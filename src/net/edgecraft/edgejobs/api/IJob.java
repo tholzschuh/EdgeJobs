@@ -10,5 +10,5 @@ import org.bukkit.event.Listener;
  */
 interface IJob extends Listener { 
 	public String getName();
-	public double getLohn();
+	public double getPay();
 }
