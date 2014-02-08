@@ -24,7 +24,6 @@ public abstract class ConfigHandler {
 		
 		if(!config().contains("gehalt")) prepareJobs(); // Gehälter der Jobs festlegen
 		if(!config().contains("user")) config().createSection("user"); // Job der User
-		if(!config().contains("nebenjob")) config().createSection("nebenjob"); // Aktuelles Gehalt der Nebenjobs der User
 		
 		save();
 	}
@@ -70,6 +69,20 @@ public abstract class ConfigHandler {
 			config().set("user." + u.getID() + ".nebenjob", job.getName());
 			
 		}
+		
+		save();
+	}
+	
+	public static void setJobGehalt(AbstractJob job, double gehalt){
+		
+		config().set("gehalt." + job.getName()	, gehalt);
+		
+		save();
+	}
+	
+	public static void setNebenjobGehalt(AbstractNebenjob job, double gehalt){
+		
+		config().set("gehalt." + job.getName()	, gehalt);
 		
 		save();
 	}
