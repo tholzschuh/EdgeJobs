@@ -12,8 +12,6 @@ public class EdgeJobs extends JavaPlugin {
 	private static EdgeJobs instance;
 	private static final Logger log = EdgeCore.log;
 	
-	private EdgeJobs(){};
-	
 	@Override
 	public void onLoad() {
 		
