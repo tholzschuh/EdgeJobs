@@ -12,10 +12,12 @@ public abstract class AbstractNebenjob implements IJob {
 		this.lohn = lohn;
 	}
 	
-	public String getName(){
+	@Override
+	public String getName() {
 		return this.name;
 	}
 	
+	@Override
 	public final double getLohn(){
 		return this.lohn;
 	}

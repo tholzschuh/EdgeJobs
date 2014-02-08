@@ -4,8 +4,11 @@ import org.bukkit.event.Listener;
 
 /**
  * 
- * Empty interface for any kind of jobs
+ * Interface for any kind of jobs
  * Every IJob is automatically an Listener
  *
  */
-interface IJob extends Listener { }
+interface IJob extends Listener { 
+	public String getName();
+	public double getLohn();
+}
