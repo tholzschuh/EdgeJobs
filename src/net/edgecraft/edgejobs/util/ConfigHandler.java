@@ -4,6 +4,7 @@ import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
+import net.edgecraft.edgejobs.api.JobManager;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -21,16 +22,57 @@ public abstract class ConfigHandler {
 		
 		config().options().copyDefaults(true);
 		
-		if(!config().contains("pay")) prepareJobs(); // Gehälter der Jobs festlegen
-		if(!config().contains("user")) config().createSection("user"); // Job der User
+		if(!config().contains("pay")) config().addDefault("payhour", "17");
+		if(!config().contains("pay")) prepareJobs();
+		if(!config().contains("user")) config().createSection("user");
+		
 		
 		save();
 	}
 	
-	@SuppressWarnings("TODO: Fill function")
 	private static void prepareJobs(){
 		
+		for(AbstractJob job : JobManager.getJobs()){
+			
+			config().addDefault("pay." + job.getName(), "2000");
+			
+		}
+		
+		for(AbstractSidejob job : JobManager.getSidejobs()){
+			
+			config().addDefault("pay." + job.getName(), "10");
+			
+		}
+		
 	}
+	
+	public static String getPayHour(){
+		return config().getString("payhour");
+	}
+	
+	public static boolean containsUser(User u){
+		return config().contains("user." + u.getID());
+	}
+	
+	public static void createUser(User u){
+		
+		if(containsUser(u)) return;
+		
+		config().addDefault("user." + u.getID() + ".job", "none");
+		config().addDefault("user." + u.getID() + ".job", "none");
+		config().addDefault("user." + u.getID() + ".job", "none");
+		
+	}
+	
+	public static void removeUser(User u){
+		
+		if(!containsUser(u)) return;
+		
+		config().set("user." + u.getID(), null);
+		
+	}
+	
+	// TODO: Add here stuff for companies
 	
 	/**
 	 * @param u - User
