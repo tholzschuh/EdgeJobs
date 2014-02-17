@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
  * Every IJob is automatically an Listener
  *
  */
-interface IJob extends Listener { 
+public interface IJob extends Listener { 
 	public String getName();
 	public double getPay();
 }
