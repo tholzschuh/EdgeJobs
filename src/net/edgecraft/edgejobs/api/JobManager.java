@@ -24,13 +24,21 @@ public abstract class JobManager {
 		
 	}
 	
+	public static ArrayList<AbstractJob> getJobs(){
+		return jobs;
+	}
+	
+	public static ArrayList<AbstractSidejob> getSidejobs(){
+		return sidejobs;
+	}
+	
 	/**
 	 * Get a AbstractJob by String
 	 * 
 	 * @param name - name ob the job
 	 * @return null if not found
 	 */
-	public AbstractJob getJobByName(String name){
+	public static AbstractJob getJobByName(String name){
 		
 		for(int i = 0; i < jobs.size(); i++){
 			
@@ -49,7 +57,7 @@ public abstract class JobManager {
 	 * @param name - name ob the job
 	 * @return null if not found
 	 */
-	public AbstractSidejob getSidejobByName(String name){
+	public static AbstractSidejob getSidejobByName(String name){
 		
 		for(int i = 0; i < jobs.size(); i++){
 			
@@ -62,11 +70,21 @@ public abstract class JobManager {
 		return null;
 	}
 	
-	public AbstractJob getUserJob(User u){
+	/**
+	 * 
+	 * @param u - User
+	 * @return null if not found
+	 */
+	public static AbstractJob getUserJob(User u){
 		return getJobByName(ConfigHandler.getJob(u));
 	}
 	
-	public AbstractSidejob getUserSidejob(User u){
+	/**
+	 * 
+	 * @param u - User
+	 * @return null if not found
+	 */
+	public static AbstractSidejob getUserSidejob(User u){
 		return getSidejobByName(ConfigHandler.getSidejob(u));
 	}
 	
