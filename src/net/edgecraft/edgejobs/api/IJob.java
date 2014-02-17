@@ -1,5 +1,7 @@
 package net.edgecraft.edgejobs.api;
 
+import net.edgecraft.edgecore.command.AbstractCommand;
+
 import org.bukkit.event.Listener;
 
 /**
@@ -11,4 +13,5 @@ import org.bukkit.event.Listener;
 public interface IJob extends Listener { 
 	public String getName();
 	public double getPay();
+	public AbstractCommand[] jobCommands();
 }
