@@ -3,8 +3,13 @@ package net.edgecraft.edgejobs;
 import java.util.logging.Logger;
 
 import net.edgecraft.edgecore.EdgeCore;
+import net.edgecraft.edgejobs.api.tasks.JobPayTask;
+import net.edgecraft.edgejobs.api.tasks.SidejobPayTask;
+import net.edgecraft.edgejobs.util.ConfigHandler;
+import net.edgecraft.edgejobs.util.UtilListener;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class EdgeJobs extends JavaPlugin {
 
@@ -22,9 +27,15 @@ public class EdgeJobs extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		
+		ConfigHandler.prepare();
+		
+		getServer().getPluginManager().registerEvents(new UtilListener(), this);
+		
+		startSchedulers();
+		
 		log.info(EdgeJobs.banner + "EdgeJobs aktiviert");
 	}
-	
+
 	@Override
 	public void onDisable() {
 
@@ -33,6 +44,16 @@ public class EdgeJobs extends JavaPlugin {
 	
 	public static EdgeJobs getInstance(){
 		return instance;
+	}
+	
+	private void startSchedulers() {
+				
+		BukkitRunnable jpt = (BukkitRunnable) new JobPayTask();
+		BukkitRunnable sjpt = (BukkitRunnable) new SidejobPayTask();
+		
+		this.getServer().getScheduler().runTaskTimerAsynchronously(this, jpt, 40L, 200L);
+		this.getServer().getScheduler().runTaskTimerAsynchronously(this, sjpt, 40L, 250L);
+		
 	}
 	
 }
