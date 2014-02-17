@@ -22,6 +22,6 @@ public abstract class AbstractSidejob implements IJob {
 		return this.pay;
 	}
 	
-	public abstract void doWork(User u);
+	public abstract boolean hasDoneWork(User u);
 	
 }

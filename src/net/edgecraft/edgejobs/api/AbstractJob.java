@@ -1,6 +1,5 @@
 package net.edgecraft.edgejobs.api;
 
-import net.edgecraft.edgecore.user.User;
 
 public abstract class AbstractJob implements IJob {
 
@@ -21,7 +20,5 @@ public abstract class AbstractJob implements IJob {
 	public final double getPay(){
 		return this.pay;
 	}
-	
-	public abstract void doWork(User u);
 	
 }
