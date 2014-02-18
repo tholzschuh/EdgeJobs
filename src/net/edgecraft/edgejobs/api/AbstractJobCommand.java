@@ -8,7 +8,6 @@ import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
 import net.edgecraft.edgecore.user.User;
 
-//TODO: Finish this class
 public abstract class AbstractJobCommand extends AbstractCommand {
 
 	private String job;
