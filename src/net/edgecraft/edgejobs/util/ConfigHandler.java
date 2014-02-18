@@ -22,7 +22,7 @@ public abstract class ConfigHandler {
 		
 		config().options().copyDefaults(true);
 		
-		if(!config().contains("pay")) config().addDefault("payhour", "17");
+		if(!config().contains("payhour")) config().addDefault("payhour", "17");
 		if(!config().contains("pay")) prepareJobs();
 		if(!config().contains("user")) config().createSection("user");
 		
@@ -34,16 +34,20 @@ public abstract class ConfigHandler {
 		
 		for(AbstractJob job : JobManager.getJobs()){
 			
-			config().addDefault("pay." + job.getName(), "2000");
+			config().addDefault("pay." + job.getName(), 2000.00);
 			
 		}
 		
 		for(AbstractSidejob job : JobManager.getSidejobs()){
 			
-			config().addDefault("pay." + job.getName(), "10");
+			config().addDefault("pay." + job.getName(), 10.00);
 			
 		}
 		
+	}
+	
+	public static double getJobPay(String name){
+		return config().getDouble("pay." + name);
 	}
 	
 	public static String getPayHour(){
