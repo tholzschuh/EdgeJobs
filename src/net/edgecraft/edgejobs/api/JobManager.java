@@ -1,14 +1,22 @@
 package net.edgecraft.edgejobs.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
-public abstract class JobManager {
+import org.bukkit.entity.Player;
 
+public abstract class JobManager {
+	
 	private static ArrayList<AbstractJob> jobs = new ArrayList<>();
 	private static ArrayList<AbstractSidejob> sidejobs = new ArrayList<>();
+	private static HashMap<Player, Boolean> isWorking = new HashMap<>();
+	
+	public static void setWorking(Player p, boolean b){
+		isWorking.put(p, b);
+	}
 	
 	public static void registerJob(IJob job){
 		
