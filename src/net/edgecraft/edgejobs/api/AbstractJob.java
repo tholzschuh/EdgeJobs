@@ -1,5 +1,8 @@
 package net.edgecraft.edgejobs.api;
 
+import net.edgecraft.edgecore.user.User;
+import net.edgecraft.edgejobs.EdgeJobs;
+
 
 public abstract class AbstractJob implements IJob {
 
@@ -19,6 +22,10 @@ public abstract class AbstractJob implements IJob {
 	@Override
 	public final double getPay(){
 		return this.pay;
+	}
+	
+	public void printHelpSentence(User u, String sentence){
+		u.getPlayer().sendMessage(EdgeJobs.helpColor + sentence);
 	}
 	
 }
