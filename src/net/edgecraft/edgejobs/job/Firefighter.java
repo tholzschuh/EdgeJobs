@@ -21,14 +21,14 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 /**
  * Not finished
  */
-public class JobFiremen extends AbstractJob {
+public class Firefighter extends AbstractJob {
 
 	private ItemStack boots = new ItemStack( Material.LEATHER_BOOTS );
 	private ItemStack pants = new ItemStack( Material.LEATHER_LEGGINGS );
 	private ItemStack chestplate = new ItemStack( Material.LEATHER_CHESTPLATE );
 	private ItemStack helmet = new ItemStack( Material.LEATHER_HELMET );
 	
-	public JobFiremen() {
+	public Firefighter() {
 		
 		super( "Firemen", ConfigHandler.getJobPay("Firemen") );
 		ChatHandler.getInstance().addChannel( new Channel( "Firemen", false, Material.FLINT ) ); //TODO: Change material
@@ -53,14 +53,14 @@ public class JobFiremen extends AbstractJob {
 		
 		LeatherArmorMeta chestmeta = (LeatherArmorMeta) chestplate.getItemMeta();
 		
-		chestmeta.setDisplayName( "Feuerwehrschuhe" );
+		chestmeta.setDisplayName( "Feuerwehrschuhe" ); // TODO:
 		chestmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
 		
 		chestplate.setItemMeta( chestmeta );
 		
 		LeatherArmorMeta helmetmeta = (LeatherArmorMeta) helmet.getItemMeta();
 		
-		helmetmeta.setDisplayName( "Feuerwehrschuhe" );
+		helmetmeta.setDisplayName( "Feuerwehrschuhe" ); // TODO:
 		helmetmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
 		
 		helmet.setItemMeta( helmetmeta );
@@ -115,9 +115,10 @@ public class JobFiremen extends AbstractJob {
 	}
 
 	@Override
-	public void printHelp(User u) {
+	public void printHelp( User u ) {
 		
-		if( u.getLevel().value() >= Level.TEAM.value() ){
+		//TODO: WTF TÖTET ESSSSSSSS :)
+		if( Level.canUse( u, Level.TEAM ) ) {
 			
 			printHelpSentence(u, "=== Feuerwehr - Hilfe ===");
 			printHelpSentence(u, "== Befehle ==");
@@ -139,33 +140,28 @@ public class JobFiremen extends AbstractJob {
 			printHelpSentence(u, "Du bekommst eine Feuerschutzrüstung, Wasser und dazu noch einen Transmitter für den Feuerwehrfunk.");
 			
 		}
-		
-		if( Level.canUse( u, Level.TEAM) ) {
-			printHelpSentence( u, "/job join" );
-		}
-		
 	}
 
 	@Override
 	public void equipPlayer(Player p) {
 		
 		PlayerInventory inv = p.getInventory();
-		//
-		ItemStack water = new ItemStack(Material.WATER_BUCKET);
-		water.setDurability((short) 15);
-		//
-		ItemStack flint = new ItemStack(Material.FLINT);
-		flint.getItemMeta().setDisplayName("Funkgerät");
+		
+		ItemStack water = new ItemStack( Material.WATER_BUCKET );
+		water.setDurability( (short) 15 );
+		
+		ItemStack flint = new ItemStack( Material.FLINT );
+		flint.getItemMeta().setDisplayName( "Funkgerät" );
 		
 		//TODO: Save the inventory bevore clearing || Beta
 		inv.clear();
 		
-		inv.setHelmet(helmet);
-		inv.setChestplate(chestplate);
-		inv.setBoots(boots);
-		inv.setLeggings(pants);
-		inv.addItem(new ItemStack(Material.FLINT));
-		inv.addItem(water);
+		inv.setHelmet( helmet );
+		inv.setChestplate( chestplate );
+		inv.setBoots( boots );
+		inv.setLeggings( pants );
+		inv.addItem( new ItemStack( Material.FLINT ) );
+		inv.addItem( water );
 		
 	}
 	
