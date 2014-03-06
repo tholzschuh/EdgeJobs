@@ -11,14 +11,10 @@ import net.edgecraft.edgecore.user.User;
 public abstract class AbstractJobCommand extends AbstractCommand {
 
 	private String job;
-	private boolean isJob;
 	
-	public AbstractJobCommand(IJob job){
+	public AbstractJobCommand( AbstractJob  job ){
+		
 		this.job = job.getName();
-		if(job instanceof AbstractJob)
-			isJob = true;
-		else
-			isJob = false;
 	}
 	
 	public String getJobName(){
@@ -31,38 +27,19 @@ public abstract class AbstractJobCommand extends AbstractCommand {
 	}
 	
 	@Override
-	public final boolean runImpl(Player player, User user, String[] args) throws Exception {
+	public final boolean runImpl( Player player, User user, String[] args ) {
 		
-		boolean hasJob = false;
+		AbstractJob job = JobManager.getJob( user );
 		
-		if(isJob){
-			
-			AbstractJob j = JobManager.getUserJob(user);
-			
-			if(j.getName().equalsIgnoreCase(job))
-				hasJob = true;
-			
-		}
-		else{
-			
-			AbstractSidejob j = JobManager.getUserSidejob(user);
-			
-			if(j.getName().equalsIgnoreCase(job))
-				hasJob = true;
-			
-		}
+		if( getJobName().equalsIgnoreCase( job.getName() ) )
+			return run( user, args );
 		
-		if(!hasJob){
-			
-			player.sendMessage(EdgeCore.errorColor + "Du darfst das nicht ohne den Job!");
-			
-			return true;
-		}
+		player.sendMessage( EdgeCore.errorColor + "Du darfst das nicht ohne den Job!" );
+		return true;
 		
-		return run(user, args);
 	}
 	
-	public abstract boolean run(User user, String[] args);
+	public abstract boolean run( User user, String[] args );
 	
 	@Override
 	public final boolean sysAccess(CommandSender sender, String[] args) {

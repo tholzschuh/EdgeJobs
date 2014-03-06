@@ -23,50 +23,51 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
  */
 public class JobFiremen extends AbstractJob {
 
-	private ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
-	private ItemStack pants = new ItemStack(Material.LEATHER_LEGGINGS);
-	private ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-	private ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
+	private ItemStack boots = new ItemStack( Material.LEATHER_BOOTS );
+	private ItemStack pants = new ItemStack( Material.LEATHER_LEGGINGS );
+	private ItemStack chestplate = new ItemStack( Material.LEATHER_CHESTPLATE );
+	private ItemStack helmet = new ItemStack( Material.LEATHER_HELMET );
 	
 	public JobFiremen() {
-		super("Feuerwehr", ConfigHandler.getJobPay("Feuerwehr"));
-		ChatHandler.getInstance().addChannel(new Channel("Feuerwehr", false, Material.FLINT)); //TODO: Change material
+		
+		super( "Firemen", ConfigHandler.getJobPay("Firemen") );
+		ChatHandler.getInstance().addChannel( new Channel( "Firemen", false, Material.FLINT ) ); //TODO: Change material
 		prepareKit();
 	}
 
-	private void prepareKit(){
+	private final void prepareKit(){
 		
 		LeatherArmorMeta bootmeta = (LeatherArmorMeta) boots.getItemMeta();
 		
-		bootmeta.setDisplayName("Feuerwehrschuhe");
-		bootmeta.addEnchant(Enchantment.PROTECTION_FIRE, 999999, true);
+		bootmeta.setDisplayName( "Feuerwehrschuhe" );
+		bootmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
 		
-		boots.setItemMeta(bootmeta);
+		boots.setItemMeta( bootmeta );
 		
 		LeatherArmorMeta pantmeta = (LeatherArmorMeta) pants.getItemMeta();
 		
-		pantmeta.setDisplayName("Feuerwehrhose");
-		pantmeta.addEnchant(Enchantment.PROTECTION_FIRE, 999999, true);
+		pantmeta.setDisplayName( "Feuerwehrhose" );
+		pantmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
 		
-		pants.setItemMeta(pantmeta);
+		pants.setItemMeta( pantmeta );
 		
 		LeatherArmorMeta chestmeta = (LeatherArmorMeta) chestplate.getItemMeta();
 		
-		chestmeta.setDisplayName("Feuerwehrschuhe");
-		chestmeta.addEnchant(Enchantment.PROTECTION_FIRE, 999999, true);
+		chestmeta.setDisplayName( "Feuerwehrschuhe" );
+		chestmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
 		
-		chestplate.setItemMeta(chestmeta);
+		chestplate.setItemMeta( chestmeta );
 		
 		LeatherArmorMeta helmetmeta = (LeatherArmorMeta) helmet.getItemMeta();
 		
-		helmetmeta.setDisplayName("Feuerwehrschuhe");
-		helmetmeta.addEnchant(Enchantment.PROTECTION_FIRE, 999999, true);
+		helmetmeta.setDisplayName( "Feuerwehrschuhe" );
+		helmetmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
 		
-		helmet.setItemMeta(helmetmeta);
+		helmet.setItemMeta( helmetmeta );
 		
 	}
 	
-	private static class CommandCreateFireEvent extends AbstractCommand { 
+	private static class CreateFireEventCommand extends AbstractCommand { 
 
 		@Override
 		public Level getLevel() {
@@ -79,7 +80,7 @@ public class JobFiremen extends AbstractJob {
 		}
 
 		@Override
-		public boolean runImpl(Player p, User u, String[] args) throws Exception {
+		public boolean runImpl( Player p, User u, String[] args ) {
 			
 			//Location l = p.getLocation();
 			
@@ -110,13 +111,13 @@ public class JobFiremen extends AbstractJob {
 	
 	@Override
 	public AbstractCommand[] jobCommands() {
-		return new AbstractCommand[]{ new CommandCreateFireEvent() };
+		return new AbstractCommand[]{ new CreateFireEventCommand() };
 	}
 
 	@Override
 	public void printHelp(User u) {
 		
-		if(u.getLevel().value() >= Level.TEAM.value()){
+		if( u.getLevel().value() >= Level.TEAM.value() ){
 			
 			printHelpSentence(u, "=== Feuerwehr - Hilfe ===");
 			printHelpSentence(u, "== Befehle ==");
@@ -137,6 +138,10 @@ public class JobFiremen extends AbstractJob {
 			printHelpSentence(u, "== Utensilien ==");
 			printHelpSentence(u, "Du bekommst eine Feuerschutzrüstung, Wasser und dazu noch einen Transmitter für den Feuerwehrfunk.");
 			
+		}
+		
+		if( Level.canUse( u, Level.TEAM) ) {
+			printHelpSentence( u, "/job join" );
 		}
 		
 	}
