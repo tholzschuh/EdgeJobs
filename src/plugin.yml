@@ -3,5 +3,6 @@ version: 1.0
 author: horoking
 authors: [Panjab,lush,Exodevil]
 website: http://edgecraft.de
+depend: [EdgeCore, EdgeConomy]
 
 main: net.edgecraft.edgejobs.EdgeJobs
