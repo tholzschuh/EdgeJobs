@@ -53,7 +53,7 @@ public class JobCommand extends AbstractCommand {
 		sender.sendMessage( EdgeCore.usageColor + "/job join [job]" );
 		sender.sendMessage( EdgeCore.usageColor + "/job leave");
 		
-		if( !Level.canUse( u, Level.TEAM ) ) return;
+		if( !Level.canUse( u, Level.MODERATOR ) ) return;
 	
 		sender.sendMessage( EdgeCore.usageColor + "/job setjob <user> <job>" );
 		return;
@@ -137,7 +137,7 @@ public class JobCommand extends AbstractCommand {
 					return true;
 				}
 			
-				if( !Level.canUse( user, Level.TEAM ) ) {
+				if( !Level.canUse( user, Level.MODERATOR ) ) {
 					player.sendMessage( EdgeCore.errorColor + EdgeCoreAPI.languageAPI().getColoredMessage( userLang, "nopermission") );
 					return false;
 				}

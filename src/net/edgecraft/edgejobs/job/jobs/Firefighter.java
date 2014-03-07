@@ -1,4 +1,4 @@
-package net.edgecraft.edgejobs.job;
+package net.edgecraft.edgejobs.job.jobs;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
@@ -75,7 +75,7 @@ public class Firefighter extends AbstractJob {
 
 		@Override
 		public Level getLevel() {
-			return Level.TEAM;
+			return Level.SUPPORTER;
 		}
 
 		@Override
@@ -116,7 +116,7 @@ public class Firefighter extends AbstractJob {
 	public void printHelp( User u ) {
 		
 		//TODO: WTF TÖTET ESSSSSSSS :)
-		if( Level.canUse( u, Level.TEAM ) ) {
+		if( Level.canUse( u, Level.SUPPORTER ) ) {
 			
 			printHelpSentence(u, "=== Feuerwehr - Hilfe ===");
 			printHelpSentence(u, "== Befehle ==");
@@ -165,7 +165,7 @@ public class Firefighter extends AbstractJob {
 	
 	@Override
 	public CuboidType whereToStart() {
-		return CuboidType.FIREDEPARTMENT;
+		return CuboidType.FireDepartment;
 	}
 	
 }

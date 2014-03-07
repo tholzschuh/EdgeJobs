@@ -1,4 +1,4 @@
-package net.edgecraft.edgejobs.job;
+package net.edgecraft.edgejobs.job.jobs;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +44,7 @@ public class Policeman extends AbstractJob {
 
 	@Override
 	public CuboidType whereToStart() {
-		return CuboidType.POLICE;
+		return CuboidType.PoliceStation;
 	}
 	
 	public static class ArrestCommand extends AbstractJobCommand {
