@@ -3,13 +3,15 @@ package net.edgecraft.edgejobs.job;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.job.jobs.Firefighter;
 import net.edgecraft.edgejobs.job.jobs.Policeman;
+import net.edgecraft.edgejobs.job.jobs.Killer;
 
 public enum Job {
 
 	DEFAULT_JOB( 0, DefaultJob.getInstance() ),
 	DEFAULT_SIDEJOB( 1, DefaultSidejob.getInstance() ),
 	FIREFIGHTER( 2, Firefighter.getInstance() ),
-	POLICEMAN( 3, Policeman.getInstance() );
+	POLICEMAN( 3, Policeman.getInstance() ),
+	KILLER( 4, Killer.getInstance() );
 	
 	private final int _id;
 	private final AbstractJob _job;

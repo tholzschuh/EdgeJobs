@@ -12,7 +12,8 @@ public enum JobChannels {
 	DEFAULT_JOB_CHANNEL( 0, new JobChannel( "Default Job", false, null, Job.DEFAULT_JOB ) ),
 	DEFAULT_SIDEJOB_CHANNEL( 1, new JobChannel( "Default Sidejob", false, null, Job.DEFAULT_SIDEJOB ) ),
 	FIREFIGHTER_CHANNEL( 2, new JobChannel( "Firefighter", false, Material.FLINT, Job.FIREFIGHTER )),
-	POLICEMAN_CHANNEL( 3, new JobChannel( "Policemen", false, Material.FLINT, Job.POLICEMAN ) );
+	POLICEMAN_CHANNEL( 3, new JobChannel( "Policemen", false, Material.FLINT, Job.POLICEMAN ) ),
+	KILLER_CHANNEL( 4, new JobChannel( "Killer", false, Material.FLINT, Job.KILLER ) );
 	
 	private final int _id;
 	private final JobChannel _channel;
