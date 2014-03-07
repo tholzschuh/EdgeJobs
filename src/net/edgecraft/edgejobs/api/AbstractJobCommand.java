@@ -26,20 +26,17 @@ public abstract class AbstractJobCommand extends AbstractCommand {
 		return Level.USER; // Every user can do Job-Commands
 	}
 	
-	@Override
-	public final boolean runImpl( Player player, User user, String[] args ) {
+	public final boolean run( Player player, User user, String[] args ) throws Exception {
 		
 		AbstractJob job = JobManager.getJob( user );
 		
 		if( getJobName().equalsIgnoreCase( job.getName() ) )
-			return run( user, args );
+			return super.run( player, args );
 		
 		player.sendMessage( EdgeCore.errorColor + "Du darfst das nicht ohne den Job!" );
 		return true;
 		
 	}
-	
-	public abstract boolean run( User user, String[] args );
 	
 	@Override
 	public final boolean sysAccess(CommandSender sender, String[] args) {

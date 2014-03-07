@@ -1,8 +1,5 @@
 package net.edgecraft.edgejobs.job;
 
-import net.edgecraft.edgecore.EdgeCore;
-import net.edgecraft.edgecore.chat.Channel;
-import net.edgecraft.edgecore.chat.ChatHandler;
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
 import net.edgecraft.edgecore.user.User;
@@ -23,42 +20,49 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
  */
 public class Firefighter extends AbstractJob {
 
-	private ItemStack boots = new ItemStack( Material.LEATHER_BOOTS );
-	private ItemStack pants = new ItemStack( Material.LEATHER_LEGGINGS );
-	private ItemStack chestplate = new ItemStack( Material.LEATHER_CHESTPLATE );
-	private ItemStack helmet = new ItemStack( Material.LEATHER_HELMET );
+	private final ItemStack boots = new ItemStack( Material.LEATHER_BOOTS );
+	private final ItemStack pants = new ItemStack( Material.LEATHER_LEGGINGS );
+	private final ItemStack chestplate = new ItemStack( Material.LEATHER_CHESTPLATE );
+	private final ItemStack helmet = new ItemStack( Material.LEATHER_HELMET );
 	
-	public Firefighter() {
+	private static final Firefighter instance = new Firefighter();
+	
+	private Firefighter() {
 		
-		super( "Firemen", ConfigHandler.getJobPay("Firemen") );
-		ChatHandler.getInstance().addChannel( new Channel( "Firemen", false, Material.FLINT ) ); //TODO: Change material
+		super( "Firefighter", ConfigHandler.getJobPay( "Firefighter" ) );
 		prepareKit();
+		
 	}
 
+	public static final Firefighter getInstance() {
+		return instance;
+	}
+	
 	private final void prepareKit(){
 		
-		LeatherArmorMeta bootmeta = (LeatherArmorMeta) boots.getItemMeta();
+		final LeatherArmorMeta bootmeta = (LeatherArmorMeta) boots.getItemMeta();
 		
 		bootmeta.setDisplayName( "Feuerwehrschuhe" );
 		bootmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
-		
 		boots.setItemMeta( bootmeta );
 		
-		LeatherArmorMeta pantmeta = (LeatherArmorMeta) pants.getItemMeta();
+		
+		
+		final LeatherArmorMeta pantmeta = (LeatherArmorMeta) pants.getItemMeta();
 		
 		pantmeta.setDisplayName( "Feuerwehrhose" );
 		pantmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
 		
 		pants.setItemMeta( pantmeta );
 		
-		LeatherArmorMeta chestmeta = (LeatherArmorMeta) chestplate.getItemMeta();
+		final LeatherArmorMeta chestmeta = (LeatherArmorMeta) chestplate.getItemMeta();
 		
 		chestmeta.setDisplayName( "Feuerwehrschuhe" ); // TODO:
 		chestmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
 		
-		chestplate.setItemMeta( chestmeta );
+	    chestplate.setItemMeta( chestmeta );
 		
-		LeatherArmorMeta helmetmeta = (LeatherArmorMeta) helmet.getItemMeta();
+		final LeatherArmorMeta helmetmeta = (LeatherArmorMeta) helmet.getItemMeta();
 		
 		helmetmeta.setDisplayName( "Feuerwehrschuhe" ); // TODO:
 		helmetmeta.addEnchant( Enchantment.PROTECTION_FIRE, 999999, true );
@@ -82,29 +86,23 @@ public class Firefighter extends AbstractJob {
 		@Override
 		public boolean runImpl( Player p, User u, String[] args ) {
 			
-			//Location l = p.getLocation();
-			
-			// TODO: Fill function
-			
-			p.sendMessage(EdgeCore.sysColor + "Event erstellt!");
-			
-			return false;
+			return true;
 		}
 
 		@Override
-		public void sendUsage(CommandSender arg0) {
-			arg0.sendMessage("/<command>");
+		public void sendUsage( CommandSender sender ) {
+			sender.sendMessage("/createfireevent");
 		}
 
 		@Override
-		public boolean sysAccess(CommandSender arg0, String[] arg1) {
-			arg0.sendMessage("Not for Console!");
+		public boolean sysAccess(CommandSender sender, String[] args) {
+			sender.sendMessage("Not for Console!");
 			return true;
 		}
 
 		@Override
 		public boolean validArgsRange(String[] args) {
-			return true;
+			return ( args.length == 1 );
 		}
 		
 	}
@@ -131,7 +129,7 @@ public class Firefighter extends AbstractJob {
 			printHelpSentence(u, "Das kann sehr gut für Events benutzt werden. Have fun ;)");
 			
 		}
-		else{
+		else {
 			
 			printHelpSentence(u, "=== Feuerwehr - Hilfe ===");
 			printHelpSentence(u, "== Befehle ==");
@@ -143,15 +141,15 @@ public class Firefighter extends AbstractJob {
 	}
 
 	@Override
-	public void equipPlayer(Player p) {
+	public void equipPlayer( Player p ) {
 		
 		PlayerInventory inv = p.getInventory();
 		
 		ItemStack water = new ItemStack( Material.WATER_BUCKET );
 		water.setDurability( (short) 15 );
 		
-		ItemStack flint = new ItemStack( Material.FLINT );
-		flint.getItemMeta().setDisplayName( "Funkgerät" );
+		ItemStack mobile = new ItemStack( Material.FLINT );
+		mobile.getItemMeta().setDisplayName( "Funkgerät" );
 		
 		//TODO: Save the inventory bevore clearing || Beta
 		inv.clear();
@@ -160,7 +158,7 @@ public class Firefighter extends AbstractJob {
 		inv.setChestplate( chestplate );
 		inv.setBoots( boots );
 		inv.setLeggings( pants );
-		inv.addItem( new ItemStack( Material.FLINT ) );
+		inv.addItem( mobile );
 		inv.addItem( water );
 		
 	}
