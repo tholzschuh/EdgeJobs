@@ -364,7 +364,7 @@ public class Killer extends AbstractSidejob {
 	/*
 	 *
 	 */
-	public static class PlayDeathEvent implements Listener {
+	public static class ManagePlayerDeathEvent implements Listener {
 		
 		private final HashMap<KillContractPayload, ArrayList<User>> contracts = Killer.getInstance().getContracts();
 		private final UserManager users = EdgeCoreAPI.userAPI();

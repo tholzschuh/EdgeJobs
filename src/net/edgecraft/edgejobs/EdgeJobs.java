@@ -40,7 +40,7 @@ public class EdgeJobs extends JavaPlugin {
 		ConfigHandler.prepare();
 		
 		getServer().getPluginManager().registerEvents( new UtilListener(), this );
-		getServer().getPluginManager().registerEvents( new Killer.PlayDeathEvent(), this );
+		getServer().getPluginManager().registerEvents( new Killer.ManagePlayerDeathEvent(), this );
 		
 		commands.registerCommand( new JobCommand() );
 		
