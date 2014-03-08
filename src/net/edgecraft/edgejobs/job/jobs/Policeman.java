@@ -3,9 +3,6 @@ package net.edgecraft.edgejobs.job.jobs;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import net.edgecraft.edgecore.EdgeCore;
 import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.user.User;
@@ -15,12 +12,15 @@ import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 public class Policeman extends AbstractJob {
 
 	private static final Policeman instance = new Policeman();
 	
 	private Policeman() {
-		super( "Policeman", ConfigHandler.getJobPay( "Policemen" ) );
+		super( "Policeman", ConfigHandler.getJobPay( "Policeman" ) );
 	}
 	
 	public static final Policeman getInstance() {
@@ -72,7 +72,7 @@ public class Policeman extends AbstractJob {
 		}
 
 		@Override
-		public void sendUsage( CommandSender sender ) {
+		public void sendUsageImpl( CommandSender sender ) {
 			
 				sender.sendMessage( EdgeCore.usageColor + "/arrest <target>" );
 				return;
@@ -107,7 +107,7 @@ public class Policeman extends AbstractJob {
 		}
 
 		@Override
-		public void sendUsage( CommandSender sender ) {
+		public void sendUsageImpl( CommandSender sender ) {
 
 			sender.sendMessage( EdgeCore.usageColor + "/release <target>" );
 		}
@@ -193,7 +193,7 @@ public class Policeman extends AbstractJob {
 
 		
 		@Override
-		public void sendUsage( CommandSender sender ) {
+		public void sendUsageImpl( CommandSender sender ) {
 			
 			sender.sendMessage( EdgeCore.usageColor + "/wanted set <target> <lvl>" );
 			sender.sendMessage( EdgeCore.usageColor + "/wanted list [<num>]" );

@@ -338,26 +338,24 @@ public class Killer extends AbstractSidejob {
 		}
 
 		@Override
-		public void sendUsage( CommandSender sender ) {
-			User u = users.getUser( ((Player)sender).getName() );
-			
-			if( !Level.canUse( u, Level.USER) )
-				return;
+		public boolean validArgsRange( String[] args ) {
+			return ( args.length >= 2 && args.length <= 4 );
+		}
+
+		@Override
+		public void sendUsageImpl( CommandSender sender ) {
 			
 			sender.sendMessage( EdgeCore.usageColor + "/killer create-contract <target> <bounty>" );
 			
-			if( !JobManager.getJob( u ).getName().equals( super.getJobName() ))
+			User u = users.getUser( ((Player)sender).getName() );
+			
+			if( u == null || !JobManager.getJob( u ).equals( Killer.getInstance() ) )
 				return;
 			
 			sender.sendMessage( EdgeCore.usageColor + "/killer accept-contract <id>" );
 			sender.sendMessage( EdgeCore.usageColor + "/killer list-contracts" );
 			return;
 			
-		}
-
-		@Override
-		public boolean validArgsRange( String[] args ) {
-			return ( args.length >= 2 && args.length <= 4 );
 		}
 	}
 	
