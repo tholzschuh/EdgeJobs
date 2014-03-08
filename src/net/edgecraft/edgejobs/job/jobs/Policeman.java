@@ -3,9 +3,6 @@ package net.edgecraft.edgejobs.job.jobs;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import net.edgecraft.edgecore.EdgeCore;
 import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.user.User;
@@ -14,6 +11,9 @@ import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.util.ConfigHandler;
+
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class Policeman extends AbstractJob {
 
