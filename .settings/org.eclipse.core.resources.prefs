@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/net/edgecraft/edgejobs/EdgeJobs.java=UTF-8
 encoding//src/net/edgecraft/edgejobs/api/AbstractJob.java=UTF-8
 encoding//src/net/edgecraft/edgejobs/api/AbstractSidejob.java=UTF-8
+encoding//src/net/edgecraft/edgejobs/job/JobCommand.java=UTF-8
 encoding//src/net/edgecraft/edgejobs/job/jobs/Criminal.java=UTF-8
 encoding//src/net/edgecraft/edgejobs/job/jobs/Firefighter.java=UTF-8
 encoding//src/net/edgecraft/edgejobs/util/ConfigHandler.java=UTF-8

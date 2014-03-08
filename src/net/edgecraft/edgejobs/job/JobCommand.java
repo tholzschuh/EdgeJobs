@@ -12,7 +12,6 @@ import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -69,7 +68,7 @@ public class JobCommand extends AbstractCommand {
 			}
 			
 			if( JobManager.isWorking( player ) ) {
-				player.sendMessage( "Du arbeitest bereits!" );
+				player.sendMessage(lang.getColoredMessage("de", "job_isworking"));
 				return true;
 			}
 			
@@ -85,7 +84,7 @@ public class JobCommand extends AbstractCommand {
 			
 			if( job == null ) {
 				
-				player.sendMessage(ChatColor.GRAY + "Du hast doch garkeinen Job!");
+				player.sendMessage(lang.getColoredMessage("de", "job_nojob"));
 				return true;
 			}
 			
@@ -93,7 +92,7 @@ public class JobCommand extends AbstractCommand {
 			
 			JobManager.setWorking( player, true );
 			
-			player.sendMessage(ChatColor.GREEN + "Viel Spaß beim Arbeiten!");
+			player.sendMessage(lang.getColoredMessage("de", "job_joinjob"));
 			return true;
 		}
 		
@@ -105,7 +104,7 @@ public class JobCommand extends AbstractCommand {
 			}
 			
 			if( !JobManager.isWorking( player ) ) {
-				player.sendMessage( "Du arbeitest momentan doch gar nicht!" );
+				player.sendMessage(lang.getColoredMessage("de", "job_isnotworking"));
 				return true;
 			}
 			
@@ -113,7 +112,7 @@ public class JobCommand extends AbstractCommand {
 			
 			if(job == null){
 				
-				player.sendMessage(ChatColor.GRAY + "Du hast doch garkeinen Job!");
+				player.sendMessage(lang.getColoredMessage("de", "job_nojob"));
 				return true;
 			}
 			
@@ -121,7 +120,7 @@ public class JobCommand extends AbstractCommand {
 			
 			JobManager.setWorking( player, false );
 			
-			player.sendMessage(ChatColor.GREEN + "Genieß deine Freizeit!");
+			player.sendMessage(lang.getColoredMessage("de", "job_leavejob"));
 			return true;
 		}
 		
@@ -161,7 +160,7 @@ public class JobCommand extends AbstractCommand {
 	
 	@Override
 	public boolean sysAccess(CommandSender arg0, String[] arg1) {
-		arg0.sendMessage("No support for console!");
+		arg0.sendMessage(lang.getColoredMessage("de", "noconsole"));
 		return true;
 	}
 }

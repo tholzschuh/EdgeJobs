@@ -43,7 +43,7 @@ public class Criminal extends AbstractJob {
 			
 			if(!(sucre.getType() == Material.SUGAR)){
 				
-				player.sendMessage("Du kannst nur Zucker in Kokain umwandeln (In der Hand halten)!");
+				player.sendMessage(lang.getColoredMessage("de", "job_criminal_onlysugar"));
 				
 				return true;
 			}

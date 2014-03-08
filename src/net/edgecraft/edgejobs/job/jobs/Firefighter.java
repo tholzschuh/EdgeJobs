@@ -96,7 +96,7 @@ public class Firefighter extends AbstractJob {
 
 		@Override
 		public boolean sysAccess(CommandSender sender, String[] args) {
-			sender.sendMessage("Not for Console!");
+			sender.sendMessage(lang.getColoredMessage("de", "noconsole"));
 			return true;
 		}
 
