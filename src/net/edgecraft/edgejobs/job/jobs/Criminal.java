@@ -73,7 +73,9 @@ public class Criminal extends AbstractJob {
 	
 	@Override
 	public AbstractCommand[] jobCommands() {
-		return new AbstractCommand[]{};
+		return new AbstractCommand[]{
+				new CommandCocaine(),
+		};
 	}
 
 	@Override
