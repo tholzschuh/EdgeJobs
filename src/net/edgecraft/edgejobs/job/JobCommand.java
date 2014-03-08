@@ -40,18 +40,13 @@ public class JobCommand extends AbstractCommand {
 	}
 	
 	@Override
-	public void sendUsage( CommandSender sender ) {
-		
-		if( !(sender instanceof Player) ) {
-			return;
-		}
-		
-		User u = users.getUser( ((Player)sender).getName() );
-		
-		if( !Level.canUse( u, Level.USER ) ) return;
-		
+	public void sendUsageImpl( CommandSender sender ) {		
+		if( !(sender instanceof Player) ) return;
+						
 		sender.sendMessage( EdgeCore.usageColor + "/job join [job]" );
 		sender.sendMessage( EdgeCore.usageColor + "/job leave");
+		
+		User u = users.getUser( ((Player)sender).getName() );
 		
 		if( !Level.canUse( u, Level.MODERATOR ) ) return;
 	

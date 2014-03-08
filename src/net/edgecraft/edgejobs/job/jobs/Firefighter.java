@@ -90,7 +90,7 @@ public class Firefighter extends AbstractJob {
 		}
 
 		@Override
-		public void sendUsage( CommandSender sender ) {
+		public void sendUsageImpl( CommandSender sender ) {
 			sender.sendMessage("/createfireevent");
 		}
 

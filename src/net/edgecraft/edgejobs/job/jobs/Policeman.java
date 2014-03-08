@@ -72,7 +72,7 @@ public class Policeman extends AbstractJob {
 		}
 
 		@Override
-		public void sendUsage( CommandSender sender ) {
+		public void sendUsageImpl( CommandSender sender ) {
 			
 				sender.sendMessage( EdgeCore.usageColor + "/arrest <target>" );
 				return;
@@ -107,7 +107,7 @@ public class Policeman extends AbstractJob {
 		}
 
 		@Override
-		public void sendUsage( CommandSender sender ) {
+		public void sendUsageImpl( CommandSender sender ) {
 
 			sender.sendMessage( EdgeCore.usageColor + "/release <target>" );
 		}
@@ -193,7 +193,7 @@ public class Policeman extends AbstractJob {
 
 		
 		@Override
-		public void sendUsage( CommandSender sender ) {
+		public void sendUsageImpl( CommandSender sender ) {
 			
 			sender.sendMessage( EdgeCore.usageColor + "/wanted set <target> <lvl>" );
 			sender.sendMessage( EdgeCore.usageColor + "/wanted list [<num>]" );
