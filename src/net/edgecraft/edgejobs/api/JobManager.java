@@ -3,7 +3,9 @@ package net.edgecraft.edgejobs.api;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.user.User;
+import net.edgecraft.edgejobs.job.Job;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.entity.Player;
@@ -73,7 +75,13 @@ public abstract class JobManager {
 		if( job == null ) job = getSidejobByUser( u );
 		
 		return job;
+	}
+	
+	public static AbstractJob getJob( Player p ) {
 		
+		if( p == null ) return null;
+		
+		return getJob( EdgeCoreAPI.userAPI().getUser(p.getName()) );
 	}
 	
 	/**
@@ -140,4 +148,11 @@ public abstract class JobManager {
 		return getSidejobByName( ConfigHandler.getSidejob( u ) );
 	}
 	
+	public static final boolean canUse( User u, Job j ) {
+		
+		if( u == null || j == null ) return false;
+		if( !JobManager.getJob( u ).equals( j ) ) return false;
+		
+		return true;
+	}
 }

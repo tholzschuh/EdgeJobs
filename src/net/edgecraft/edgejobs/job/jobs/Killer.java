@@ -15,12 +15,14 @@ import net.edgecraft.edgecore.EdgeCore;
 import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
+import net.edgecraft.edgecore.lang.LanguageHandler;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecore.user.UserManager;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
 import net.edgecraft.edgejobs.api.JobManager;
+import net.edgecraft.edgejobs.job.Job;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.event.EventHandler;
@@ -93,7 +95,7 @@ public class Killer extends AbstractSidejob {
 
 	@Override
 	public boolean hasDoneWork( User u ) {
-		
+		// Checked through ManagePlayerDeathEvent
 		return false;
 	}
 
@@ -249,13 +251,14 @@ public class Killer extends AbstractSidejob {
 	 */
 	public static class KillerCommand extends AbstractJobCommand {
 
+		public KillerCommand() {
+			super( null );
+		}
+
 		private static KillerCommand instance = new KillerCommand();
 		
 		private final UserManager users = EdgeCoreAPI.userAPI();
 		
-		private KillerCommand() {
-			super( Killer.getInstance() );
-		}
 		
 		public static final KillerCommand getInstance() {
 			return instance;
@@ -296,7 +299,13 @@ public class Killer extends AbstractSidejob {
 				payload.addEmployer( user , bounty );
 				
 				killer.addContract( null,  payload );
+				player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_killer_contract_created") );
 				return true;
+			}
+			
+			if( !JobManager.canUse( user , Job.KILLER ) ) {
+				lang.getColoredMessage( user.getLanguage(), "job_wrongjob" );
+				return false;
 			}
 			
 			if( args.length == 2 && args[1].equalsIgnoreCase( "list-contracts" ) ) {
@@ -312,7 +321,7 @@ public class Killer extends AbstractSidejob {
 			if( args.length == 3 && args[1].equalsIgnoreCase( "accept-contract" ) ) {
 				
 				if( !JobManager.getJob( user ).equals( killer ) ) {
-					sendUsage( player );
+					player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_wrongjob" ) );
 					return false;
 				}
 				
@@ -328,6 +337,7 @@ public class Killer extends AbstractSidejob {
 				for( KillContractPayload payload : contracts.keySet() ) {
 					if( id == payload.getID() ) {
 						killer.addContract( user, payload );
+						player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_killer_acceptec").replace( "[1]" , payload.getTarget().getName()) );
 						return true;
 					}
 				}
@@ -357,6 +367,11 @@ public class Killer extends AbstractSidejob {
 			return;
 			
 		}
+
+		@Override
+		public Level getLevel() {
+			return Level.USER;
+		}
 	}
 	
 	/*
@@ -368,6 +383,7 @@ public class Killer extends AbstractSidejob {
 		private final UserManager users = EdgeCoreAPI.userAPI();
 		private final Economy economy = EdgeConomyAPI.economyAPI();
 		private final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
+		private final LanguageHandler lang = EdgeCoreAPI.languageAPI();
 		
 		@EventHandler
 		public void onPlayerDeath( PlayerDeathEvent pde ) {
@@ -384,7 +400,7 @@ public class Killer extends AbstractSidejob {
 								BankAccount tmpAcc = economy.getAccount( tmp.getID() );
 								transactions.addTransaction( tmpAcc, killerAcc, tmpPayload.getBounty( tmp ), pde.getEntity().getKiller().getName() + " murdered " + pde.getEntity().getName());
 							}
-							
+							u.getPlayer().sendMessage( lang.getColoredMessage( u.getLanguage(), "job_transaction") );
 						}
 					}
 				}

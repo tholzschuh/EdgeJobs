@@ -7,29 +7,62 @@ import net.edgecraft.edgecore.EdgeCore;
 import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecore.user.UserManager;
+import net.edgecraft.edgecuboid.EdgeCuboidAPI;
+import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
+import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class Policeman extends AbstractJob {
 
 	private static final Policeman instance = new Policeman();
 	
+	private static final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
+	
+	private final HashMap<User, User> arrested;
+	
+	private final ItemStack boots = new ItemStack( Material.LEATHER_BOOTS );
+	private final ItemStack pants = new ItemStack( Material.LEATHER_LEGGINGS );
+	private final ItemStack chestplate = new ItemStack( Material.LEATHER_CHESTPLATE );
+	private final ItemStack helmet = new ItemStack( Material.LEATHER_HELMET );
+	
 	private Policeman() {
 		super( "Policeman", ConfigHandler.getJobPay( "Policeman" ) );
+		arrested = new HashMap<>();
+		prepareKit();
 	}
 	
 	public static final Policeman getInstance() {
 		return instance;
 	}
 
+	protected void prepareKit() {
+		
+		final LeatherArmorMeta bootsmeta = (LeatherArmorMeta)boots.getItemMeta();
+		bootsmeta.setDisplayName( "Police boots" );
+		
+		final LeatherArmorMeta pantsmeta = (LeatherArmorMeta)pants.getItemMeta();
+		pantsmeta.setDisplayName( "Police pants" );
+		
+		final LeatherArmorMeta chestmeta = (LeatherArmorMeta)chestplate.getItemMeta();
+		chestmeta.setDisplayName( "Police chestplate" );
+		
+		final LeatherArmorMeta helmetmeta = (LeatherArmorMeta)helmet.getItemMeta();
+		helmetmeta.setDisplayName( "Police helmet" );
+	}
+	
 	@Override
 	public AbstractJobCommand[] jobCommands() {
-		return new AbstractJobCommand[]{ ArrestCommand.getInstance(), ReleaseCommand.getInstance() };
+		return new AbstractJobCommand[]{ ArrestCommand.getInstance(), ReleaseCommand.getInstance(), WantedCommand.getInstance() };
 	}
 
 	@Override
@@ -39,12 +72,65 @@ public class Policeman extends AbstractJob {
 
 	@Override
 	public void equipPlayer( Player p ) {
+		
+		PlayerInventory inv = p.getInventory();
+		inv.clear();
+		
+		inv.addItem( boots );
+		inv.addItem( pants );
+		inv.addItem( chestplate );
+		inv.addItem( helmet );
+		
 		return;
 	}
 
 	@Override
 	public CuboidType whereToStart() {
 		return CuboidType.PoliceStation;
+	}
+	
+	public final void arrest( User target, User officer ) {
+		
+		if( target == null || officer == null  || arrested.containsKey( target ) || !JobManager.getJob( officer ).equals( this ) ) return;
+		
+		arrested.put( target, officer );
+		target.getPlayer().teleport( cuboids.getNearestCuboid(CuboidType.Jail, target.getPlayer().getLocation() ).getSpawn() );
+	}
+	
+	public final void arrest( String target, String officer ) {
+		
+		UserManager users = EdgeCoreAPI.userAPI();
+		
+		arrest( users.getUser( target ), users.getUser( officer ) );
+	}
+	
+	public final void release( User target ) {
+		
+		if( target == null || !arrested.containsKey( target )) return;
+		
+		arrested.remove( target );	
+		target.getPlayer().teleport( cuboids.getNearestCuboid( CuboidType.PoliceStation, target.getPlayer().getLocation() ).getSpawn() );
+	}
+	
+	public final void release( String name ) {
+		 release( EdgeCoreAPI.userAPI().getUser( name ) );
+	}
+	
+	public boolean isArrested( String name ) {
+		return isArrested( EdgeCoreAPI.userAPI().getUser( name ) );
+	}
+	
+	public boolean isArrested( User u ) {
+		
+		if( u == null || !arrested.containsKey(u) ) return false;
+		
+		return true;
+	}
+	
+	public User arrestedBy( User target ) {
+		if( target == null || !arrested.containsKey(target) ) return null;
+		
+		return arrested.get( target );
 	}
 	
 	public static class ArrestCommand extends AbstractJobCommand {
@@ -62,7 +148,40 @@ public class Policeman extends AbstractJob {
 		@Override
 		public boolean runImpl( Player player, User user, String[] args) {
 			
+			User target = users.getUser( args[1] );
 			
+			Policeman police = Policeman.getInstance();
+			
+			if( target == null ) {
+				player.sendMessage( lang.getColoredMessage( user.getLanguage(), "notfound" ) );
+				return false;
+			}
+			
+			Player targetPlayer = target.getPlayer();
+			
+			if( args.length == 2 ) {
+				
+				if( !targetPlayer.isOnline() ) {
+					player.sendMessage( lang.getColoredMessage( user.getLanguage(), "notfound" ) );
+					return true;
+				}
+				
+				if( player.getLocation().distanceSquared( targetPlayer.getLocation() ) <= 3 ) { 
+					Policeman.getInstance().arrest( target, user );
+					return true;
+				}
+				
+				sendUsage( player );
+				return true;
+			}
+			
+			if( args.length == 3 && args[1].equalsIgnoreCase( "protocol" ) ) {
+				
+				player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_police_arrested_by" ).replace( "[0]", target.getName() ).replace( "[1]", police.arrestedBy( target ).getName() ) );
+				return true;
+			}
+			
+			sendUsage( player );
 			return true;
 		}
 
@@ -75,12 +194,13 @@ public class Policeman extends AbstractJob {
 		public void sendUsageImpl( CommandSender sender ) {
 			
 				sender.sendMessage( EdgeCore.usageColor + "/arrest <target>" );
+				sender.sendMessage( EdgeCore.usageColor + "/arrest protocol <target>" );
 				return;
 		}
 
 		@Override
 		public boolean validArgsRange( String[] args ) {
-			return ( args.length == 1 );
+			return ( args.length == 2 || args.length == 3 );
 		}
 	}
 	
@@ -103,6 +223,25 @@ public class Policeman extends AbstractJob {
 
 		@Override
 		public boolean runImpl( Player player, User user, String[] args ) {
+			
+			User target = users.getUser( args[1] );
+			
+			Policeman police = Policeman.getInstance();
+			
+			if( target == null || !target.getPlayer().isOnline() ) {
+				player.sendMessage( lang.getColoredMessage( user.getLanguage(), "notfound" ) );
+				return false;
+			}
+			
+			if( !police.isArrested( target ) ) {
+				player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_police_notarrested" ) );
+				return true;
+			}
+			
+			police.release( target );
+			player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_police_released" ) );
+			
+			sendUsage( player );
 			return true;
 		}
 
@@ -114,7 +253,7 @@ public class Policeman extends AbstractJob {
 
 		@Override
 		public boolean validArgsRange(String[] args) {
-			return ( args.length == 1 );
+			return ( args.length == 2 );
 		}
 	}
 	
@@ -144,7 +283,7 @@ public class Policeman extends AbstractJob {
 			
 				if( args.length >= 2 && args.length <= 3 && args[1].equalsIgnoreCase("list") ) {
 					
-					SearchLevel to = SearchLevel.FIVE;
+					SearchLevel to = null;
 					String prefix = "Top Wanted: ";
 					
 					if( args.length == 3 ) {
@@ -157,6 +296,8 @@ public class Policeman extends AbstractJob {
 						}
 					}
 						
+					if( to == null ) to = SearchLevel.FIVE;
+					
 					StringBuilder sb = new StringBuilder();
 						
 					for( User u : wanted.keySet() ) {
@@ -179,6 +320,11 @@ public class Policeman extends AbstractJob {
 						targetUser = users.getUser( args[2] );
 						targetLevel = SearchLevel.getInstance( Integer.valueOf( args[3] ) );
 					} catch( NumberFormatException e ) {
+						sendUsage( player );
+						return true;
+					}
+					
+					if( targetUser == null || targetLevel == null ) {
 						sendUsage( player );
 						return true;
 					}

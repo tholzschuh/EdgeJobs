@@ -38,7 +38,7 @@ public class Firefighter extends AbstractJob {
 		return instance;
 	}
 	
-	private final void prepareKit(){
+	private final void prepareKit() {
 		
 		final LeatherArmorMeta bootmeta = (LeatherArmorMeta) boots.getItemMeta();
 		
