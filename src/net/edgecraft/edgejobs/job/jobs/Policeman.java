@@ -20,7 +20,7 @@ public class Policeman extends AbstractJob {
 	private static final Policeman instance = new Policeman();
 	
 	private Policeman() {
-		super( "Policeman", ConfigHandler.getJobPay( "Policeman" ) );
+		super( "Polizei", ConfigHandler.getJobPay( "Polizei" ) );
 	}
 	
 	public static final Policeman getInstance() {

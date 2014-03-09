@@ -25,7 +25,7 @@ public class Criminal extends AbstractJob implements Listener {
 	private static Criminal instance;
 	
 	private Criminal() {
-		super("Criminal", ConfigHandler.getJobPay("Criminal"));
+		super("Krimineller", ConfigHandler.getJobPay("Krimineller"));
 		Bukkit.getServer().getPluginManager().registerEvents(this, EdgeJobs.getInstance());
 	}
 	

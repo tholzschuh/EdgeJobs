@@ -11,7 +11,7 @@ import net.edgecraft.edgejobs.util.ConfigHandler;
 public class Broker extends AbstractJob {
 
 	public Broker() {
-		super("Broker", ConfigHandler.getJobPay(""));
+		super("Makler", ConfigHandler.getJobPay("Makler"));
 		// TODO Auto-generated constructor stub
 	}
 

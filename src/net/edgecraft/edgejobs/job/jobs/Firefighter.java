@@ -29,7 +29,7 @@ public class Firefighter extends AbstractJob {
 	
 	private Firefighter() {
 		
-		super( "Firefighter", ConfigHandler.getJobPay( "Firefighter" ) );
+		super( "Feuerwehr", ConfigHandler.getJobPay( "Feuerwehr" ) );
 		prepareKit();
 		
 	}
