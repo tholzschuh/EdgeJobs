@@ -8,11 +8,10 @@ import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
-public class Broker extends AbstractJob {
+public class Timber extends AbstractJob {
 
-	public Broker() {
-		super("Makler", ConfigHandler.getJobPay("Makler"));
-		// TODO Auto-generated constructor stub
+	public Timber() {
+		super("Holzfaeller", ConfigHandler.getJobPay("Holzfaeller"));
 	}
 
 	@Override
@@ -22,10 +21,12 @@ public class Broker extends AbstractJob {
 
 	@Override
 	public void printHelp(User u) {
+		//TODO: Fill function
 	}
 
 	@Override
-	public void equipPlayerImpl(Player p) {
+	public void equipPlayer(Player p) {
+		//TODO: Fill function
 	}
 
 	@Override
