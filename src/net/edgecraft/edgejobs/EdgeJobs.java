@@ -4,8 +4,8 @@ import java.util.logging.Logger;
 
 import net.edgecraft.edgecore.EdgeCore;
 import net.edgecraft.edgecore.EdgeCoreAPI;
+import net.edgecraft.edgecore.command.CommandCollection;
 import net.edgecraft.edgecore.command.CommandHandler;
-import net.edgecraft.edgecore.mod.CommandCollection;
 import net.edgecraft.edgejobs.api.tasks.JobPayTask;
 import net.edgecraft.edgejobs.api.tasks.SidejobPayTask;
 import net.edgecraft.edgejobs.job.JobCommand;
