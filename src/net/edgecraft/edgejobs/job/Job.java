@@ -1,10 +1,12 @@
 package net.edgecraft.edgejobs.job;
 
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.job.jobs.Broker;
 import net.edgecraft.edgejobs.job.jobs.Criminal;
 import net.edgecraft.edgejobs.job.jobs.Firefighter;
-import net.edgecraft.edgejobs.job.jobs.Policeman;
 import net.edgecraft.edgejobs.job.jobs.Killer;
+import net.edgecraft.edgejobs.job.jobs.Policeman;
+import net.edgecraft.edgejobs.job.jobs.Timber;
 
 public enum Job {
 
@@ -13,9 +15,9 @@ public enum Job {
 	FIREFIGHTER( 2, Firefighter.getInstance() ),
 	POLICEMAN( 3, Policeman.getInstance() ),
 	CRIMINAL( 4, Criminal.getInstance() ),
-	KILLER( 5, Killer.getInstance() );
-
-
+	KILLER( 5, Killer.getInstance() ),
+	TIMBER( 6, Timber.getInstance() ),
+	BROKER( 7, Broker.getInstance() );
 	
 	private final int _id;
 	private final AbstractJob _job;

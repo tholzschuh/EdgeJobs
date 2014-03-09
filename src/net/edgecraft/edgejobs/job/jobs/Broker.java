@@ -10,9 +10,14 @@ import net.edgecraft.edgejobs.util.ConfigHandler;
 
 public class Broker extends AbstractJob {
 
-	public Broker() {
+	private static final Broker instance = new Broker();
+	
+	public static final Broker getInstance(){
+		return instance;
+	}
+	
+	private Broker() {
 		super("Makler", ConfigHandler.getJobPay("Makler"));
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -32,5 +37,5 @@ public class Broker extends AbstractJob {
 	public CuboidType whereToStart() {
 		return null;
 	}
-
+	
 }
