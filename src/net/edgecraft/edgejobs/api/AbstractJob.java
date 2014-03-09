@@ -1,9 +1,6 @@
 package net.edgecraft.edgejobs.api;
 
-import java.lang.Math;
-
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.user.User;
@@ -11,12 +8,12 @@ import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.EdgeJobs;
 
 
-public abstract class AbstractJob implements Listener {
+public abstract class AbstractJob {
 
 	private String name;
 	private double pay;
 	
-	public AbstractJob(String name, double pay) {
+	public AbstractJob( String name, double pay ) {
 		setName( name );
 		setPay( pay );
 	}
@@ -46,7 +43,14 @@ public abstract class AbstractJob implements Listener {
 	public abstract AbstractCommand[] jobCommands();
 	public abstract void printHelp( User u );
 	public abstract void equipPlayer( Player p );
+	
 	public abstract CuboidType whereToStart();
+	
+	public void unequipPlayer( Player p ) {
+		
+		if( p == null ) return;
+		p.getInventory().clear();
+	}
 	
 	@Override
 	public int hashCode() {
