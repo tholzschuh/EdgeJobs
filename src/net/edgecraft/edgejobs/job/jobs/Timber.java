@@ -10,7 +10,13 @@ import net.edgecraft.edgejobs.util.ConfigHandler;
 
 public class Timber extends AbstractJob {
 
-	public Timber() {
+	public static final Timber instance = new Timber();
+	
+	public static final Timber getInstance(){
+		return instance;
+	}
+	
+	private Timber() {
 		super("Holzfaeller", ConfigHandler.getJobPay("Holzfaeller"));
 	}
 
