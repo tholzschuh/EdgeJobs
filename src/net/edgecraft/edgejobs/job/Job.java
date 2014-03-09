@@ -51,7 +51,7 @@ public enum Job {
 	}
 	
 	public final static Job[] getJobs() {
-		return new Job[]{ Job.DEFAULT_JOB, Job.DEFAULT_SIDEJOB, Job.FIREFIGHTER, Job.POLICEMAN, Job.CRIMINAL, Job.KILLER };
+		return new Job[]{ Job.DEFAULT_JOB, Job.DEFAULT_SIDEJOB, Job.FIREFIGHTER, Job.POLICEMAN, Job.CRIMINAL, Job.KILLER, Job.TIMBER, Job.BROKER };
 	}
 	
 	
