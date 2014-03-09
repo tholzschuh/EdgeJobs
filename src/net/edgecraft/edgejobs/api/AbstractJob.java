@@ -64,7 +64,7 @@ public abstract class AbstractJob {
 	public void unequipPlayer( Player p ) {
 		
 		if( p == null ) return;
-		p.getInventory().clear();
+		p.getInventory().setContents( inventories.get(p).getContents() );
 	}
 	
 	@Override
