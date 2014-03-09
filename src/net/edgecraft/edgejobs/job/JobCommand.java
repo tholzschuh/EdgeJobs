@@ -19,8 +19,8 @@ public class JobCommand extends AbstractCommand {
 	
 	private static final UserManager users = EdgeCoreAPI.userAPI();
 
-	private static final String[] jobnames = { "job", "beruf" };
-	private static final String[] sidejobnames = { "nebenjob", "nebenberuf", "sidejob" };
+	private static final String[] jobnames = { "job" };
+	private static final String[] sidejobnames = { "sidejob" };
 	
 	@Override
 	public Level getLevel() {
@@ -35,7 +35,7 @@ public class JobCommand extends AbstractCommand {
 	@Override
 	public boolean validArgsRange(String[] args) {
 		
-		return ( args.length == 1 || args.length == 2 || args.length == 4 );
+		return ( args.length >= 2 && args.length <= 4 );
 	}
 	
 	@Override
@@ -116,8 +116,7 @@ public class JobCommand extends AbstractCommand {
 				return true;
 			}
 			
-			player.getInventory().clear();
-			
+			JobManager.getJob(player).unequipPlayer(player);
 			JobManager.setWorking( player, false );
 			
 			player.sendMessage(lang.getColoredMessage("de", "job_leavejob"));

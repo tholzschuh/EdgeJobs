@@ -25,7 +25,7 @@ public class Broker extends AbstractJob {
 	}
 
 	@Override
-	public void equipPlayer(Player p) {
+	public void equipPlayerImpl(Player p) {
 	}
 
 	@Override

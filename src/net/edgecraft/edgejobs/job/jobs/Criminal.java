@@ -119,7 +119,7 @@ public class Criminal extends AbstractJob implements Listener {
 	}
 
 	@Override
-	public void equipPlayer(Player p) {
+	public void equipPlayerImpl(Player p) {
 		//TODO: Fill function
 	}
 

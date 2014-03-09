@@ -35,7 +35,7 @@ public class DefaultSidejob extends AbstractSidejob {
 	}
 
 	@Override
-	public void equipPlayer(Player p) {
+	public void equipPlayerImpl(Player p) {
 		return;
 	}
 

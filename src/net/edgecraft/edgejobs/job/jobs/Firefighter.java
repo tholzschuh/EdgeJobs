@@ -38,7 +38,7 @@ public class Firefighter extends AbstractJob {
 		return instance;
 	}
 	
-	private final void prepareKit(){
+	private final void prepareKit() {
 		
 		final LeatherArmorMeta bootmeta = (LeatherArmorMeta) boots.getItemMeta();
 		
@@ -141,7 +141,7 @@ public class Firefighter extends AbstractJob {
 	}
 
 	@Override
-	public void equipPlayer( Player p ) {
+	public void equipPlayerImpl( Player p ) {
 		
 		PlayerInventory inv = p.getInventory();
 		
