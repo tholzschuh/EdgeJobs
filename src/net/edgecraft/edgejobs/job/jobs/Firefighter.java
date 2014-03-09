@@ -141,7 +141,7 @@ public class Firefighter extends AbstractJob {
 	}
 
 	@Override
-	public void equipPlayer( Player p ) {
+	public void equipPlayerImpl( Player p ) {
 		
 		PlayerInventory inv = p.getInventory();
 		
