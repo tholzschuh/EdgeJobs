@@ -1,6 +1,9 @@
 package net.edgecraft.edgejobs.api;
 
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.user.User;
@@ -10,6 +13,8 @@ import net.edgecraft.edgejobs.EdgeJobs;
 
 public abstract class AbstractJob {
 
+	private static final HashMap<Player, PlayerInventory> inventories = new HashMap<>();
+	
 	private String name;
 	private double pay;
 	
@@ -42,14 +47,24 @@ public abstract class AbstractJob {
 	
 	public abstract AbstractCommand[] jobCommands();
 	public abstract void printHelp( User u );
-	public abstract void equipPlayer( Player p );
+	public abstract void equipPlayerImpl( Player p );
 	
 	public abstract CuboidType whereToStart();
+	
+	public void equipPlayer( Player p ) {
+		
+		if( p == null || !JobManager.isWorking(p) || !JobManager.getJob(p).equals(JobManager.getJob(name))) return;
+		
+		inventories.put( p, p.getInventory() );
+		p.getInventory().clear();
+		
+		equipPlayerImpl( p );
+	}
 	
 	public void unequipPlayer( Player p ) {
 		
 		if( p == null ) return;
-		p.getInventory().clear();
+		p.getInventory().setContents( inventories.get(p).getContents() );
 	}
 	
 	@Override
@@ -76,4 +91,11 @@ public abstract class AbstractJob {
 		return false;
 	}
 	
+	public static PlayerInventory getOldPlayerInventory( Player p ) {
+		return inventories.get( p );
+	}
+	
+	public static void clearOldPlayerInventory( Player p ) {
+		inventories.get(p).clear();
+	}
 }

@@ -89,7 +89,7 @@ public class Criminal extends AbstractJob {
 	}
 
 	@Override
-	public void equipPlayer(Player p) {
+	public void equipPlayerImpl(Player p) {
 		//TODO: Fill function
 	}
 

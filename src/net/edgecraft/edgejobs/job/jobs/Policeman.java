@@ -71,10 +71,9 @@ public class Policeman extends AbstractJob {
 	}
 
 	@Override
-	public void equipPlayer( Player p ) {
+	public void equipPlayerImpl( Player p ) {
 		
 		PlayerInventory inv = p.getInventory();
-		inv.clear();
 		
 		inv.addItem( boots );
 		inv.addItem( pants );
