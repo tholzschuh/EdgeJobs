@@ -36,13 +36,9 @@ public class Policeman extends AbstractJob {
 	private final ItemStack helmet = new ItemStack( Material.LEATHER_HELMET );
 	
 	private Policeman() {
-<<<<<<< HEAD
 		super( "Polizei", ConfigHandler.getJobPay( "Polizei" ) );
-=======
-		super( "Policeman", ConfigHandler.getJobPay( "Policeman" ) );
 		arrested = new HashMap<>();
 		prepareKit();
->>>>>>> 37d67eae71326b1a16eca97dfe3fa2fd34338129
 	}
 	
 	public static final Policeman getInstance() {

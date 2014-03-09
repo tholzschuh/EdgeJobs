@@ -34,4 +34,8 @@ public class Timber extends AbstractJob {
 		return null;
 	}
 
+	@Override
+	public void equipPlayerImpl(Player p) {
+	}
+
 }
