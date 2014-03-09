@@ -7,15 +7,15 @@ public class JobCommands extends CommandHandler {
 
 	private static final JobCommands instance = new JobCommands();
 	
-	private JobCommands() {}
+	private JobCommands() {
+		
+		for( Job j : Job.getJobs() ) 
+			for( AbstractCommand cmd : j.getJob().jobCommands() )
+				super.registerCommand( cmd );
+	}
 	
 	public static final JobCommands getInstance() {
 		return instance;
-	}
-	
-	public void registerCommand( AbstractCommand cmd ) {
-		if( cmd == null ) return;
-		registerCommand( cmd );
 	}
 	
 }
