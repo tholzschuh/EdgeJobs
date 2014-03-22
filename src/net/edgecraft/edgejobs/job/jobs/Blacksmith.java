@@ -1,10 +1,12 @@
 package net.edgecraft.edgejobs.job.jobs;
 
+import org.bukkit.entity.Player;
+
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
-import net.edgecraft.edgejobs.job.DressedJob;
+import net.edgecraft.edgejobs.api.AbstractJob;
 
-public class Blacksmith extends DressedJob 
+public class Blacksmith extends AbstractJob 
 {
 
 	private static final Blacksmith instance = new Blacksmith();
@@ -24,6 +26,11 @@ public class Blacksmith extends DressedJob
 		return new AbstractCommand[]{};
 	}
 
+	@Override
+	public void equipPlayerImpl(Player p) {
+		return;
+	}
+	
 	@Override
 	public CuboidType whereToStart() {
 		return null; //TODO:?

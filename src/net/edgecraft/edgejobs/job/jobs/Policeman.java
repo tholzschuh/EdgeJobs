@@ -14,6 +14,7 @@ import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.job.DressedJob;
 
+import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,7 +27,7 @@ public class Policeman extends DressedJob {
 	private final HashMap<User, User> arrested;
 	
 	private Policeman() {
-		super( "Policeman" );
+		super( "Policeman", Color.AQUA );
 		arrested = new HashMap<>();
 	}
 	

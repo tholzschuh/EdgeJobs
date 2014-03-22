@@ -9,15 +9,21 @@ import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
-import net.edgecraft.edgejobs.job.DressedJob;
+import net.edgecraft.edgejobs.api.AbstractJob;
 
-public class Miner extends DressedJob {
+public class Miner extends AbstractJob {
 
 	private static final Miner instance = new Miner();
 	
+	private final ItemStack pickaxe = new ItemStack( Material.IRON_PICKAXE );
+	private final ItemStack boots = new ItemStack( Material.IRON_BOOTS );
+	private final ItemStack pants = new ItemStack( Material.IRON_LEGGINGS );
+	private final ItemStack chestplate = new ItemStack( Material.IRON_CHESTPLATE );
+	private final ItemStack helmet = new ItemStack( Material.IRON_HELMET );
+	
 	private Miner() {
 		super( "Miner" );
-		super.addItem( new ItemStack( Material.IRON_PICKAXE ) );
+		prepareKit();
 	}
 	
 	public static final Miner getInstance() {
@@ -71,6 +77,26 @@ public class Miner extends DressedJob {
 		if( m.equals( Material.QUARTZ_ORE ) ) return true;
 		
 		return false;
+	}
+
+	private void prepareKit()
+	{
+		boots.getItemMeta().setDisplayName( "Miner boots" );
+		pants.getItemMeta().setDisplayName( "Miner Pants" );
+		chestplate.getItemMeta().setDisplayName( "Miner chestplate" );
+		helmet.getItemMeta().setDisplayName( "Miner helmet" );
+	}
+	
+	@Override
+	public void equipPlayerImpl(Player p) {
+		
+		PlayerInventory inv = p.getInventory();
+		
+		inv.setBoots( boots );
+		inv.setLeggings( pants );
+		inv.setChestplate( chestplate );
+		inv.setHelmet( helmet );
+		inv.addItem( pickaxe );
 	}
 	
 }

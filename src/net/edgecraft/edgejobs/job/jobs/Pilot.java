@@ -1,20 +1,22 @@
 package net.edgecraft.edgejobs.job.jobs;
 
+import org.bukkit.entity.Player;
+
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
-import net.edgecraft.edgejobs.job.DressedJob;
+import net.edgecraft.edgejobs.api.AbstractJob;
 
-public class Airman extends DressedJob 
+public class Pilot extends AbstractJob 
 {
 
-	private static final Airman instance = new Airman();
+	private static final Pilot instance = new Pilot();
 	
-	private Airman() 
+	private Pilot() 
 	{
-		super( "Airman" );
+		super( "Pilot" );
 	}
 	
-	public static final Airman getInstance()
+	public static final Pilot getInstance()
 	{
 		return instance;
 	}
@@ -25,8 +27,12 @@ public class Airman extends DressedJob
 	}
 
 	@Override
+	public void equipPlayerImpl(Player p) {
+		return;
+	}
+	
+	@Override
 	public CuboidType whereToStart() {
 		return null;
 	}
-
 }

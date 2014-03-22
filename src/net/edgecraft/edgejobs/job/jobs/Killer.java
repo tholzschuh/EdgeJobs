@@ -382,6 +382,7 @@ public class Killer extends AbstractSidejob {
 		private final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
 		private final LanguageHandler lang = EdgeCoreAPI.languageAPI();
 		
+		//TODO: Add hasDoneWork( true ) function? 
 		@EventHandler
 		public void onPlayerDeath( PlayerDeathEvent pde ) {
 			
@@ -389,7 +390,7 @@ public class Killer extends AbstractSidejob {
 				
 				if( tmpPayload.getTarget().equals( users.getUser( pde.getEntity().getName() ) ) ) {
 					for( User u : contracts.get( tmpPayload ) ) {
-						if( pde.getEntity().getKiller().equals( u.getPlayer() ) && JobManager.getJob( u ).equals( Killer.getInstance() ) && JobManager.isWorking( u.getPlayer() ) ) {
+						if( pde.getEntity().getKiller().equals( u.getPlayer() ) && JobManager.getJob( u ).equals( Killer.getInstance() ) && JobManager.isWorking( u.getPlayer() ) ) {					
 							
 							BankAccount killerAcc = economy.getAccount( u.getID() );
 							

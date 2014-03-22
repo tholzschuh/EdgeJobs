@@ -6,6 +6,7 @@ import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.job.DressedJob;
 
+import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,7 +20,7 @@ public class Firefighter extends DressedJob
 	
 	private Firefighter() 
 	{
-		super( "Firefighter" );
+		super( "Firefighter", Color.RED );
 	}
 
 	public static final Firefighter getInstance() {

@@ -9,9 +9,9 @@ import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
-import net.edgecraft.edgejobs.job.DressedJob;
+import net.edgecraft.edgejobs.api.AbstractJob;
 
-public class Timber extends DressedJob {
+public class Timber extends AbstractJob {
 
 	public static final Timber instance = new Timber();
 	
@@ -19,7 +19,6 @@ public class Timber extends DressedJob {
 	
 	private Timber() {
 		super("Timber");
-		super.addItem( axe );
 	}
 	
 	public static final Timber getInstance(){
@@ -64,5 +63,10 @@ public class Timber extends DressedJob {
 		if( m.equals(Material.WOOD ) ) return true;
 		
 		return false;
+	}
+
+	@Override
+	public void equipPlayerImpl(Player p) {
+		p.getInventory().addItem( axe );
 	}
 }

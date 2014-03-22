@@ -1,7 +1,7 @@
 package net.edgecraft.edgejobs.job;
 
 import net.edgecraft.edgejobs.api.AbstractJob;
-import net.edgecraft.edgejobs.job.jobs.Airman;
+import net.edgecraft.edgejobs.job.jobs.Pilot;
 import net.edgecraft.edgejobs.job.jobs.Blacksmith;
 import net.edgecraft.edgejobs.job.jobs.Broker;
 import net.edgecraft.edgejobs.job.jobs.Criminal;
@@ -28,7 +28,7 @@ public enum Job {
 	TIMBER( 7, Timber.getInstance() ),
 	BLACKSMITH( 8, Blacksmith.getInstance() ),
 	DRIVING_INSTRUCTOR( 9, DrivingInstructor.getInstance() ),
-	AIRMAN( 10, Airman.getInstance() ),
+	AIRMAN( 10, Pilot.getInstance() ),
 	SAILOR( 11, Sailor.getInstance() ),
 	BROKER( 12, Broker.getInstance() ),
 	REPORTER( 13, Reporter.getInstance() ),
