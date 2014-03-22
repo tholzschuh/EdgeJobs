@@ -6,7 +6,6 @@ import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
-import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,16 +21,15 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Criminal extends AbstractJob implements Listener {
 
-	private static Criminal instance;
+	private static final Criminal instance = new Criminal();
 	
 	private Criminal() {
-		super("Krimineller", ConfigHandler.getJobPay("Krimineller"));
+		super( "Criminal" );
 		Bukkit.getServer().getPluginManager().registerEvents(this, EdgeJobs.getInstance());
 	}
 	
-	public static Criminal getInstance(){
-		if(instance == null) return new Criminal();
-		else return instance;
+	public static final Criminal getInstance(){
+		return instance;
 	}
 	
 	@EventHandler
@@ -106,16 +104,6 @@ public class Criminal extends AbstractJob implements Listener {
 		return new AbstractCommand[]{
 				new CommandCocaine(),
 		};
-	}
-
-	@Override
-	public void printHelp(User u) {
-		printHelpSentence(u, "=== Der Kriminelle ===");
-		printHelpSentence(u, "Du bist der Abschaum der Stadt! Alle denken so, jedoch respektieren sie dich auch; denn ohne dich kriegen sie");
-		printHelpSentence(u, "ihren Stoff nicht. Den kannst nur du Herstellen und somit verticken.");
-		printHelpSentence(u, "Aber pass auf, dass du den Boss nicht ver��rgerst...");
-		printHelpSentence(u, "== Commands ==");
-		printHelpSentence(u, "");
 	}
 
 	@Override

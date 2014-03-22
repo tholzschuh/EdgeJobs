@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,11 +20,11 @@ import net.edgecraft.edgecore.lang.LanguageHandler;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecore.user.UserManager;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.job.Job;
-import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,7 +37,8 @@ public class Killer extends AbstractSidejob {
 	private static final HashMap<KillContractPayload, ArrayList<User>> contracts = new HashMap<KillContractPayload, ArrayList<User>>();
 	
 	private Killer() {
-		super( "Killer", ConfigHandler.getJobPay("Killer"));
+		super( "Killer" );
+		Bukkit.getServer().getPluginManager().registerEvents( new ManagePlayerDeathEvent(), EdgeJobs.getInstance() );
 	}
 	
 	public static final Killer getInstance() {
@@ -103,12 +105,7 @@ public class Killer extends AbstractSidejob {
 	public AbstractCommand[] jobCommands() {
 		return new AbstractCommand[]{ KillerCommand.getInstance() };
 	}
-
-	@Override
-	public void printHelp( User u ) {
-		return;
-	}
-
+	
 	@Override
 	public void equipPlayerImpl( Player p ) {
 		return;

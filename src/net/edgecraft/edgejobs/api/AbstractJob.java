@@ -6,9 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
-import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
-import net.edgecraft.edgejobs.EdgeJobs;
+import net.edgecraft.edgejobs.util.ConfigHandler;
 
 
 public abstract class AbstractJob {
@@ -18,9 +17,9 @@ public abstract class AbstractJob {
 	private String name;
 	private double pay;
 	
-	public AbstractJob( String name, double pay ) {
+	public AbstractJob( String name ) {
 		setName( name );
-		setPay( pay );
+		setPay( ConfigHandler.getJobPay( name ) );
 	}
 	
 	public String getName() {
@@ -29,10 +28,6 @@ public abstract class AbstractJob {
 	
 	public final double getPay(){
 		return this.pay;
-	}
-	
-	public void printHelpSentence(User u, String sentence){
-		u.getPlayer().sendMessage(EdgeJobs.helpColor + sentence);
 	}
 	
 	private final void setName( String name ) {
@@ -46,7 +41,6 @@ public abstract class AbstractJob {
 	}
 	
 	public abstract AbstractCommand[] jobCommands();
-	public abstract void printHelp( User u );
 	public abstract void equipPlayerImpl( Player p );
 	
 	public abstract CuboidType whereToStart();
@@ -70,6 +64,11 @@ public abstract class AbstractJob {
 	@Override
 	public int hashCode() {
 		return name.hashCode();
+	}
+	
+	public void onJobQuit( Player p ) {
+		//Optional Override-Possibility
+		return;
 	}
 	
 	@Override

@@ -19,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -108,6 +109,12 @@ public class UtilListener implements Listener {
 			AbstractJob.clearOldPlayerInventory(p);
 			p.sendMessage( lang.getColoredMessage( users.getUser(p.getName()).getLanguage(), "job_died") );
 		}
+	}
+	
+	@EventHandler
+	public void onItemDropEvent( PlayerDropItemEvent e ) {
+		
+		if( JobManager.isWorking( e.getPlayer() ) ) e.setCancelled( true );
 	}
 	
 }

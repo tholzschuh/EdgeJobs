@@ -1,4 +1,4 @@
-package net.edgecraft.edgejobs.job;
+package net.edgecraft.edgejobs.job.jobs;
 
 import org.bukkit.entity.Player;
 
@@ -6,21 +6,24 @@ import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 
-public class DefaultJob extends AbstractJob {
+public class Reporter extends AbstractJob 
+{
 
-	public static final DefaultJob instance = new DefaultJob();
+	private static final Reporter instance = new Reporter();
 	
-	private DefaultJob( ) {
-		super( "defaultJob" );
+	private Reporter() 
+	{
+		super( "Reporter" );
 	}
 	
-	public static final DefaultJob getInstance() {
+	public static final Reporter getInstance()
+	{
 		return instance;
 	}
 
 	@Override
 	public AbstractCommand[] jobCommands() {
-		return null;
+		return new AbstractCommand[]{};
 	}
 
 	@Override

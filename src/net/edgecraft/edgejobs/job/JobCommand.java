@@ -116,7 +116,8 @@ public class JobCommand extends AbstractCommand {
 				return true;
 			}
 			
-			JobManager.getJob(player).unequipPlayer(player);
+			job.unequipPlayer(player);
+			job.onJobQuit(player);
 			JobManager.setWorking( player, false );
 			
 			player.sendMessage(lang.getColoredMessage("de", "job_leavejob"));
