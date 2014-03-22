@@ -72,6 +72,11 @@ public abstract class AbstractJob {
 		return name.hashCode();
 	}
 	
+	public void onJobQuit( Player p ) {
+		//Optional Override-Possibility
+		return;
+	}
+	
 	@Override
 	public boolean equals( Object another ) {
 		
