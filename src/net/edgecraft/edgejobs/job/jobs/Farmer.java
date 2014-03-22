@@ -8,10 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
-import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
-import net.edgecraft.edgejobs.util.ConfigHandler;
 
 public class Farmer extends AbstractJob {
 
@@ -20,7 +18,7 @@ public class Farmer extends AbstractJob {
 	private final ItemStack hoe = new ItemStack( Material.IRON_HOE ); 
 	
 	private Farmer() {
-		super( "Farmer", ConfigHandler.getJobPay("Farmer") );
+		super( "Farmer" );
 	}
 	
 	public static final Farmer getInstance() {
@@ -30,11 +28,6 @@ public class Farmer extends AbstractJob {
 	@Override
 	public AbstractCommand[] jobCommands() {
 		return new AbstractCommand[]{};
-	}
-
-	@Override
-	public void printHelp(User u) {
-		return;
 	}
 
 	@Override

@@ -8,10 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
-import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.job.DressedJob;
-import net.edgecraft.edgejobs.util.ConfigHandler;
 
 public class Timber extends DressedJob {
 
@@ -20,8 +18,7 @@ public class Timber extends DressedJob {
 	private final ItemStack axe = new ItemStack( Material.IRON_AXE );
 	
 	private Timber() {
-		super("Timber", ConfigHandler.getJobPay("Timer"));
-		super.prepareKit( "Timber boots", "Timber pants", "Timber chestplate", "Timber helmet" );
+		super("Timber");
 		super.addItem( axe );
 	}
 	
@@ -32,11 +29,6 @@ public class Timber extends DressedJob {
 	@Override
 	public AbstractCommand[] jobCommands() {
 		return new AbstractCommand[]{};
-	}
-
-	@Override
-	public void printHelp(User u) {
-		//TODO: Fill function
 	}
 	
 	@Override

@@ -13,7 +13,6 @@ import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.job.DressedJob;
-import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,9 +26,8 @@ public class Policeman extends DressedJob {
 	private final HashMap<User, User> arrested;
 	
 	private Policeman() {
-		super( "Policeman", ConfigHandler.getJobPay( "Policeman" ) );
+		super( "Policeman" );
 		arrested = new HashMap<>();
-		super.prepareKit( "Police boots", "Police pants", "Police chestplate", "Police helmet" );
 	}
 	
 	public static final Policeman getInstance() {
@@ -39,11 +37,6 @@ public class Policeman extends DressedJob {
 	@Override
 	public AbstractJobCommand[] jobCommands() {
 		return new AbstractJobCommand[]{ ArrestCommand.getInstance(), ReleaseCommand.getInstance(), WantedCommand.getInstance() };
-	}
-
-	@Override
-	public void printHelp( User u ) {
-		return;
 	}
 
 	@Override

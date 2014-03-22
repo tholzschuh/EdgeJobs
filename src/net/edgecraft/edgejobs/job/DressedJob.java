@@ -18,8 +18,9 @@ public abstract class DressedJob extends AbstractJob {
 	
 	protected ArrayList<ItemStack> other;
 	
-	public DressedJob(String name, double pay) {
-		super(name, pay);
+	public DressedJob( String name ) {
+		super( name );
+		prepareKit();
 		other = new ArrayList<>();
 	}
 	
@@ -39,6 +40,15 @@ public abstract class DressedJob extends AbstractJob {
 			inv.addItem( stack );
 		}
 		
+	}
+	
+	private void prepareKit()
+	{
+		boots.getItemMeta().setDisplayName( super.getName() + " boots" );
+		pants.getItemMeta().setDisplayName( super.getName() + " pants" );
+		chestplate.getItemMeta().setDisplayName( super.getName() + " chestplate" );
+		helmet.getItemMeta().setDisplayName( super.getName() + " helmet" );
+		return;
 	}
 	
 	protected void prepareKit( String boots, String pants, String chestplate, String helmet ) {

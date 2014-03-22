@@ -1,4 +1,4 @@
-package net.edgecraft.edgejobs.job;
+package net.edgecraft.edgejobs.job.jobs;
 
 import org.bukkit.entity.Player;
 
@@ -6,31 +6,33 @@ import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 
-public class DefaultJob extends AbstractJob {
+public class Doctor extends AbstractJob {
 
-	public static final DefaultJob instance = new DefaultJob();
+	private static final Doctor instance = new Doctor();
 	
-	private DefaultJob( ) {
-		super( "defaultJob" );
+	private Doctor() 
+	{
+		super( "Doctor" );
 	}
 	
-	public static final DefaultJob getInstance() {
+	public static final Doctor getInstance()
+	{
 		return instance;
 	}
 
 	@Override
 	public AbstractCommand[] jobCommands() {
-		return null;
+		return new AbstractCommand[]{};
 	}
 
 	@Override
 	public void equipPlayerImpl(Player p) {
-		return;
+		
 	}
 
 	@Override
 	public CuboidType whereToStart() {
-		return null;
+		return CuboidType.Hospital;
 	}
 
 }

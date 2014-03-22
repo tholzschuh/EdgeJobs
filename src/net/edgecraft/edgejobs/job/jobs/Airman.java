@@ -4,19 +4,19 @@ import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.job.DressedJob;
 
-public class Blacksmith extends DressedJob 
+public class Airman extends DressedJob 
 {
 
-	private static final Blacksmith instance = new Blacksmith();
-
-	public static final Blacksmith getInstance()
+	private static final Airman instance = new Airman();
+	
+	private Airman() 
 	{
-		return instance;
+		super( "Airman" );
 	}
 	
-	private Blacksmith() 
+	public static final Airman getInstance()
 	{
-		super( "Blacksmith" );
+		return instance;
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class Blacksmith extends DressedJob
 
 	@Override
 	public CuboidType whereToStart() {
-		return null; //TODO:?
+		return null;
 	}
 
 }

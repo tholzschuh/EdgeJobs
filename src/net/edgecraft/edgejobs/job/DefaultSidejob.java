@@ -11,8 +11,8 @@ public class DefaultSidejob extends AbstractSidejob {
 
 	public static final DefaultSidejob instance = new DefaultSidejob();
 	
-	private DefaultSidejob( ) {
-		super( "defaultSidejob" , 0);
+	private DefaultSidejob() {
+		super( "defaultSidejob" );
 	}
 
 	public static final DefaultSidejob getInstance() {
@@ -27,11 +27,6 @@ public class DefaultSidejob extends AbstractSidejob {
 	@Override
 	public AbstractCommand[] jobCommands() {
 		return null;
-	}
-
-	@Override
-	public void printHelp(User u) {
-		return;
 	}
 
 	@Override

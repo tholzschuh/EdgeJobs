@@ -5,10 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
-import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
-import net.edgecraft.edgejobs.util.ConfigHandler;
 
 public class DrivingInstructor extends AbstractJob 
 {
@@ -17,7 +15,7 @@ public class DrivingInstructor extends AbstractJob
 	
 	private DrivingInstructor() 
 	{
-		super( "DrivingInstructor", ConfigHandler.getJobPay("DrivingInstructor") );
+		super( "DrivingInstructor" );
 	}
 	
 	public static final DrivingInstructor getInstance()
@@ -28,11 +26,6 @@ public class DrivingInstructor extends AbstractJob
 	@Override
 	public AbstractCommand[] jobCommands() {
 		return new AbstractCommand[]{};
-	}
-
-	@Override
-	public void printHelp(User u) {
-		return;
 	}
 
 	@Override

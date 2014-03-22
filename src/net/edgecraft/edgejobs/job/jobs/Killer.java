@@ -25,7 +25,6 @@ import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.job.Job;
-import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,7 +37,7 @@ public class Killer extends AbstractSidejob {
 	private static final HashMap<KillContractPayload, ArrayList<User>> contracts = new HashMap<KillContractPayload, ArrayList<User>>();
 	
 	private Killer() {
-		super( "Killer", ConfigHandler.getJobPay("Killer"));
+		super( "Killer" );
 		Bukkit.getServer().getPluginManager().registerEvents( new ManagePlayerDeathEvent(), EdgeJobs.getInstance() );
 	}
 	
@@ -106,12 +105,7 @@ public class Killer extends AbstractSidejob {
 	public AbstractCommand[] jobCommands() {
 		return new AbstractCommand[]{ KillerCommand.getInstance() };
 	}
-
-	@Override
-	public void printHelp( User u ) {
-		return;
-	}
-
+	
 	@Override
 	public void equipPlayerImpl( Player p ) {
 		return;
