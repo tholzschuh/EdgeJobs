@@ -71,7 +71,7 @@ public class Firefighter extends DressedJob
 	
 	@Override
 	public CuboidType whereToStart() {
-		return CuboidType.FireDepartment;
+		return CuboidType.FireStation;
 	}
 	
 }
