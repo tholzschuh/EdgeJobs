@@ -27,7 +27,7 @@ public class Policeman extends DressedJob {
 	private final HashMap<User, User> arrested;
 	
 	private Policeman() {
-		super( "Polizei", ConfigHandler.getJobPay( "Polizei" ) );
+		super( "Policeman", ConfigHandler.getJobPay( "Policeman" ) );
 		arrested = new HashMap<>();
 		super.prepareKit( "Police boots", "Police pants", "Police chestplate", "Police helmet" );
 	}

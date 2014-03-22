@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,6 +20,7 @@ import net.edgecraft.edgecore.lang.LanguageHandler;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecore.user.UserManager;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
 import net.edgecraft.edgejobs.api.JobManager;
@@ -37,6 +39,7 @@ public class Killer extends AbstractSidejob {
 	
 	private Killer() {
 		super( "Killer", ConfigHandler.getJobPay("Killer"));
+		Bukkit.getServer().getPluginManager().registerEvents( new ManagePlayerDeathEvent(), EdgeJobs.getInstance() );
 	}
 	
 	public static final Killer getInstance() {

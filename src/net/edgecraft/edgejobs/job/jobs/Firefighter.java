@@ -19,7 +19,7 @@ public class Firefighter extends DressedJob {
 	
 	private Firefighter() {
 		
-		super( "Feuerwehr", ConfigHandler.getJobPay( "Feuerwehr" ) );
+		super( "Firefighter", ConfigHandler.getJobPay( "Firefighter" ) );
 	}
 
 	public static final Firefighter getInstance() {

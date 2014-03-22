@@ -1,6 +1,8 @@
 package net.edgecraft.edgejobs.job.jobs;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.user.User;
@@ -8,16 +10,19 @@ import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
-public class Broker extends AbstractJob {
+public class DrivingInstructor extends AbstractJob 
+{
 
-	private static final Broker instance = new Broker();
+	private static final DrivingInstructor instance = new DrivingInstructor();
 	
-	public static final Broker getInstance(){
-		return instance;
+	private DrivingInstructor() 
+	{
+		super( "DrivingInstructor", ConfigHandler.getJobPay("DrivingInstructor") );
 	}
 	
-	private Broker() {
-		super( "Broker", ConfigHandler.getJobPay("Broker") );
+	public static final DrivingInstructor getInstance()
+	{
+		return instance;
 	}
 
 	@Override
@@ -27,15 +32,18 @@ public class Broker extends AbstractJob {
 
 	@Override
 	public void printHelp(User u) {
+		return;
 	}
 
 	@Override
 	public void equipPlayerImpl(Player p) {
+		
+		p.getInventory().addItem( new ItemStack( Material.MINECART ) );
 	}
 
 	@Override
 	public CuboidType whereToStart() {
 		return null;
 	}
-	
+
 }

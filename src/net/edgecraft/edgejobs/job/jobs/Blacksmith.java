@@ -1,23 +1,25 @@
 package net.edgecraft.edgejobs.job.jobs;
 
-import org.bukkit.entity.Player;
-
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
-import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.job.DressedJob;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
-public class Broker extends AbstractJob {
+public class Blacksmith extends DressedJob 
+{
 
-	private static final Broker instance = new Broker();
-	
-	public static final Broker getInstance(){
+	private static final Blacksmith instance = new Blacksmith();
+
+	public static final Blacksmith getInstance()
+	{
 		return instance;
 	}
 	
-	private Broker() {
-		super( "Broker", ConfigHandler.getJobPay("Broker") );
+	private Blacksmith() 
+	{
+		super( "Blacksmith", ConfigHandler.getJobPay( "Blacksmith" ) );
+		super.prepareKit( "Smith boots", "Smith pants", "Smith chestplate", "Smith helmet" );
 	}
 
 	@Override
@@ -27,15 +29,12 @@ public class Broker extends AbstractJob {
 
 	@Override
 	public void printHelp(User u) {
-	}
-
-	@Override
-	public void equipPlayerImpl(Player p) {
+		return; //TODO
 	}
 
 	@Override
 	public CuboidType whereToStart() {
-		return null;
+		return null; //TODO:?
 	}
-	
+
 }

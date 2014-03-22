@@ -8,16 +8,18 @@ import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
-public class Broker extends AbstractJob {
+public class Sailor extends AbstractJob 
+{
+	
+	private static final Sailor instance = new Sailor();
 
-	private static final Broker instance = new Broker();
-	
-	public static final Broker getInstance(){
-		return instance;
+	private Sailor() {
+		super( "Sailor", ConfigHandler.getJobPay( "Sailor" ) );
 	}
-	
-	private Broker() {
-		super( "Broker", ConfigHandler.getJobPay("Broker") );
+
+	public static final Sailor getInstance()
+	{
+		return instance;
 	}
 
 	@Override
@@ -27,10 +29,13 @@ public class Broker extends AbstractJob {
 
 	@Override
 	public void printHelp(User u) {
+		return;
 	}
 
 	@Override
 	public void equipPlayerImpl(Player p) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

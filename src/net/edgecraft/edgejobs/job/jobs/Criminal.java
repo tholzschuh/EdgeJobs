@@ -22,16 +22,15 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Criminal extends AbstractJob implements Listener {
 
-	private static Criminal instance;
+	private static final Criminal instance = new Criminal();
 	
 	private Criminal() {
-		super("Krimineller", ConfigHandler.getJobPay("Krimineller"));
+		super( "Criminal", ConfigHandler.getJobPay("Criminal") );
 		Bukkit.getServer().getPluginManager().registerEvents(this, EdgeJobs.getInstance());
 	}
 	
-	public static Criminal getInstance(){
-		if(instance == null) return new Criminal();
-		else return instance;
+	public static final Criminal getInstance(){
+		return instance;
 	}
 	
 	@EventHandler
