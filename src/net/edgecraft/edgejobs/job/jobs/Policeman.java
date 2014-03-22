@@ -10,19 +10,15 @@ import net.edgecraft.edgecore.user.UserManager;
 import net.edgecraft.edgecuboid.EdgeCuboidAPI;
 import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
-import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.JobManager;
+import net.edgecraft.edgejobs.job.DressedJob;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-public class Policeman extends AbstractJob {
+public class Policeman extends DressedJob {
 
 	private static final Policeman instance = new Policeman();
 	
@@ -30,34 +26,14 @@ public class Policeman extends AbstractJob {
 	
 	private final HashMap<User, User> arrested;
 	
-	private final ItemStack boots = new ItemStack( Material.LEATHER_BOOTS );
-	private final ItemStack pants = new ItemStack( Material.LEATHER_LEGGINGS );
-	private final ItemStack chestplate = new ItemStack( Material.LEATHER_CHESTPLATE );
-	private final ItemStack helmet = new ItemStack( Material.LEATHER_HELMET );
-	
 	private Policeman() {
 		super( "Polizei", ConfigHandler.getJobPay( "Polizei" ) );
 		arrested = new HashMap<>();
-		prepareKit();
+		super.prepareKit( "Police boots", "Police pants", "Police chestplate", "Police helmet" );
 	}
 	
 	public static final Policeman getInstance() {
 		return instance;
-	}
-
-	protected void prepareKit() {
-		
-		final LeatherArmorMeta bootsmeta = (LeatherArmorMeta)boots.getItemMeta();
-		bootsmeta.setDisplayName( "Police boots" );
-		
-		final LeatherArmorMeta pantsmeta = (LeatherArmorMeta)pants.getItemMeta();
-		pantsmeta.setDisplayName( "Police pants" );
-		
-		final LeatherArmorMeta chestmeta = (LeatherArmorMeta)chestplate.getItemMeta();
-		chestmeta.setDisplayName( "Police chestplate" );
-		
-		final LeatherArmorMeta helmetmeta = (LeatherArmorMeta)helmet.getItemMeta();
-		helmetmeta.setDisplayName( "Police helmet" );
 	}
 	
 	@Override
@@ -67,19 +43,6 @@ public class Policeman extends AbstractJob {
 
 	@Override
 	public void printHelp( User u ) {
-		return;
-	}
-
-	@Override
-	public void equipPlayerImpl( Player p ) {
-		
-		PlayerInventory inv = p.getInventory();
-		
-		inv.addItem( boots );
-		inv.addItem( pants );
-		inv.addItem( chestplate );
-		inv.addItem( helmet );
-		
 		return;
 	}
 
