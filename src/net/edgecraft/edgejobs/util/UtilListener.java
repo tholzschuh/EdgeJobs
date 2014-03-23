@@ -138,7 +138,7 @@ public class UtilListener implements Listener {
 		
 		if( p == null || u == null || t == null ) return;
 		
-		if( t.equals( CuboidType.SURVIVAL ) && !JobManager.isWorking( p ) )
+		if( t.equals( CuboidType.Survival ) && !JobManager.isWorking( p ) )
 		{
 			p.sendMessage(lang.getColoredMessage( u.getLanguage(), "cuboid_nopermission" ) );
 			e.setCancelled( true );
@@ -154,7 +154,7 @@ public class UtilListener implements Listener {
 		
 		if( p == null || u == null || t == null ) return;
 		
-		if( t.equals( CuboidType.SURVIVAL ) && !JobManager.isWorking( p ) )
+		if( t.equals( CuboidType.Survival ) && !JobManager.isWorking( p ) )
 		{
 			p.sendMessage( lang.getColoredMessage( u.getLanguage(), "cuboid_nopermission" ) );
 			e.setCancelled( true );
