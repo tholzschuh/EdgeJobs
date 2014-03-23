@@ -1,9 +1,9 @@
-name: EdgeJobs
+﻿name: EdgeJobs
 version: 1.5
 author: horoking
 authors: [Panjab,lush,Exodevil]
 website: http://edgecraft.de
 
-depend: [EdgeCore, EdgeConomy]
+depend: [EdgeCore, EdgeConomy, EdgeCuboid]
 
 main: net.edgecraft.edgejobs.EdgeJobs

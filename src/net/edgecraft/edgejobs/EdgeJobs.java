@@ -8,10 +8,11 @@ import net.edgecraft.edgecore.command.CommandCollection;
 import net.edgecraft.edgecore.command.CommandHandler;
 import net.edgecraft.edgejobs.api.tasks.JobPayTask;
 import net.edgecraft.edgejobs.api.tasks.SidejobPayTask;
+import net.edgecraft.edgejobs.events.HandleItemEvents;
+import net.edgecraft.edgejobs.events.HandlePlayerEvents;
 import net.edgecraft.edgejobs.job.JobCommand;
 import net.edgecraft.edgejobs.job.JobCommands;
 import net.edgecraft.edgejobs.util.ConfigHandler;
-import net.edgecraft.edgejobs.util.UtilListener;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,7 +41,8 @@ public class EdgeJobs extends JavaPlugin {
 		
 		ConfigHandler.prepare();
 		
-		getServer().getPluginManager().registerEvents( new UtilListener(), this );
+		getServer().getPluginManager().registerEvents( new HandlePlayerEvents(), this );
+		getServer().getPluginManager().registerEvents( new HandleItemEvents(), this );
 		
 		commands.registerCommand( new JobCommand() );
 		commands.registerCommand( new CommandCollection( JobCommands.getInstance() ) );
