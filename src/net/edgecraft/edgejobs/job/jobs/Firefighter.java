@@ -1,5 +1,6 @@
 package net.edgecraft.edgejobs.job.jobs;
 
+
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
 import net.edgecraft.edgecore.user.User;
@@ -28,27 +29,47 @@ public class Firefighter extends DressedJob
 	}
 	
 	
-	private static class CreateFireEventCommand extends AbstractCommand { 
+	public static class FireCommand extends AbstractCommand { 
 
+//		private boolean enabled = true;
+//		private static final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
+		
 		@Override
 		public Level getLevel() {
-			return Level.SUPPORTER;
+			return Level.DEVELOPER;
 		}
 
 		@Override
 		public String[] getNames() {
-			return new String[]{ "createfireevent", "makefireevent" };
+			return new String[]{ "fire" };
 		}
 
+//		private boolean turn()
+//		{
+//			if( new Random().nextInt( 1 ) == 1 ) return true;
+//			return false;
+//		}
+		
 		@Override
 		public boolean runImpl( Player p, User u, String[] args ) {
+			
+			if( args[1].equalsIgnoreCase( "enable" ) )
+			{
+				return true;
+			}
+			
+			if( args[1].equalsIgnoreCase( "disable" ) )
+			{
+				return true;
+			}
 			
 			return true;
 		}
 
 		@Override
 		public void sendUsageImpl( CommandSender sender ) {
-			sender.sendMessage("/createfireevent");
+			sender.sendMessage("/fire enable");
+			sender.sendMessage( "/fire disable" );
 		}
 
 		@Override
@@ -59,14 +80,14 @@ public class Firefighter extends DressedJob
 
 		@Override
 		public boolean validArgsRange(String[] args) {
-			return ( args.length == 1 );
+			return ( args.length == 2 );
 		}
 		
 	}
 	
 	@Override
 	public AbstractCommand[] jobCommands() {
-		return new AbstractCommand[]{ new CreateFireEventCommand() };
+		return new AbstractCommand[]{};
 	}
 	
 	@Override

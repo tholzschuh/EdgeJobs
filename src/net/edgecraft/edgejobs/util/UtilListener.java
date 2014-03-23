@@ -5,6 +5,7 @@ import net.edgecraft.edgecore.lang.LanguageHandler;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecore.user.UserManager;
 import net.edgecraft.edgecuboid.EdgeCuboidAPI;
+import net.edgecraft.edgecuboid.cuboid.Cuboid;
 import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
@@ -17,6 +18,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -32,34 +35,38 @@ public class UtilListener implements Listener {
 	private static final LanguageHandler lang = EdgeCoreAPI.languageAPI();
 	
 	@EventHandler
-	public void onPlayerJoin( PlayerJoinEvent e ){
-		
+	public void onPlayerJoin( PlayerJoinEvent e )
+	{	
 		JobManager.setWorking( e.getPlayer(), false );
 		
 		User u = users.getUser( e.getPlayer().getName() );
 		
-		ConfigHandler.createUser( u );
+		if( !ConfigHandler.containsUser(u) ) return;
 		
+		ConfigHandler.createUser( u );
 	}
 	
 	@EventHandler
-	public void onPlayerLeave( PlayerQuitEvent e ) {
+	public void onPlayerLeave( PlayerQuitEvent e ) 
+	{
 		
 		final Player quit = e.getPlayer();
 		
-		if( JobManager.isWorking( quit ) ) {
-			
+		if( JobManager.isWorking( quit ) ) 
+		{
 			JobManager.setWorking( e.getPlayer(), false);
 			JobManager.getJob( quit ).unequipPlayer( quit );
 		}	
 	}
 	
 	@EventHandler
-	public void onPlayerRespawnEvent( PlayerRespawnEvent e ) {
+	public void onPlayerRespawnEvent( PlayerRespawnEvent e ) 
+	{
 		
 		Player player = e.getPlayer();
 		
-		if( JobManager.isWorking( player ) ) {
+		if( JobManager.isWorking( player ) ) 
+		{
 			
 			AbstractJob job = JobManager.getJob( player );
 			
@@ -70,11 +77,13 @@ public class UtilListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onInventoryOpenEvent( InventoryOpenEvent e ) {
+	public void onInventoryOpenEvent( InventoryOpenEvent e ) 
+	{
 		
 		Player p = Bukkit.getPlayerExact( e.getPlayer().getName() );
 		
-		if( p == null ) {
+		if( p == null ) 
+		{
 			// wtf?
 			e.setCancelled( true );
 			return;
@@ -84,15 +93,16 @@ public class UtilListener implements Listener {
 		
 		InventoryHolder holder = e.getInventory().getHolder();
 		
-		if( holder instanceof Chest || holder instanceof DoubleChest ) {
-			
+		if( holder instanceof Chest || holder instanceof DoubleChest ) 
+		{	
 			e.setCancelled( true );
 			return;
 		}
 	}
 	
 	@EventHandler
-	public void onEntityDamageEvent( EntityDamageEvent e ) {
+	public void onEntityDamageEvent( EntityDamageEvent e ) 
+	{
 		
 		Entity ent = e.getEntity();
 		
@@ -100,9 +110,11 @@ public class UtilListener implements Listener {
 		
 		Player p = (Player)ent;
 		
-		if( JobManager.isWorking(p) && e.getDamage() >= p.getHealth() ) {
+		if( JobManager.isWorking(p) && e.getDamage() >= p.getHealth() ) 
+		{
 			
 			e.setCancelled(true);
+			
 			p.teleport( cuboids.getNearestCuboid(CuboidType.Hospital, p.getLocation() ).getSpawn() );
 			p.getInventory().setContents( AbstractJob.getOldPlayerInventory(p).getContents() );
 			JobManager.setWorking(p, false);
@@ -112,9 +124,41 @@ public class UtilListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onItemDropEvent( PlayerDropItemEvent e ) {
-		
+	public void onItemDropEvent( PlayerDropItemEvent e ) 
+	{	
 		if( JobManager.isWorking( e.getPlayer() ) ) e.setCancelled( true );
+	}
+	
+	@EventHandler
+	public void handleBlockBreaks( BlockBreakEvent e )
+	{
+		final Player p = e.getPlayer();
+		final User u = users.getUser( p.getName() );
+		final CuboidType t = CuboidType.getType( Cuboid.getCuboid( p.getLocation() ).getCuboidType() );
+		
+		if( p == null || u == null || t == null ) return;
+		
+		if( t.equals( CuboidType.SURVIVAL ) && !JobManager.isWorking( p ) )
+		{
+			p.sendMessage(lang.getColoredMessage( u.getLanguage(), "cuboid_nopermission" ) );
+			e.setCancelled( true );
+		}
+	}
+	
+	@EventHandler
+	public void onBlockPlacement( BlockPlaceEvent e )
+	{
+		final Player p = e.getPlayer();
+		final User u = users.getUser( p.getName() );
+		final CuboidType t = CuboidType.getType( Cuboid.getCuboid( p.getLocation() ).getCuboidType() );
+		
+		if( p == null || u == null || t == null ) return;
+		
+		if( t.equals( CuboidType.SURVIVAL ) && !JobManager.isWorking( p ) )
+		{
+			p.sendMessage( lang.getColoredMessage( u.getLanguage(), "cuboid_nopermission" ) );
+			e.setCancelled( true );
+		}
 	}
 	
 }
