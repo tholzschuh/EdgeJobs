@@ -1,36 +1,18 @@
 package net.edgecraft.edgejobs.job;
 
-import org.bukkit.entity.Player;
-
-import net.edgecraft.edgecore.command.AbstractCommand;
-import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 
-public class DefaultJob extends AbstractJob {
-
+public class DefaultJob extends AbstractJob 
+{
 	public static final DefaultJob instance = new DefaultJob();
 	
-	private DefaultJob( ) {
+	private DefaultJob() 
+	{
 		super( "defaultJob" );
 	}
 	
-	public static final DefaultJob getInstance() {
+	public static final DefaultJob getInstance() 
+	{
 		return instance;
 	}
-
-	@Override
-	public AbstractCommand[] jobCommands() {
-		return null;
-	}
-
-	@Override
-	public void equipPlayerImpl(Player p) {
-		return;
-	}
-
-	@Override
-	public CuboidType whereToStart() {
-		return null;
-	}
-
 }

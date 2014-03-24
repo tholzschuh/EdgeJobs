@@ -1,14 +1,11 @@
 package net.edgecraft.edgejobs.job.jobs;
 
 import org.bukkit.Color;
-import org.bukkit.entity.Player;
-
-import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
-import net.edgecraft.edgejobs.job.DressedJob;
+import net.edgecraft.edgejobs.job.LeatherJob;
 
-public class Doctor extends DressedJob {
-
+public class Doctor extends LeatherJob 
+{
 	private static final Doctor instance = new Doctor();
 	
 	private Doctor() 
@@ -19,16 +16,6 @@ public class Doctor extends DressedJob {
 	public static final Doctor getInstance()
 	{
 		return instance;
-	}
-
-	@Override
-	public AbstractCommand[] jobCommands() {
-		return new AbstractCommand[]{};
-	}
-
-	@Override
-	public void equipPlayerImpl(Player p) {
-		
 	}
 
 	@Override

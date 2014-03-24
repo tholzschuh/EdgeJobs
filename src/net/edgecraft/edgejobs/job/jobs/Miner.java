@@ -7,42 +7,29 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import net.edgecraft.edgecore.command.AbstractCommand;
-import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
-import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.job.DressedJob;
 
-public class Miner extends AbstractJob {
-
+public class Miner extends DressedJob
+{
 	private static final Miner instance = new Miner();
 	
-	private final ItemStack pickaxe = new ItemStack( Material.IRON_PICKAXE );
-	private final ItemStack boots = new ItemStack( Material.IRON_BOOTS );
-	private final ItemStack pants = new ItemStack( Material.IRON_LEGGINGS );
-	private final ItemStack chestplate = new ItemStack( Material.IRON_CHESTPLATE );
-	private final ItemStack helmet = new ItemStack( Material.IRON_HELMET );
+	private final ItemStack _pickaxe = new ItemStack( Material.IRON_PICKAXE );
 	
-	private Miner() {
+	private Miner() 
+	{
 		super( "Miner" );
 		prepareKit();
+		super.other.add( _pickaxe );
 	}
 	
-	public static final Miner getInstance() {
+	public static final Miner getInstance() 
+	{
 		return instance;
 	}
-
-	@Override
-	public AbstractCommand[] jobCommands() {
-		return new AbstractCommand[]{};
-	}
-
-	@Override
-	public CuboidType whereToStart() {
-		return null;
-	}
 	
 	@Override
-	public void onJobQuit( Player p ) {
-		
+	public void onJobQuit( Player p ) 
+	{
 		if( p == null ) return;
 		
 		final PlayerInventory inv = p.getInventory();
@@ -64,7 +51,7 @@ public class Miner extends AbstractJob {
 	{
 		if( stack == null ) return false;
 		
-		Material m = stack.getType();
+		final Material m = stack.getType();
 		
 		if( m.equals( Material.COBBLESTONE ) ) return true;
 		if( m.equals( Material.IRON_ORE ) ) return true;
@@ -79,24 +66,14 @@ public class Miner extends AbstractJob {
 		return false;
 	}
 
-	private void prepareKit()
-	{
-		boots.getItemMeta().setDisplayName( "Miner boots" );
-		pants.getItemMeta().setDisplayName( "Miner Pants" );
-		chestplate.getItemMeta().setDisplayName( "Miner chestplate" );
-		helmet.getItemMeta().setDisplayName( "Miner helmet" );
-	}
-	
 	@Override
-	public void equipPlayerImpl(Player p) {
+	protected void prepareKit()
+	{
+		_boots = new ItemStack( Material.IRON_BOOTS );
+		_pants = new ItemStack( Material.IRON_LEGGINGS );
+		_chestplate = new ItemStack( Material.IRON_CHESTPLATE );
+		_helmet = new ItemStack( Material.IRON_HELMET );
 		
-		PlayerInventory inv = p.getInventory();
-		
-		inv.setBoots( boots );
-		inv.setLeggings( pants );
-		inv.setChestplate( chestplate );
-		inv.setHelmet( helmet );
-		inv.addItem( pickaxe );
+		super.prepareKit();
 	}
-	
 }

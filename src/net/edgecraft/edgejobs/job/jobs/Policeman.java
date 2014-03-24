@@ -12,117 +12,130 @@ import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.JobManager;
-import net.edgecraft.edgejobs.job.DressedJob;
+import net.edgecraft.edgejobs.job.LeatherJob;
 
 import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Policeman extends DressedJob {
-
+public class Policeman extends LeatherJob
+{
 	private static final Policeman instance = new Policeman();
-	
 	private static final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
 	
-	private final HashMap<User, User> arrested;
+	private final HashMap<User, User> _arrested;
 	
-	private Policeman() {
+	private Policeman() 
+	{
 		super( "Policeman", Color.AQUA );
-		arrested = new HashMap<>();
+		_arrested = new HashMap<>();
 	}
 	
-	public static final Policeman getInstance() {
+	public static final Policeman getInstance() 
+	{
 		return instance;
 	}
 	
 	@Override
-	public AbstractJobCommand[] jobCommands() {
+	public AbstractJobCommand[] jobCommands() 
+	{
 		return new AbstractJobCommand[]{ ArrestCommand.getInstance(), ReleaseCommand.getInstance(), WantedCommand.getInstance() };
 	}
 
 	@Override
-	public CuboidType whereToStart() {
+	public CuboidType whereToStart() 
+	{
 		return CuboidType.PoliceStation;
 	}
 	
-	public final void arrest( User target, User officer ) {
+	public final void arrest( User target, User officer ) 
+	{
 		
-		if( target == null || officer == null  || arrested.containsKey( target ) || !JobManager.getJob( officer ).equals( this ) ) return;
+		if( target == null || officer == null  || _arrested.containsKey( target ) || !JobManager.getJob( officer ).equals( this ) ) return;
 		
-		arrested.put( target, officer );
+		_arrested.put( target, officer );
 		target.getPlayer().teleport( cuboids.getNearestCuboid(CuboidType.Jail, target.getPlayer().getLocation() ).getSpawn() );
 	}
 	
-	public final void arrest( String target, String officer ) {
+	public final void arrest( String target, String officer ) 
+	{
 		
-		UserManager users = EdgeCoreAPI.userAPI();
+		final UserManager users = EdgeCoreAPI.userAPI();
 		
 		arrest( users.getUser( target ), users.getUser( officer ) );
 	}
 	
-	public final void release( User target ) {
+	public final void release( User target ) 
+	{
+		if( target == null || !_arrested.containsKey( target )) return;
 		
-		if( target == null || !arrested.containsKey( target )) return;
-		
-		arrested.remove( target );	
+		_arrested.remove( target );	
 		target.getPlayer().teleport( cuboids.getNearestCuboid( CuboidType.PoliceStation, target.getPlayer().getLocation() ).getSpawn() );
 	}
 	
-	public final void release( String name ) {
+	public final void release( String name ) 
+	{
 		 release( EdgeCoreAPI.userAPI().getUser( name ) );
 	}
 	
-	public boolean isArrested( String name ) {
+	public boolean isArrested( String name ) 
+	{
 		return isArrested( EdgeCoreAPI.userAPI().getUser( name ) );
 	}
 	
-	public boolean isArrested( User u ) {
-		
-		if( u == null || !arrested.containsKey(u) ) return false;
+	public boolean isArrested( User u ) 
+	{
+		if( u == null || !_arrested.containsKey(u) ) return false;
 		
 		return true;
 	}
 	
-	public User arrestedBy( User target ) {
-		if( target == null || !arrested.containsKey(target) ) return null;
+	public User arrestedBy( User target ) 
+	{
+		if( target == null || !_arrested.containsKey(target) ) return null;
 		
-		return arrested.get( target );
+		return _arrested.get( target );
 	}
 	
-	public static class ArrestCommand extends AbstractJobCommand {
-
+	public static class ArrestCommand extends AbstractJobCommand 
+	{
 		private static final ArrestCommand instance = new ArrestCommand( Policeman.getInstance() );
 		
-		private ArrestCommand( Policeman job ) {
+		private ArrestCommand( Policeman job ) 
+		{
 			super( job );
 		}
 
-		public static final ArrestCommand getInstance() {
+		public static final ArrestCommand getInstance() 
+		{
 			return instance;
 		}
 
 		@Override
-		public boolean runImpl( Player player, User user, String[] args) {
+		public boolean runImpl( Player player, User user, String[] args) 
+		{
+			final User target = users.getUser( args[1] );
 			
-			User target = users.getUser( args[1] );
+			final Policeman police = Policeman.getInstance();
 			
-			Policeman police = Policeman.getInstance();
-			
-			if( target == null ) {
+			if( target == null ) 
+			{
 				player.sendMessage( lang.getColoredMessage( user.getLanguage(), "notfound" ) );
 				return false;
 			}
 			
-			Player targetPlayer = target.getPlayer();
+			final Player targetPlayer = target.getPlayer();
 			
-			if( args.length == 2 ) {
-				
-				if( !targetPlayer.isOnline() ) {
+			if( args.length == 2 ) 
+			{
+				if( !targetPlayer.isOnline() ) 
+				{
 					player.sendMessage( lang.getColoredMessage( user.getLanguage(), "notfound" ) );
 					return true;
 				}
 				
-				if( player.getLocation().distanceSquared( targetPlayer.getLocation() ) <= 3 ) { 
+				if( player.getLocation().distanceSquared( targetPlayer.getLocation() ) <= 3 ) 
+				{ 
 					Policeman.getInstance().arrest( target, user );
 					return true;
 				}
@@ -131,8 +144,8 @@ public class Policeman extends DressedJob {
 				return true;
 			}
 			
-			if( args.length == 3 && args[1].equalsIgnoreCase( "protocol" ) ) {
-				
+			if( args.length == 3 && args[1].equalsIgnoreCase( "protocol" ) ) 
+			{
 				player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_police_arrested_by" ).replace( "[0]", target.getName() ).replace( "[1]", police.arrestedBy( target ).getName() ) );
 				return true;
 			}
@@ -142,54 +155,62 @@ public class Policeman extends DressedJob {
 		}
 
 		@Override
-		public String[] getNames() {
+		public String[] getNames() 
+		{
 			return new String[]{ "arrest" };
 		}
 
 		@Override
-		public void sendUsageImpl( CommandSender sender ) {
-			
+		public void sendUsageImpl( CommandSender sender ) 
+		{
 				sender.sendMessage( EdgeCore.usageColor + "/arrest <target>" );
 				sender.sendMessage( EdgeCore.usageColor + "/arrest protocol <target>" );
 				return;
 		}
 
 		@Override
-		public boolean validArgsRange( String[] args ) {
+		public boolean validArgsRange( String[] args ) 
+		{
 			return ( args.length == 2 || args.length == 3 );
 		}
 	}
 	
-	public static class ReleaseCommand extends AbstractJobCommand {
-
+	public static class ReleaseCommand extends AbstractJobCommand 
+	{
 		private static final ReleaseCommand instance = new ReleaseCommand( Policeman.getInstance() );
 		
-		private ReleaseCommand( Policeman job ) {
+		private ReleaseCommand( Policeman job ) 
+		{
 			super(job);
 		}
 		
-		public static final ReleaseCommand getInstance() {
+		public static final ReleaseCommand getInstance() 
+		{
 			return instance;
 		}
 
 		@Override
-		public String[] getNames() {
+		public String[] getNames() 
+		{
 			return new String[]{ "release" };
 		}
 
 		@Override
-		public boolean runImpl( Player player, User user, String[] args ) {
+		public boolean runImpl( Player player, User user, String[] args ) 
+		{
 			
-			User target = users.getUser( args[1] );
+			final User target = users.getUser( args[1] );
 			
-			Policeman police = Policeman.getInstance();
+			final Policeman police = Policeman.getInstance();
 			
-			if( target == null || !target.getPlayer().isOnline() ) {
+			if( target == null || !target.getPlayer().isOnline() ) 
+			{
 				player.sendMessage( lang.getColoredMessage( user.getLanguage(), "notfound" ) );
 				return false;
 			}
 			
-			if( !police.isArrested( target ) ) {
+			if( !police.isArrested( target ) ) 
+			{
 				player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_police_notarrested" ) );
 				return true;
 			}
@@ -202,51 +223,59 @@ public class Policeman extends DressedJob {
 		}
 
 		@Override
-		public void sendUsageImpl( CommandSender sender ) {
-
+		public void sendUsageImpl( CommandSender sender )
+		{
 			sender.sendMessage( EdgeCore.usageColor + "/release <target>" );
 		}
 
 		@Override
-		public boolean validArgsRange(String[] args) {
+		public boolean validArgsRange(String[] args) 
+		{
 			return ( args.length == 2 );
 		}
 	}
 	
-	public static class WantedCommand extends AbstractJobCommand {
-
+	public static class WantedCommand extends AbstractJobCommand 
+	{
 		private static final WantedCommand instance = new WantedCommand( Policeman.getInstance() );
 		
 		private final Map<User, SearchLevel> wanted;
 		private final UserManager users = EdgeCoreAPI.userAPI();
 		
-		private WantedCommand( Policeman job ) {
+		private WantedCommand( Policeman job ) 
+		{
 			super(job);
 			wanted = new HashMap<User, SearchLevel>();
 		}
 
-		public static final WantedCommand getInstance() {
+		public static final WantedCommand getInstance() 
+		{
 			return instance;
 		}
 		
 		@Override
-		public String[] getNames() {
+		public String[] getNames() 
+		{
 			return new String[]{ "wanted" };
 		}
 
 		@Override
-		public boolean runImpl( Player player, User user, String[] args ) {
-			
-				if( args.length >= 2 && args.length <= 3 && args[1].equalsIgnoreCase("list") ) {
-					
+		public boolean runImpl( Player player, User user, String[] args ) 
+		{
+				if( args.length >= 2 && args.length <= 3 && args[1].equalsIgnoreCase("list") ) 
+				{
 					SearchLevel to = null;
 					String prefix = "Top Wanted: ";
 					
-					if( args.length == 3 ) {
-						try {
+					if( args.length == 3 ) 
+					{
+						try
+						{
 							to = SearchLevel.getInstance( Integer.valueOf( args[2] ) );
 							prefix = "Wanted[" + args[2] + "]";
-						} catch( NumberFormatException e ) {
+						} 
+						catch( NumberFormatException e ) 
+						{
 							sendUsage( player );
 							return true;
 						}
@@ -254,10 +283,12 @@ public class Policeman extends DressedJob {
 						
 					if( to == null ) to = SearchLevel.FIVE;
 					
-					StringBuilder sb = new StringBuilder();
+					final StringBuilder sb = new StringBuilder();
 						
-					for( User u : wanted.keySet() ) {
-						if( wanted.get( u ).equals( to ) ) {
+					for( User u : wanted.keySet() ) 
+					{
+						if( wanted.get( u ).equals( to ) ) 
+						{
 							if( sb.length() == 0 ) sb.append( "[ " + u.getName() );
 							else sb.append( ", " + u.getName() );
 						}
@@ -267,20 +298,24 @@ public class Policeman extends DressedJob {
 					player.sendMessage( prefix + sb.toString() );	
 				}
 				
-				if( args.length == 4 && args[1].equalsIgnoreCase( "set" )) {
-					
+				if( args.length == 4 && args[1].equalsIgnoreCase( "set" ) ) 
+				{
 					User targetUser = null;
 					SearchLevel targetLevel = null;
 					
-					try {
+					try 
+					{
 						targetUser = users.getUser( args[2] );
 						targetLevel = SearchLevel.getInstance( Integer.valueOf( args[3] ) );
-					} catch( NumberFormatException e ) {
+					} 
+					catch( NumberFormatException e ) 
+					{
 						sendUsage( player );
 						return true;
 					}
 					
-					if( targetUser == null || targetLevel == null ) {
+					if( targetUser == null || targetLevel == null ) 
+					{
 						sendUsage( player );
 						return true;
 					}
@@ -295,42 +330,46 @@ public class Policeman extends DressedJob {
 
 		
 		@Override
-		public void sendUsageImpl( CommandSender sender ) {
-			
+		public void sendUsageImpl( CommandSender sender ) 
+		{
 			sender.sendMessage( EdgeCore.usageColor + "/wanted set <target> <lvl>" );
 			sender.sendMessage( EdgeCore.usageColor + "/wanted list [<num>]" );
 			return;
 		}
 
 		@Override
-		public boolean validArgsRange( String[] args ) {
+		public boolean validArgsRange( String[] args ) 
+		{
 			return( args.length >= 2 && args.length <= 4 );
 		}
 		
 	}
 	
-	public enum SearchLevel {
-		
+	public enum SearchLevel 
+	{
 		ZERO(0), ONE(1), TWO(2), THREE(3), FOUR(4), FIVE(5);
 		
 		private final int lvl;
 		
-		private SearchLevel( int lvl ) {
+		private SearchLevel( int lvl ) 
+		{
 			if( lvl >= 0 ) this.lvl = lvl;
 			else this.lvl = 0;
 		}
 		
-		public final int getLevel() {
+		public final int getLevel() 
+		{
 			return lvl;
 		}
 		
-		public static final SearchLevel[] getSearchLevels() {
+		public static final SearchLevel[] getSearchLevels() 
+		{
 			return new SearchLevel[]{ SearchLevel.ZERO, SearchLevel.ONE, SearchLevel.TWO, SearchLevel.THREE, SearchLevel.FOUR, SearchLevel.FIVE };
 		}
 		
-		public static final SearchLevel getInstance( int lvl ) {
-			
-			SearchLevel[] levels = getSearchLevels();
+		public static final SearchLevel getInstance( int lvl ) 
+		{
+			final SearchLevel[] levels = getSearchLevels();
 			
 			for( int i = 0; i < levels.length; i++ ) {
 				if( lvl == levels[i].getLevel() ) {

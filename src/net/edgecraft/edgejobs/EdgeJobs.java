@@ -15,11 +15,13 @@ import net.edgecraft.edgejobs.job.JobCommands;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 
-public class EdgeJobs extends JavaPlugin {
+public class EdgeJobs extends JavaPlugin 
+{
 
 	public static final ChatColor helpColor = ChatColor.GOLD;
 	
@@ -30,19 +32,20 @@ public class EdgeJobs extends JavaPlugin {
 	public static final Logger log = EdgeCore.log;
 	
 	@Override
-	public void onLoad() {
-		
-		instance = this;
-		
-	}
+	public void onLoad() 
+	{
+			instance = this;
+		}
 	
 	@Override
-	public void onEnable() {
-		
+	public void onEnable() 
+	{
 		ConfigHandler.prepare();
 		
-		getServer().getPluginManager().registerEvents( new HandlePlayerEvents(), this );
-		getServer().getPluginManager().registerEvents( new HandleItemEvents(), this );
+		final PluginManager manager = getServer().getPluginManager();
+		
+		manager.registerEvents( new HandlePlayerEvents(), this );
+		manager.registerEvents( new HandleItemEvents(), this );
 		
 		commands.registerCommand( new JobCommand() );
 		commands.registerCommand( new CommandCollection( JobCommands.getInstance() ) );
@@ -53,21 +56,22 @@ public class EdgeJobs extends JavaPlugin {
 	}
 
 	@Override
-	public void onDisable() {
-
+	public void onDisable() 
+	{
 		log.info(EdgeJobs.banner + "EdgeJobs deaktiviert");
 	}
 	
-	public static EdgeJobs getInstance(){
+	public static EdgeJobs getInstance()
+	{
 		return instance;
 	}
 	
-	private void startSchedulers() {
-				
-		BukkitRunnable jpt = (BukkitRunnable) new JobPayTask();
-		BukkitRunnable sjpt = (BukkitRunnable) new SidejobPayTask();
+	private void startSchedulers() 
+	{
+		final BukkitRunnable jpt = (BukkitRunnable) new JobPayTask();
+		final BukkitRunnable sjpt = (BukkitRunnable) new SidejobPayTask();
 		
-		BukkitScheduler scheduler = this.getServer().getScheduler();
+		final BukkitScheduler scheduler = this.getServer().getScheduler();
 		
 		scheduler.runTaskTimerAsynchronously( this, jpt, 40L, 200L);
 		scheduler.runTaskTimerAsynchronously( this, sjpt, 40L, 250L);

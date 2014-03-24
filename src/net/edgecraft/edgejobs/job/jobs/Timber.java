@@ -7,56 +7,47 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import net.edgecraft.edgecore.command.AbstractCommand;
-import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 
-public class Timber extends AbstractJob {
-
+public class Timber extends AbstractJob 
+{
 	public static final Timber instance = new Timber();
 	
-	private final ItemStack axe = new ItemStack( Material.IRON_AXE );
+	private final ItemStack _axe = new ItemStack( Material.IRON_AXE );
 	
-	private Timber() {
+	private Timber() 
+	{
 		super("Timber");
 	}
 	
-	public static final Timber getInstance(){
+	public static final Timber getInstance()
+	{
 		return instance;
 	}
-
-	@Override
-	public AbstractCommand[] jobCommands() {
-		return new AbstractCommand[]{};
-	}
 	
 	@Override
-	public CuboidType whereToStart() {
-			return null;
-	}
-	
-	@Override
-	public void onJobQuit( Player p ) {
+	public void onJobQuit( Player p ) 
+	{
 		final PlayerInventory inv = p.getInventory();
 		
-		ArrayList<ItemStack> wood = new ArrayList<>();
+		final ArrayList<ItemStack> wood = new ArrayList<>();
 		
-		for( ItemStack stack : inv.getContents() ) {
-			
+		for( ItemStack stack : inv.getContents() ) 			
 			if( isWood(stack) ) {
 				wood.add(stack);
 				inv.remove(stack);
 			}
-		}
 		
 		// TODO
 	}
 	
 	
-	private boolean isWood( ItemStack stack ) {
+	private boolean isWood( ItemStack stack ) 
+	{
 		return isWood( stack.getType() );
 	}
-	private boolean isWood( Material m ) {
+	private boolean isWood( Material m ) 
+	{
 		
 		if( m == null ) return false;
 		
@@ -66,7 +57,8 @@ public class Timber extends AbstractJob {
 	}
 
 	@Override
-	public void equipPlayerImpl(Player p) {
-		p.getInventory().addItem( axe );
+	public void equipPlayerImpl(Player p) 
+	{
+		p.getInventory().addItem( _axe );
 	}
 }

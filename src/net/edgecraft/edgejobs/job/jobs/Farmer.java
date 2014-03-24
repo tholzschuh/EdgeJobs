@@ -7,81 +7,78 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import net.edgecraft.edgecore.command.AbstractCommand;
-import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 
-public class Farmer extends AbstractJob {
-
+public class Farmer extends AbstractJob 
+{
 	private final static Farmer instance = new Farmer();
 	
-	private final ItemStack hoe = new ItemStack( Material.IRON_HOE ); 
+	private final ItemStack _hoe = new ItemStack( Material.IRON_HOE ); 
 	
-	private Farmer() {
+	private Farmer() 
+	{
 		super( "Farmer" );
 	}
 	
-	public static final Farmer getInstance() {
+	public static final Farmer getInstance()
+	{
 		return instance;
 	}
-	
-	@Override
-	public AbstractCommand[] jobCommands() {
-		return new AbstractCommand[]{};
-	}
 
 	@Override
-	public void equipPlayerImpl(Player p) {
-		p.getInventory().addItem( hoe );
-	}
-
-	@Override
-	public CuboidType whereToStart() {
-		return null;
+	public void equipPlayerImpl( Player p ) 
+	{
+		p.getInventory().addItem( _hoe );
 	}
 	
 	@Override 
-	public void onJobQuit( Player p ) {
-		
+	public void onJobQuit( Player p ) 
+	{
 		if( p == null ) return;
 		
 		final PlayerInventory inv = p.getInventory();
 		
 		final ArrayList<ItemStack> stuff = new ArrayList<>();
 		
-		for( ItemStack stack : inv.getContents() ) {
-			
-			if( isWheat( stack ) ) {
+		for( ItemStack stack : inv.getContents() ) 
+		{
+			if( isWheat( stack ) ) 
+			{
 				stuff.add( stack );
 				inv.remove( stack );
 				continue;
 			}
 			
-			if( isMelon( stack ) ) {
+			if( isMelon( stack ) ) 
+			{
 				stuff.add( stack );
 				inv.remove( stack );
 				continue;
 			}
 			
-			if( isPumpkin( stack ) ) {
+			if( isPumpkin( stack ) ) 
+			{
 				stuff.add( stack );
 				inv.remove( stack );
 				continue;
 			}
 			
-			if( isMushroom( stack ) ) {
+			if( isMushroom( stack ) ) 
+			{
 				stuff.add( stack );
 				inv.remove( stack );
 				continue;
 			}
 			
-			if( isCocoa( stack ) ) {
+			if( isCocoa( stack ) ) 
+			{
 				stuff.add( stack );
 				inv.remove( stack );
 				continue;
 			}
 			
-			if( isSugar( stack ) ) {
+			if( isSugar( stack ) ) 
+			{
 				stuff.add( stack );
 				inv.remove( stack );
 				continue;
@@ -89,24 +86,23 @@ public class Farmer extends AbstractJob {
 			
 		}
 		
-		
-		//TODO:
+		//TODO: state shop
 		
 	}
 	
-	private boolean isWheat( ItemStack stack ) {
-		
+	private boolean isWheat( ItemStack stack ) 
+	{
 		if( stack == null ) return false;
 
 		if( stack.getType().equals( Material.WHEAT ) ) return true;
 		return false;
 	}
 	
-	private boolean isMelon( ItemStack stack ) {
-		
+	private boolean isMelon( ItemStack stack ) 
+	{
 		if( stack == null ) return false;
 		
-		Material m = stack.getType();
+		final Material m = stack.getType();
 		
 		if( m.equals( Material.MELON ) ) return true;
 		if( m.equals( Material.MELON_BLOCK ) ) return true;
@@ -115,22 +111,22 @@ public class Farmer extends AbstractJob {
 		return false;
 	}
 	
-	private boolean isPumpkin( ItemStack stack ) {
-		
+	private boolean isPumpkin( ItemStack stack ) 
+	{
 		if( stack == null ) return false;
 		
-		Material m = stack.getType();
+		final Material m = stack.getType();
 		
 		if( m.equals( Material.PUMPKIN ) ) return true;
 		
 		return false;
 	}
 	
-	private boolean isMushroom( ItemStack stack ) {
-		
+	private boolean isMushroom( ItemStack stack ) 
+	{
 		if( stack == null ) return false;
 		
-		Material m = stack.getType();
+		final Material m = stack.getType();
 		
 		if( m.equals( Material.BROWN_MUSHROOM ) ) return true;
 		if( m.equals( Material.RED_MUSHROOM ) ) return true;
@@ -140,22 +136,22 @@ public class Farmer extends AbstractJob {
 		return false;
 	}
 	
-	private boolean isCocoa( ItemStack stack ) {
-		
+	private boolean isCocoa( ItemStack stack ) 
+	{
 		if( stack == null ) return false;
 		
-		Material m = stack.getType();
+		final Material m = stack.getType();
 		
 		if(m.equals( Material.COCOA ) ) return true;
 		
 		return false;
 	}
 	
-	private boolean isSugar( ItemStack stack ) {
-		
+	private boolean isSugar( ItemStack stack ) 
+	{
 		if( stack == null ) return false;
 		
-		Material m = stack.getType();
+		final Material m = stack.getType();
 		
 		if( m.equals( Material.SUGAR ) ) return true;
 		if( m.equals( Material.SUGAR_CANE ) ) return true;

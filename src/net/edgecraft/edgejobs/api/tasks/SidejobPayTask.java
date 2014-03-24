@@ -13,33 +13,30 @@ import net.edgecraft.edgejobs.api.JobManager;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
-public class SidejobPayTask extends BukkitRunnable {
-
+public class SidejobPayTask extends BukkitRunnable 
+{
 	private static final UserManager users = EdgeCoreAPI.userAPI();
 	private static final Economy economy = EdgeConomyAPI.economyAPI();
 	private static final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
 	
 	@Override
-	public void run() {
+	public void run() 
+	{
 		
-		for(User u : users.getUsers().values() ){
-			
-			AbstractSidejob job = JobManager.getSidejobByUser( u );
+		for( User u : users.getUsers().values() )
+		{
+			final AbstractSidejob job = JobManager.getSidejobByUser( u );
 			
 			if(job == null) continue;
 			
-			if( job.hasDoneWork( u ) ){
-				
-				BankAccount state = economy.getAccount(0); // TODO: Change to account from state @Panjab :P
-				BankAccount user = economy.getAccount(u.getID());
-				String message = EdgeCoreAPI.languageAPI().getColoredMessage( u.getLanguage(), "job_transaction");
+			if( job.hasDoneWork( u ) )
+			{
+				final BankAccount state = economy.getAccount(0); // TODO: Change to account from state @Panjab :P
+				final BankAccount user = economy.getAccount(u.getID());
+				final String message = EdgeCoreAPI.languageAPI().getColoredMessage( u.getLanguage(), "job_transaction");
 				
 				transactions.addTransaction(state, user, job.getPay(), message);
-				
 			}
-			
 		}
-		
 	}
-	
 }

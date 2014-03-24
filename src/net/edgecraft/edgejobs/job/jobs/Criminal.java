@@ -2,7 +2,6 @@ package net.edgecraft.edgejobs.job.jobs;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.user.User;
-import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
@@ -19,101 +18,83 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class Criminal extends AbstractJob implements Listener {
-
+public class Criminal extends AbstractJob implements Listener 
+{
 	private static final Criminal instance = new Criminal();
 	
-	private Criminal() {
+	private Criminal() 
+	{
 		super( "Criminal" );
 		Bukkit.getServer().getPluginManager().registerEvents(this, EdgeJobs.getInstance());
 	}
 	
-	public static final Criminal getInstance(){
+	public static final Criminal getInstance()
+	{
 		return instance;
 	}
 	
 	@EventHandler
-	public void onDrug(PlayerInteractEvent e){
+	public void onDrug( PlayerInteractEvent e )
+	{
 		
-		if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK){
+		if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)
+		{
+			final ItemStack item = e.getItem();
 			
-			ItemStack item = e.getItem();
+			if( item == null ) return;
 			
-			if(item != null){
 				
-				if(item.getType() == Material.SUGAR){
-					
-					if(item.getItemMeta().getDisplayName() == "Kokain"){
-						
-						e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300, 20));
-						
-						//TODO: Add happiness
-						
-					}
-					
-				}
-				
+			if( item.getType().equals( Material.SUGAR ) && item.getItemMeta().getDisplayName().equalsIgnoreCase( "Cocaine" )){
+					e.getPlayer().addPotionEffect( new PotionEffect( PotionEffectType.SPEED, 300, 20 ) );
 			}
-			
 		}
-		
 	}
 	
-	private static class CommandCocaine extends AbstractJobCommand {
-
-		public CommandCocaine() {
+	private static class CocaineCommand extends AbstractJobCommand 
+	{
+		public CocaineCommand() 
+		{
 			super(getInstance());
 		}
 
 		@Override
-		public String[] getNames() {
-			return new String[]{ "cocaine", "kokain" };
+		public String[] getNames() 
+		{
+			return new String[]{ "cocaine" };
 		}
 
 		@Override
-		public boolean runImpl(Player player, User user, String[] args) throws Exception {
+		public boolean runImpl(Player player, User user, String[] args) throws Exception 
+		{
+			final ItemStack sucre = player.getItemInHand();
 			
-			ItemStack sucre = player.getItemInHand();
-			
-			if(!(sucre.getType() == Material.SUGAR)){
-				
+			if( !( sucre.getType().equals( Material.SUGAR ) ) )
+			{
 				player.sendMessage(lang.getColoredMessage("de", "job_criminal_onlysugar"));
-				
 				return true;
 			}
 			
-			sucre.getItemMeta().setDisplayName("Kokain");
-			
+			sucre.getItemMeta().setDisplayName("Cocaine");
 			return true;
 		}
 
 		@Override
-		public boolean validArgsRange(String[] arg0) {
-			return true;
+		public boolean validArgsRange( String[] args ) 
+		{
+			return ( args.length == 1 );
 		}
 
 		@Override
-		public void sendUsageImpl(CommandSender arg0) {
-			arg0.sendMessage("/<command> <- Du musst Zucker in der Hand halten");
+		public void sendUsageImpl( CommandSender sender ) 
+		{
+			sender.sendMessage("/cocaine");
 		}
 		
 	}
 	
 	@Override
-	public AbstractCommand[] jobCommands() {
-		return new AbstractCommand[]{
-				new CommandCocaine(),
-		};
+	public AbstractCommand[] jobCommands() 
+	{
+		return new AbstractCommand[]{ new CocaineCommand() };
 	}
-
-	@Override
-	public void equipPlayerImpl(Player p) {
-		//TODO: Fill function
-	}
-
-	@Override
-	public CuboidType whereToStart() {
-		return null;
-	}
-
 }
