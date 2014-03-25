@@ -10,44 +10,71 @@ import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
 
-public abstract class AbstractJob {
+public abstract class AbstractJob 
+{
 
 	private static final HashMap<Player, PlayerInventory> inventories = new HashMap<>();
 	
-	private String name;
-	private double pay;
+	private String _name;
+	private double _pay;
 	
-	public AbstractJob( String name ) {
+	public AbstractJob( String name ) 
+	{
 		setName( name );
 		setPay( ConfigHandler.getJobPay( name ) );
 	}
 	
-	public String getName() {
-		return this.name;
+	public final String getName() 
+	{
+		return _name;
 	}
 	
-	public final double getPay(){
-		return this.pay;
+	public final double getPay()
+	{
+		return _pay;
 	}
 	
-	private final void setName( String name ) {
+	private final void setName( String name ) 
+	{
 		if( name == null || name.trim().length() == 0 ) return;
 		
-		this.name = name;
+		_name = name;
 	}
 	
-	private final void setPay( double pay ) {
-		this.pay = Math.abs( pay );
+	private final void setPay( double pay ) 
+	{
+		_pay = Math.abs( pay );
 	}
 	
-	public abstract AbstractCommand[] jobCommands();
-	public abstract void equipPlayerImpl( Player p );
+	// Optional Override-Possibility
+	public AbstractCommand[] jobCommands()
+	{
+		return new AbstractCommand[]{};
+	}
 	
-	public abstract CuboidType whereToStart();
+	// Optional Override-Possibility
+	public void equipPlayerImpl( Player p )
+	{
+		return;
+	}
 	
-	public void equipPlayer( Player p ) {
-		
-		if( p == null || !JobManager.isWorking(p) || !JobManager.getJob(p).equals(JobManager.getJob(name))) return;
+	// Optional Override-Possibility
+	public CuboidType whereToStart()
+	{
+		return null;
+	}
+	
+	// Optional Override-Possibility
+	public void onJobQuit( Player p ) 
+	{
+		return;
+	}
+	
+	
+	
+	public void equipPlayer( Player p ) 
+	{
+		if( p == null || !JobManager.isWorking(p) || !JobManager.getJob(p).equals(JobManager.getJob( _name ))) return;
 		
 		inventories.put( p, p.getInventory() );
 		p.getInventory().clear();
@@ -55,25 +82,22 @@ public abstract class AbstractJob {
 		equipPlayerImpl( p );
 	}
 	
-	public void unequipPlayer( Player p ) {
+	public void unequipPlayer( Player p ) 
+	{
 		
 		if( p == null ) return;
 		p.getInventory().setContents( inventories.get(p).getContents() );
 	}
 	
 	@Override
-	public int hashCode() {
-		return name.hashCode();
+	public int hashCode() 
+	{
+		return _name.hashCode();
 	}
-	
-	public void onJobQuit( Player p ) {
-		//Optional Override-Possibility
-		return;
-	}
-	
+
 	@Override
-	public boolean equals( Object another ) {
-		
+	public boolean equals( Object another ) 
+	{
 		if( this == another ) return true;
 		if( another == null ) return false;
 		if( getClass() != another.getClass() ) return false;
@@ -83,18 +107,21 @@ public abstract class AbstractJob {
 		return false;
 	}
 	
-	public boolean equals( String another ) {
+	public boolean equals( String another ) 
+	{
 		if( another != null && another.trim().length() > 0 && getName().equalsIgnoreCase( another ) )
 			return true;
 		
 		return false;
 	}
 	
-	public static PlayerInventory getOldPlayerInventory( Player p ) {
+	public static PlayerInventory getOldPlayerInventory( Player p ) 
+	{
 		return inventories.get( p );
 	}
 	
-	public static void clearOldPlayerInventory( Player p ) {
+	public static void clearOldPlayerInventory( Player p ) 
+	{
 		inventories.get(p).clear();
 	}
 }

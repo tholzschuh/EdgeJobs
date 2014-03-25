@@ -19,7 +19,6 @@ import net.edgecraft.edgecore.command.Level;
 import net.edgecraft.edgecore.lang.LanguageHandler;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecore.user.UserManager;
-import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
@@ -30,38 +29,40 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class Killer extends AbstractSidejob {
-
+public class Killer extends AbstractSidejob 
+{
 	private static final Killer instance = new Killer();
 	
 	private static final HashMap<KillContractPayload, ArrayList<User>> contracts = new HashMap<KillContractPayload, ArrayList<User>>();
 	
-	private Killer() {
+	private Killer() 
+	{
 		super( "Killer" );
 		Bukkit.getServer().getPluginManager().registerEvents( new ManagePlayerDeathEvent(), EdgeJobs.getInstance() );
 	}
 	
-	public static final Killer getInstance() {
+	public static final Killer getInstance() 
+	{
 		return instance;
 	}
 	
 	
-	public void addContract( User killer, KillContractPayload details ) {
-		
+	public void addContract( User killer, KillContractPayload details ) 
+	{
 		if( killer == null || details == null || !JobManager.getJob( killer ).equals(Killer.getInstance()))
 			return;
 		
 		ArrayList<User> killers = contracts.get( details );
 		
-		if( killers == null ) {
-			
+		if( killers == null ) 
+		{
 			killers = new ArrayList<User>();	
 		}
 		
-		for( KillContractPayload tmp : contracts.keySet() ) {
-			if( tmp.equals( details ) ) {
+		for( KillContractPayload tmp : contracts.keySet() ) 
+		{
+			if( tmp.equals( details ) ) 
 				details.addEmployers( tmp.getEmployers() );
-			}
 		}
 		
 		killers.add( killer );
@@ -69,66 +70,54 @@ public class Killer extends AbstractSidejob {
 		contracts.put( details, killers );
 	}
 	
-	public void addContract( User killer, User employer, User target, int bounty ) {
-		
-		KillContractPayload details = new KillContractPayload( null, target );
+	public void addContract( User killer, User employer, User target, int bounty ) 
+	{
+		final KillContractPayload details = new KillContractPayload( null, target );
 		details.addEmployer( employer, bounty );
 		
 		addContract( killer, details );
-		
 	}
 	
-	public void setContract( ArrayList<User> killer, KillContractPayload details ) {
-		
+	public void setContract( ArrayList<User> killer, KillContractPayload details ) 
+	{
 		if( killer == null || details == null ) return;
 		
-		for( User cur : killer ) {
+		for( User cur : killer ) 
 			if( !JobManager.getJob( cur ).equals( Killer.getInstance() ) )
 				return;
-		}
-		
+
 		contracts.put( details, killer );
 	}
 	
-	public HashMap<KillContractPayload, ArrayList<User>> getContracts() {
+	public HashMap<KillContractPayload, ArrayList<User>> getContracts() 
+	{
 		return Killer.contracts;
 	}
 	
 
 	@Override
-	public boolean hasDoneWork( User u ) {
+	public boolean hasDoneWork( User u ) 
+	{
 		// Checked through ManagePlayerDeathEvent
 		return false;
 	}
 
 	@Override
-	public AbstractCommand[] jobCommands() {
+	public AbstractCommand[] jobCommands() 
+	{
 		return new AbstractCommand[]{ KillerCommand.getInstance() };
 	}
-	
-	@Override
-	public void equipPlayerImpl( Player p ) {
-		return;
-	}
 
-	@Override
-	public CuboidType whereToStart() {
-		return null;
-	}
-
-	/*
-	 * 
-	 */
-	public static class KillContractPayload {
-		
+	public static class KillContractPayload 
+	{
 		private final int _id;
 		private HashMap<User, Integer> _employers;
 		private User _target;
 		
 		private static int greatestID;
 		
-		public KillContractPayload( HashMap<User, Integer> employers, User target ) {
-			
+		public KillContractPayload( HashMap<User, Integer> employers, User target ) 
+		{
 			_id = greatestID;
 			++Killer.KillContractPayload.greatestID;
 			
@@ -136,23 +125,24 @@ public class Killer extends AbstractSidejob {
 			setTarget( target );
 		}
 		
-		public KillContractPayload( User target ) {
+		public KillContractPayload( User target ) 
+		{
 			this( null, target );
 		}
 		
-		private void setEmployers( HashMap<User, Integer> employers ) {
-			
+		private void setEmployers( HashMap<User, Integer> employers ) 
+		{
 			if( employers == null ) 
 					employers = new HashMap<User, Integer>();
 			
-			for( User empl : employers.keySet() ) {
+			for( User empl : employers.keySet() ) 
 				if( !Level.canUse( empl, Level.USER ) ) return;
-			}
-			
+
 			_employers = employers;
 		}
 		
-		private void setTarget( User target ) {
+		private void setTarget( User target ) 
+		{
 			if( target == null )
 				return;
 						
@@ -160,56 +150,60 @@ public class Killer extends AbstractSidejob {
 		}
 		
 		
-		public int getID() {
+		public int getID() 
+		{
 			return _id;
 		}
 		
-		public HashMap<User, Integer> getEmployers() {
+		public HashMap<User, Integer> getEmployers() 
+		{
 			return _employers;
 		}
 		
-		public int getBounty( User empl ) {
-			
+		public int getBounty( User empl ) 
+		{
 			if( empl == null ) return 0;
 			
 			return _employers.get( empl );
 		}
 		
 		
-		public User getTarget() {
+		public User getTarget() 
+		{
 			return _target;
 		}
 		
-		public int getBounty() {
+		public int getBounty() 
+		{
 			int bounty = 0;
 			
-			for( Entry<User, Integer> tmp : _employers.entrySet() ) {
+			for( Entry<User, Integer> tmp : _employers.entrySet() ) 
 				bounty += tmp.getValue();
-			}
 			
 			return bounty;
 		}
 		
-		public void addEmployer( User employer, int bounty ) {
+		public void addEmployer( User employer, int bounty ) 
+		{
 			if( employer == null || bounty < 0 || !Level.canUse(employer, Level.USER) )
 				return;
 			
 			_employers.put( employer, bounty );
 		}
 		
-		public void addEmployers( HashMap<User, Integer> empls ) {
+		public void addEmployers( HashMap<User, Integer> empls ) 
+		{
 			if( empls == null ) return;
 			
-			for( User tmp : empls.keySet() ) {
+			for( User tmp : empls.keySet() ) 
 				if( !Level.canUse( tmp, Level.USER) ) return;
-			}
 			
 			_employers.putAll( empls );
 		}
 		
-		public String getEmployersAsString() {
-			
-			StringBuilder empls = new StringBuilder();
+		public String getEmployersAsString() 
+		{
+			final StringBuilder empls = new StringBuilder();
 			
 			for( User empl : getEmployers().keySet() ) {
 				if( empls.length() == 0 ) empls.append( "[ " + empl.getName() );
@@ -222,20 +216,21 @@ public class Killer extends AbstractSidejob {
 		}
 		
 		@Override
-		public int hashCode() {
+		public int hashCode() 
+		{
 			return getTarget().hashCode();
 		}
 		
 		@Override
-		public boolean equals( Object another ) {
-			
+		public boolean equals( Object another ) 
+		{
 			if( another == this ) return true;
 			if( another == null ) return false;
 			if( getClass() != another.getClass() ) return false;
 			
-			KillContractPayload load = (KillContractPayload) another;
+			final KillContractPayload load = (KillContractPayload) another;
 			
-			if( getTarget().equals( load.getTarget() ))
+			if( getTarget().equals( load.getTarget() ) )
 				return true;
 			
 			return false;
@@ -243,56 +238,61 @@ public class Killer extends AbstractSidejob {
 		
 	}
 	
-	/* 
-	 *
-	 */
-	public static class KillerCommand extends AbstractJobCommand {
+	public static class KillerCommand extends AbstractJobCommand 
+	{
 
-		public KillerCommand() {
+		private static final UserManager users = EdgeCoreAPI.userAPI();
+		
+		
+		private static final KillerCommand instance = new KillerCommand();
+		
+		public KillerCommand() 
+		{
 			super( null );
 		}
-
-		private static KillerCommand instance = new KillerCommand();
 		
-		private final UserManager users = EdgeCoreAPI.userAPI();
-		
-		
-		public static final KillerCommand getInstance() {
+		public static final KillerCommand getInstance() 
+		{
 			return instance;
 		}
 
 		@Override
-		public String[] getNames() {
+		public String[] getNames() 
+		{
 			return new String[]{ "killer" };
 		}
 
 		@Override
-		public boolean runImpl( Player player, User user, String[] args ) {
-			
+		public boolean runImpl( Player player, User user, String[] args ) 
+		{
 			final Killer killer = Killer.getInstance();
 			final HashMap<KillContractPayload, ArrayList<User>> contracts = killer.getContracts();
 			
-			if( args.length == 4 && args[1].equalsIgnoreCase( "create-contract" ) ) {
-				
+			if( args.length == 4 && args[1].equalsIgnoreCase( "create-contract" ) ) 
+			{
 				User target = null;
 				int bounty;
 				
-				try {
+				try 
+				{
 					target = users.getUser( args[2] );
 					bounty = Integer.valueOf( args[3] );
 					
-				} catch( NumberFormatException  e ) {
+				} 
+				catch( NumberFormatException  e ) 
+				{
 					sendUsage( player );
 					return true;
 				}
 				
-				if( target == null ) {
+				if( target == null ) 
+				{
 					player.sendMessage( EdgeCore.errorColor + "Target not registered!" );
 					return false;
 				}
 				
 				
-				KillContractPayload payload = new KillContractPayload( target );
+				final KillContractPayload payload = new KillContractPayload( target );
 				payload.addEmployer( user , bounty );
 				
 				killer.addContract( null,  payload );
@@ -300,39 +300,44 @@ public class Killer extends AbstractSidejob {
 				return true;
 			}
 			
-			if( !JobManager.canUse( user , Job.KILLER ) ) {
+			if( !JobManager.canUse( user , Job.KILLER ) ) 
+			{
 				lang.getColoredMessage( user.getLanguage(), "job_wrongjob" );
 				return false;
 			}
 			
-			if( args.length == 2 && args[1].equalsIgnoreCase( "list-contracts" ) ) {
-				
-				for( KillContractPayload details : contracts.keySet() ) {
-					
+			if( args.length == 2 && args[1].equalsIgnoreCase( "list-contracts" ) ) 
+			{
+				for( KillContractPayload details : contracts.keySet() ) 
 					player.sendMessage( "Employers: " + details.getEmployersAsString() + ", Target: " + details.getTarget() + ", bounty: " + details.getBounty() );
-				}
 				
 				return true;
 			}
 			
-			if( args.length == 3 && args[1].equalsIgnoreCase( "accept-contract" ) ) {
-				
-				if( !JobManager.getJob( user ).equals( killer ) ) {
+			if( args.length == 3 && args[1].equalsIgnoreCase( "accept-contract" ) ) 
+			{
+				if( !JobManager.getJob( user ).equals( killer ) ) 
+				{
 					player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_wrongjob" ) );
 					return false;
 				}
 				
 				int id = 0;
 				
-				try {
+				try 
+				{
 					id = Integer.valueOf( args[2] );
-				} catch( NumberFormatException e ) {
+				} 
+				catch( NumberFormatException e ) 
+				{
 					sendUsage( player );
 					return true;
 				}
 				
-				for( KillContractPayload payload : contracts.keySet() ) {
-					if( id == payload.getID() ) {
+				for( KillContractPayload payload : contracts.keySet() ) 
+				{
+					if( id == payload.getID() ) 
+					{
 						killer.addContract( user, payload );
 						player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_killer_acceptec").replace( "[1]" , payload.getTarget().getName()) );
 						return true;
@@ -340,18 +345,18 @@ public class Killer extends AbstractSidejob {
 				}
 				
 			}
-			
 			return true;
 		}
 
 		@Override
-		public boolean validArgsRange( String[] args ) {
+		public boolean validArgsRange( String[] args ) 
+		{
 			return ( args.length >= 2 && args.length <= 4 );
 		}
 
 		@Override
-		public void sendUsageImpl( CommandSender sender ) {
-			
+		public void sendUsageImpl( CommandSender sender ) 
+		{
 			sender.sendMessage( EdgeCore.usageColor + "/killer create-contract <target> <bounty>" );
 			
 			User u = users.getUser( ((Player)sender).getName() );
@@ -366,36 +371,39 @@ public class Killer extends AbstractSidejob {
 		}
 
 		@Override
-		public Level getLevel() {
+		public Level getLevel() 
+		{
 			return Level.USER;
 		}
 	}
 	
-	/*
-	 *
-	 */
-	public static class ManagePlayerDeathEvent implements Listener {
-		
-		private final HashMap<KillContractPayload, ArrayList<User>> contracts = Killer.getInstance().getContracts();
-		private final UserManager users = EdgeCoreAPI.userAPI();
-		private final Economy economy = EdgeConomyAPI.economyAPI();
-		private final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
-		private final LanguageHandler lang = EdgeCoreAPI.languageAPI();
+	public static class ManagePlayerDeathEvent implements Listener 
+	{
+		private final static HashMap<KillContractPayload, ArrayList<User>> contracts = Killer.getInstance().getContracts();
+		private final static UserManager users = EdgeCoreAPI.userAPI();
+		private final static Economy economy = EdgeConomyAPI.economyAPI();
+		private final static TransactionManager transactions = EdgeConomyAPI.transactionAPI();
+		private final static LanguageHandler lang = EdgeCoreAPI.languageAPI();
 		
 		//TODO: Add hasDoneWork( true ) function? 
 		@EventHandler
-		public void onPlayerDeath( PlayerDeathEvent pde ) {
-			
-			for( KillContractPayload tmpPayload : contracts.keySet() ) {
+		public void onPlayerDeath( PlayerDeathEvent pde ) 
+		{
+			for( KillContractPayload tmpPayload : contracts.keySet() ) 
+			{
 				
-				if( tmpPayload.getTarget().equals( users.getUser( pde.getEntity().getName() ) ) ) {
-					for( User u : contracts.get( tmpPayload ) ) {
-						if( pde.getEntity().getKiller().equals( u.getPlayer() ) && JobManager.getJob( u ).equals( Killer.getInstance() ) && JobManager.isWorking( u.getPlayer() ) ) {					
+				if( tmpPayload.getTarget().equals( users.getUser( pde.getEntity().getName() ) ) ) 
+				{
+					for( User u : contracts.get( tmpPayload ) ) 
+					{
+						if( pde.getEntity().getKiller().equals( u.getPlayer() ) && JobManager.getJob( u ).equals( Killer.getInstance() ) && JobManager.isWorking( u.getPlayer() ) ) 
+						{					
 							
-							BankAccount killerAcc = economy.getAccount( u.getID() );
+							final BankAccount killerAcc = economy.getAccount( u.getID() );
 							
-							for( User tmp : tmpPayload.getEmployers().keySet() ) {
-								BankAccount tmpAcc = economy.getAccount( tmp.getID() );
+							for( User tmp : tmpPayload.getEmployers().keySet() ) 
+							{
+								final BankAccount tmpAcc = economy.getAccount( tmp.getID() );
 								transactions.addTransaction( tmpAcc, killerAcc, tmpPayload.getBounty( tmp ), pde.getEntity().getKiller().getName() + " murdered " + pde.getEntity().getName());
 							}
 							u.getPlayer().sendMessage( lang.getColoredMessage( u.getLanguage(), "job_transaction") );

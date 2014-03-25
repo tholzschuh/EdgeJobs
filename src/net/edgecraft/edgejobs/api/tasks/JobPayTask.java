@@ -16,33 +16,32 @@ import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class JobPayTask extends BukkitRunnable {
-
+public class JobPayTask extends BukkitRunnable 
+{
 	private static final UserManager users = EdgeCoreAPI.userAPI();
 	private static final Economy economy = EdgeConomyAPI.economyAPI();
 	private static final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
 	
 	@Override
-	public void run() {
+	public void run() 
+	{
+		final String time = new SimpleDateFormat( "HH" ).format( new Date( System.currentTimeMillis() ) );
 		
-		String time = new SimpleDateFormat( "HH" ).format( new Date( System.currentTimeMillis() ) );
-		
-		if( time.equals( ConfigHandler.getPayHour() ) ) {
+		if( time.equals( ConfigHandler.getPayHour() ) ) 
+		{
 			
-			for( User u : users.getUsers().values() ) {
+			for( User u : users.getUsers().values() ) 
+			{
+				final AbstractJob job = JobManager.getJob( u );
 				
-				AbstractJob job = JobManager.getJob( u );
+				if( job == null ) continue;
 				
-				if(job == null) continue;
-				
-				BankAccount state = economy.getAccount(0); // TODO: Change to account from state @Panjab :P
-				BankAccount useracc = economy.getAccount( u.getID() );
-				String message = EdgeCoreAPI.languageAPI().getColoredMessage( u.getLanguage(), "job_transaction");
+				final BankAccount state = economy.getAccount(0); // TODO: Change to account from state @Panjab :P
+				final BankAccount useracc = economy.getAccount( u.getID() );
+				final String message = EdgeCoreAPI.languageAPI().getColoredMessage( u.getLanguage(), "job_transaction");
 				
 				transactions.addTransaction( state, useracc, job.getPay(), message );
-				
 			}
-			
 		}
 		
 	}

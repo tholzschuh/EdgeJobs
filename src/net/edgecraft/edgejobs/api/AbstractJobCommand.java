@@ -9,34 +9,38 @@ import net.edgecraft.edgejobs.job.JobCommands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public abstract class AbstractJobCommand extends AbstractCommand {
-
-	private final AbstractJob job;
+public abstract class AbstractJobCommand extends AbstractCommand 
+{
+	private final AbstractJob _job;
 	
-	public AbstractJobCommand( AbstractJob  job ) {
-		
-		if( job == null ) this.job = Job.DEFAULT_JOB.getJob();
-		else this.job = job;
+	public AbstractJobCommand( AbstractJob  job ) 
+	{
+		if( job == null ) _job = Job.DEFAULT_JOB.getJob();
+		else _job = job;
 		
 		JobCommands.getInstance().registerCommand( this );
 	}
 	
-	public AbstractJob getJob() {
-		return job;
+	public AbstractJob getJob() 
+	{
+		return _job;
 	}
 	
-	public String getJobName(){
-		return job.getName();
+	public String getJobName()
+	{
+		return _job.getName();
 	}
 	
 	@Override
-	public Level getLevel() {
+	public Level getLevel() 
+	{
 		return Level.USER; // Every user can do Job-Commands
 	}
 	
-	public final boolean run( Player player, User user, String[] args ) throws Exception {
+	public final boolean run( Player player, User user, String[] args ) throws Exception 
+	{
 		
-		AbstractJob job = JobManager.getJob( user );
+		final AbstractJob job = JobManager.getJob( user );
 		
 		if( getJobName().equalsIgnoreCase( job.getName() ) || job.equals( Job.DEFAULT_JOB.getJob() ) )
 			return super.run( player, args );
@@ -48,7 +52,8 @@ public abstract class AbstractJobCommand extends AbstractCommand {
 	}
 	
 	@Override
-	public final boolean sysAccess(CommandSender sender, String[] args) {
+	public final boolean sysAccess(CommandSender sender, String[] args) 
+	{
 		sender.sendMessage(lang.getColoredMessage("de", "noconsole"));
 		return true; // Console cant do Job-Commands
 	}

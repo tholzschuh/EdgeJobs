@@ -15,31 +15,34 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class JobCommand extends AbstractCommand {
-	
+public class JobCommand extends AbstractCommand 
+{
 	private static final UserManager users = EdgeCoreAPI.userAPI();
 
 	private static final String[] jobnames = { "job" };
 	private static final String[] sidejobnames = { "sidejob" };
 	
 	@Override
-	public Level getLevel() {
+	public Level getLevel() 
+	{
 		return Level.USER;
 	}
 
 	@Override
-	public String[] getNames() {
+	public String[] getNames() 
+	{
 		return (String[]) ArrayUtils.addAll( jobnames, sidejobnames );
 	}
 	
 	@Override
-	public boolean validArgsRange(String[] args) {
-		
+	public boolean validArgsRange(String[] args) 
+	{
 		return ( args.length >= 2 && args.length <= 4 );
 	}
 	
 	@Override
-	public void sendUsageImpl( CommandSender sender ) {		
+	public void sendUsageImpl( CommandSender sender ) 
+	{		
 		if( !(sender instanceof Player) ) return;
 						
 		sender.sendMessage( EdgeCore.usageColor + "/job join [job]" );
@@ -56,34 +59,36 @@ public class JobCommand extends AbstractCommand {
 
 
 	@Override
-	public boolean runImpl( Player player, User user, String[] args ) {
+	public boolean runImpl( Player player, User user, String[] args ) 
+	{
+		final String userLang = user.getLanguage();
 		
-		String userLang = user.getLanguage();
-		
-		if( args[1].equalsIgnoreCase( "join" ) ) {
-			
-			if( args.length < 1 || args.length > 2 ) {
+		if( args[1].equalsIgnoreCase( "join" ) ) 
+		{
+			if( args.length < 1 || args.length > 2 ) 
+			{
 				sendUsage( player );
 				return false;
 			}
 			
-			if( JobManager.isWorking( player ) ) {
+			if( JobManager.isWorking( player ) ) 
+			{
 				player.sendMessage(lang.getColoredMessage("de", "job_isworking"));
 				return true;
 			}
 			
 			AbstractJob job = JobManager.getJob( args[1] );
 			
-			if( args.length == 2 ) {
-
+			if( args.length == 2 ) 
+			{
 				job = null;
 				job = JobManager.getJobByName( args[1] );
 		
 				if( job == null ) job = JobManager.getSidejobByName( args[1] );
 			} 	
 			
-			if( job == null ) {
-				
+			if( job == null ) 
+			{
 				player.sendMessage(lang.getColoredMessage("de", "job_nojob"));
 				return true;
 			}
@@ -96,22 +101,24 @@ public class JobCommand extends AbstractCommand {
 			return true;
 		}
 		
-		else if( args[1].equalsIgnoreCase( "leave" ) ) {
-			
-			if( args.length != 2 ) {
+		else if( args[1].equalsIgnoreCase( "leave" ) ) 
+		{
+			if( args.length != 2 ) 
+			{
 				sendUsage( player );
 				return true;
 			}
 			
-			if( !JobManager.isWorking( player ) ) {
+			if( !JobManager.isWorking( player ) ) 
+			{
 				player.sendMessage(lang.getColoredMessage("de", "job_isnotworking"));
 				return true;
 			}
 			
-			AbstractJob job = JobManager.getJob( user );
+			final AbstractJob job = JobManager.getJob( user );
 			
-			if(job == null){
-				
+			if(job == null)
+			{
 				player.sendMessage(lang.getColoredMessage("de", "job_nojob"));
 				return true;
 			}
@@ -124,28 +131,32 @@ public class JobCommand extends AbstractCommand {
 			return true;
 		}
 		
-		if( args[1].equalsIgnoreCase( "setjob" ) ) {
-			
-				if( args.length != 4 ) {
+		if( args[1].equalsIgnoreCase( "setjob" ) ) 
+		{
+				if( args.length != 4 ) 
+				{
 					sendUsage( player );
 					return true;
 				}
 			
-				if( !Level.canUse( user, Level.MODERATOR ) ) {
+				if( !Level.canUse( user, Level.MODERATOR ) ) 
+				{
 					player.sendMessage( EdgeCore.errorColor + EdgeCoreAPI.languageAPI().getColoredMessage( userLang, "nopermission") );
 					return false;
 				}
 					
-				Player target = Bukkit.getPlayer( args[2] );
+				final Player target = Bukkit.getPlayer( args[2] );
 				
-				if( !target.isOnline() ){
+				if( !target.isOnline() )
+				{
 					player.sendMessage(EdgeCore.errorColor + EdgeCore.getLang().getColoredMessage( userLang, "notfound" ) );
 					return true;
 				}		
 
-				AbstractJob job = JobManager.getJob( args[3] );
+				final AbstractJob job = JobManager.getJob( args[3] );
 					
-				if( job == null ) {
+				if( job == null ) 
+				{
 					player.sendMessage( EdgeCore.errorColor + EdgeCore.getLang().getColoredMessage( userLang, "jobnotfound" ) );
 					return false;
 				}
@@ -159,8 +170,9 @@ public class JobCommand extends AbstractCommand {
 	}
 	
 	@Override
-	public boolean sysAccess(CommandSender arg0, String[] arg1) {
-		arg0.sendMessage(lang.getColoredMessage("de", "noconsole"));
+	public boolean sysAccess( CommandSender sender, String[] args ) 
+	{
+		sender.sendMessage(lang.getColoredMessage("de", "noconsole"));
 		return true;
 	}
 }
