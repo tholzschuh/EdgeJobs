@@ -18,8 +18,7 @@ import net.edgecraft.edgejobs.job.jobs.Timber;
 
 public enum Job 
 {
-	DEFAULT_JOB( 0, DefaultJob.getInstance() ),
-	DEFAULT_SIDEJOB( 1, DefaultSidejob.getInstance() ),
+	NO_JOB( 1, NoJob.getInstance() ),
 	FIREFIGHTER( 2, Firefighter.getInstance() ),
 	POLICEMAN( 3, Policeman.getInstance() ),
 	DOCTOR( 4, Doctor.getInstance() ),
@@ -45,7 +44,7 @@ public enum Job
 		if( job != null ) 
 			_job = job;
 		else 
-			_job = DefaultJob.getInstance();
+			_job = NoJob.getInstance();
 	}
 	
 	public final int getID() 
@@ -64,12 +63,12 @@ public enum Job
 		for( Job job : getJobs() ) 
 			if( job.getID() == id ) return job;
 		
-		return Job.DEFAULT_JOB;
+		return Job.NO_JOB;
 	}
 	
 	public final static Job[] getJobs() 
 	{
-		return new Job[]{ Job.DEFAULT_JOB, Job.DEFAULT_SIDEJOB, Job.FIREFIGHTER, Job.POLICEMAN, Job.DOCTOR, Job.MINER, Job.FARMER, Job.TIMBER, Job.BLACKSMITH, Job.DRIVING_INSTRUCTOR, Job.AIRMAN, Job.SAILOR, Job.BROKER, Job.REPORTER, Job.CRIMINAL, Job.KILLER };
+		return new Job[]{ Job.NO_JOB, Job.FIREFIGHTER, Job.POLICEMAN, Job.DOCTOR, Job.MINER, Job.FARMER, Job.TIMBER, Job.BLACKSMITH, Job.DRIVING_INSTRUCTOR, Job.AIRMAN, Job.SAILOR, Job.BROKER, Job.REPORTER, Job.CRIMINAL, Job.KILLER };
 	}
 	
 	

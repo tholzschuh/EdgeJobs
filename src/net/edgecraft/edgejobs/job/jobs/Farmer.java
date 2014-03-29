@@ -7,11 +7,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import net.edgecraft.edgecore.EdgeCoreAPI;
+import net.edgecraft.edgecore.user.UserManager;
+import net.edgecraft.edgecuboid.other.EdgeItemStack;
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.partitions.Partition;
+import net.edgecraft.edgejobs.partitions.PartitionManager;
 
 public class Farmer extends AbstractJob 
 {
 	private final static Farmer instance = new Farmer();
+	
+	private static final UserManager users = EdgeCoreAPI.userAPI();
 	
 	private final ItemStack _hoe = new ItemStack( Material.IRON_HOE ); 
 	
@@ -86,7 +93,13 @@ public class Farmer extends AbstractJob
 			
 		}
 		
-		//TODO: state shop
+		final Partition partition = PartitionManager.getPartitionByParticipant( users.getUser( p.getName() ) );
+		
+		for( ItemStack stack : stuff )
+		{
+			partition.getStore().addItem( new EdgeItemStack( stack ), 0 );
+		}
+		return;	
 		
 	}
 	
