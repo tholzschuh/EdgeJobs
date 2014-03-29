@@ -1,7 +1,9 @@
 package net.edgecraft.edgejobs.partitions;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecuboid.cuboid.Cuboid;
 import net.edgecraft.edgecuboid.shop.Shop;
@@ -11,27 +13,36 @@ import net.edgecraft.edgejobs.api.JobManager;
 public class Partition {
 
 	private AbstractJob _job;
-	private User _owner;
+	private int _ownerID;
 	private Cuboid _cuboid;
 	private Shop _store;
-	private ArrayList<User> _participants;
+	private ArrayList<String> _participants;
 	
-	public Partition( AbstractJob job, User owner, Cuboid cuboid, Shop store, ArrayList<User> participants )
+	public Partition( AbstractJob job, User owner, Cuboid cuboid, Shop store )
 	{
 		setJob( job );
 		setOwner( owner );
 		setCuboid( cuboid );
 		setStore( store );
-		setParticipants( participants );
+		_participants = new ArrayList<String>();
+		initialize();
 	}
 	
 	public Partition( AbstractJob job, User owner, Cuboid cuboid )
 	{
-		this( job, owner, cuboid, null, new ArrayList<User>() );
+		this( job, owner, cuboid, null );
 	}
-	public Partition( AbstractJob job, User owner, Cuboid cuboid, Shop store )
+	
+	private void initialize()
 	{
-		this( job, owner, cuboid, store, new ArrayList<User>() );
+		final List<String> participants = _cuboid.getParticipants();
+		participants.clear();
+		
+		for( String s : _participants )
+		{
+			participants.add( s );
+		}
+		
 	}
 	
 	private void setJob( AbstractJob job )
@@ -48,7 +59,7 @@ public class Partition {
 	private void setOwner( User u )
 	{
 		if( u == null ) return;
-		_owner = u;
+		_ownerID = u.getID();
 	}
 	
 	public void updateOwner( User u )
@@ -78,10 +89,31 @@ public class Partition {
 		setStore( s );
 	}
 	
-	private void setParticipants( ArrayList<User> part )
+	public boolean addParticipant( User u )
 	{
-		if( part == null ) return;
-		_participants = part;
+		if( !JobManager.getJob( u ).equals( getJob() ) )
+			return false;
+		
+		boolean ret = _participants.add( u.getName() );
+		
+		if( ret )
+		{
+			_cuboid.getParticipants().add( u.getName() );
+		}
+
+		return ret;
+	}
+	
+	public boolean removeParticipant( User u )
+	{
+		boolean ret = _participants.remove( u.getName() );
+		
+		if( ret )
+		{
+			_cuboid.getParticipants().remove( u.getName() );
+		}
+		
+		return ret;
 	}
 	
 	public AbstractJob getJob()
@@ -89,9 +121,14 @@ public class Partition {
 		return _job;
 	}
 	
+	public int getOwnerID()
+	{
+		return _ownerID;
+	}
+	
 	public User getOwner()
 	{
-		return _owner;
+		return EdgeCoreAPI.userAPI().getUser( getOwnerID() );
 	}
 	
 	public Cuboid getCuboid()
@@ -104,22 +141,16 @@ public class Partition {
 		return _store;
 	}
 	
-	public ArrayList<User> getParticipants()
+	public ArrayList<String> getParticipants()
 	{
 		return _participants;
 	}
 	
-	public boolean addParticipant( User u )
+	public boolean isParticipant( User u )
 	{
-		if( !JobManager.getJob( u ).equals( getJob() ) )
-			return false;
-		
-		return _participants.add( u );
-	}
-	
-	public boolean removeParticipant( User u )
-	{
-		return _participants.remove( u );
+		if( _participants.contains( u ) || _ownerID == u.getID() ) return true;
+
+		return false;
 	}
 	
 	@Override

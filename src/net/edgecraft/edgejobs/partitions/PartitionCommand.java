@@ -74,7 +74,7 @@ public class PartitionCommand extends AbstractCommand
 			
 			final Shop store = shops.getShop( cuboid );
 			
-			return PartitionManager.registerPartition( job, new Partition( job, owner, cuboid, store ) );
+			return PartitionManager.registerPartition( new Partition( job, owner, cuboid, store ) );
 		}
 		
 		if( args[1].equalsIgnoreCase( "delete" ) && args.length == 3 )
@@ -103,13 +103,13 @@ public class PartitionCommand extends AbstractCommand
 		
 		if( args[2].equalsIgnoreCase( "register-user" ) && args.length == 4 )
 		{	
-			PartitionManager.getPartitionByOwner( owner ).addParticipant( modify );
+			PartitionManager.getPartition( owner ).addParticipant( modify );
 			return true;
 		}
 		
 		if( args[2].equalsIgnoreCase( "delete-user" ) && args.length == 4 )
 		{
-			PartitionManager.getPartitionByOwner( owner ).removeParticipant( modify );
+			PartitionManager.getPartition( owner ).removeParticipant( modify );
 			return true;
 		}
 

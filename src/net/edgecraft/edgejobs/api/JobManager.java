@@ -10,12 +10,14 @@ import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.entity.Player;
 
-public abstract class JobManager 
+public final class JobManager 
 {
 	
 	private static final ArrayList<AbstractJob> jobs = new ArrayList<>();
 	private static final ArrayList<AbstractSidejob> sidejobs = new ArrayList<>();
 	private static final HashMap<Player, Boolean> isWorking = new HashMap<>();
+	
+	private JobManager() { /* ... */ }
 	
 	public static void setWorking( Player p, boolean b ) 
 	{

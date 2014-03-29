@@ -1,6 +1,7 @@
 package net.edgecraft.edgejobs.job;
 
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.job.jobs.NoJob;
 import net.edgecraft.edgejobs.job.jobs.Pilot;
 import net.edgecraft.edgejobs.job.jobs.Blacksmith;
 import net.edgecraft.edgejobs.job.jobs.Broker;

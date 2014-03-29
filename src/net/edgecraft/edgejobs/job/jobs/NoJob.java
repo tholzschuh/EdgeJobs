@@ -1,4 +1,4 @@
-package net.edgecraft.edgejobs.job;
+package net.edgecraft.edgejobs.job.jobs;
 
 import net.edgecraft.edgejobs.api.AbstractJob;
 
