@@ -5,8 +5,7 @@ import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
 import net.edgecraft.edgejobs.api.JobManager;
-import net.edgecraft.edgejobs.job.DefaultJob;
-import net.edgecraft.edgejobs.job.DefaultSidejob;
+import net.edgecraft.edgejobs.job.NoJob;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -64,8 +63,7 @@ public abstract class ConfigHandler
 	{
 		if( containsUser(u) ) return;
 		
-		config().addDefault( "user." + u.getID() + ".job", DefaultJob.getInstance().getName() );
-		config().addDefault( "user." + u.getID() + ".job", DefaultSidejob.getInstance().getName() );
+		config().addDefault( "user." + u.getID() + ".job", NoJob.getInstance().getName() );
 	}
 	
 	public static void removeUser( User u ) 

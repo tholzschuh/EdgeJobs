@@ -22,6 +22,15 @@ public class JobCommand extends AbstractCommand
 	private static final String[] jobnames = { "job" };
 	private static final String[] sidejobnames = { "sidejob" };
 	
+	private static final JobCommand instance = new JobCommand();
+	
+	private JobCommand() { /* ... */ }
+	
+	public static final JobCommand getInstance()
+	{
+		return instance;
+	}
+	
 	@Override
 	public Level getLevel() 
 	{
@@ -93,9 +102,7 @@ public class JobCommand extends AbstractCommand
 				return true;
 			}
 			
-			job.equipPlayer( player );
-			
-			JobManager.setWorking( player, true );
+			job.join( player );
 			
 			player.sendMessage(lang.getColoredMessage("de", "job_joinjob"));
 			return true;
@@ -123,9 +130,7 @@ public class JobCommand extends AbstractCommand
 				return true;
 			}
 			
-			job.unequipPlayer(player);
-			job.onJobQuit(player);
-			JobManager.setWorking( player, false );
+			job.leave( player );
 			
 			player.sendMessage(lang.getColoredMessage("de", "job_leavejob"));
 			return true;
@@ -141,7 +146,7 @@ public class JobCommand extends AbstractCommand
 			
 				if( !Level.canUse( user, Level.MODERATOR ) ) 
 				{
-					player.sendMessage( EdgeCore.errorColor + EdgeCoreAPI.languageAPI().getColoredMessage( userLang, "nopermission") );
+					player.sendMessage( EdgeCore.errorColor + lang.getColoredMessage( userLang, "nopermission") );
 					return false;
 				}
 					
@@ -149,7 +154,7 @@ public class JobCommand extends AbstractCommand
 				
 				if( !target.isOnline() )
 				{
-					player.sendMessage(EdgeCore.errorColor + EdgeCore.getLang().getColoredMessage( userLang, "notfound" ) );
+					player.sendMessage(EdgeCore.errorColor + lang.getColoredMessage( userLang, "notfound" ) );
 					return true;
 				}		
 
@@ -157,7 +162,7 @@ public class JobCommand extends AbstractCommand
 					
 				if( job == null ) 
 				{
-					player.sendMessage( EdgeCore.errorColor + EdgeCore.getLang().getColoredMessage( userLang, "jobnotfound" ) );
+					player.sendMessage( EdgeCore.errorColor + lang.getColoredMessage( userLang, "jobnotfound" ) );
 					return false;
 				}
 					

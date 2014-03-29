@@ -124,4 +124,17 @@ public abstract class AbstractJob
 	{
 		inventories.get(p).clear();
 	}
+	
+	public void join( Player p )
+	{
+		this.equipPlayer( p );
+		JobManager.setWorking( p, true );
+	}
+	
+	public void leave( Player p )
+	{
+		this.unequipPlayer( p );
+		this.onJobQuit( p );
+		JobManager.setWorking( p, false );
+	}
 }

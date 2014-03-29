@@ -1,8 +1,15 @@
 package net.edgecraft.edgejobs.api;
 
+import net.edgecraft.edgeconomy.EdgeConomyAPI;
+import net.edgecraft.edgeconomy.economy.Economy;
+import net.edgecraft.edgeconomy.transactions.TransactionManager;
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
 import net.edgecraft.edgecore.user.User;
+import net.edgecraft.edgecuboid.EdgeCuboidAPI;
+import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
+import net.edgecraft.edgecuboid.shop.ShopHandler;
+import net.edgecraft.edgecuboid.world.WorldManager;
 import net.edgecraft.edgejobs.job.Job;
 import net.edgecraft.edgejobs.job.JobCommands;
 
@@ -13,9 +20,15 @@ public abstract class AbstractJobCommand extends AbstractCommand
 {
 	private final AbstractJob _job;
 	
+	protected final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
+	protected final ShopHandler shops = EdgeCuboidAPI.shopAPI();
+	protected final WorldManager worlds = EdgeCuboidAPI.worldAPI();
+	protected final Economy economy = EdgeConomyAPI.economyAPI();
+	protected final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
+	
 	public AbstractJobCommand( AbstractJob  job ) 
 	{
-		if( job == null ) _job = Job.DEFAULT_JOB.getJob();
+		if( job == null ) _job = Job.NO_JOB.getJob();
 		else _job = job;
 		
 		JobCommands.getInstance().registerCommand( this );
@@ -42,7 +55,7 @@ public abstract class AbstractJobCommand extends AbstractCommand
 		
 		final AbstractJob job = JobManager.getJob( user );
 		
-		if( getJobName().equalsIgnoreCase( job.getName() ) || job.equals( Job.DEFAULT_JOB.getJob() ) )
+		if( getJobName().equalsIgnoreCase( job.getName() ) )
 			return super.run( player, args );
 		
 		player.sendMessage(lang.getColoredMessage("de", "job_nojob"));

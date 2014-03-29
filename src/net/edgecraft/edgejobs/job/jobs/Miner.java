@@ -7,11 +7,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import net.edgecraft.edgecore.EdgeCoreAPI;
+import net.edgecraft.edgecore.user.UserManager;
+import net.edgecraft.edgecuboid.other.EdgeItemStack;
 import net.edgecraft.edgejobs.job.DressedJob;
+import net.edgecraft.edgejobs.partitions.Partition;
+import net.edgecraft.edgejobs.partitions.PartitionManager;
 
 public class Miner extends DressedJob
 {
 	private static final Miner instance = new Miner();
+	
+	private static final UserManager users = EdgeCoreAPI.userAPI();
 	
 	private final ItemStack _pickaxe = new ItemStack( Material.IRON_PICKAXE );
 	
@@ -44,6 +51,14 @@ public class Miner extends DressedJob
 				continue;
 			}
 		}
+		
+		final Partition partition = PartitionManager.getPartitionByParticipant( users.getUser( p.getName() ) );
+		
+		for( ItemStack stack : stuff )
+		{
+			partition.getStore().addItem( new EdgeItemStack( stack ), 0 );
+		}
+		return;	
 		
 	}
 

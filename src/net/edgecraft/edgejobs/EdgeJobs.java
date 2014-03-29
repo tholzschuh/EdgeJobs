@@ -12,6 +12,7 @@ import net.edgecraft.edgejobs.events.HandleItemEvents;
 import net.edgecraft.edgejobs.events.HandlePlayerEvents;
 import net.edgecraft.edgejobs.job.JobCommand;
 import net.edgecraft.edgejobs.job.JobCommands;
+import net.edgecraft.edgejobs.partitions.PartitionCommand;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.ChatColor;
@@ -47,7 +48,8 @@ public class EdgeJobs extends JavaPlugin
 		manager.registerEvents( new HandlePlayerEvents(), this );
 		manager.registerEvents( new HandleItemEvents(), this );
 		
-		commands.registerCommand( new JobCommand() );
+		commands.registerCommand( JobCommand.getInstance() );
+		commands.registerCommand( PartitionCommand.getInstance() );
 		commands.registerCommand( new CommandCollection( JobCommands.getInstance() ) );
 		
 		startSchedulers();

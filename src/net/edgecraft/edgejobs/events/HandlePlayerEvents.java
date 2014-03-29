@@ -18,6 +18,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class HandlePlayerEvents implements Listener
 {
@@ -61,8 +63,10 @@ public class HandlePlayerEvents implements Listener
 		final AbstractJob job = JobManager.getJob( p );
 		if( job == null ) return;
 		
+		p.addPotionEffect( new PotionEffect( PotionEffectType.WEAKNESS, 100, 2 ) );
+		p.setHealth( p.getMaxHealth() / 10 );
 		p.teleport( cuboids.getNearestCuboid( job.whereToStart(), p.getLocation() ).getSpawn() );
-		job.equipPlayer( p );
+		job.unequipPlayer( p );
 	}
 	
 	@EventHandler

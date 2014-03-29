@@ -7,11 +7,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import net.edgecraft.edgecore.EdgeCoreAPI;
+import net.edgecraft.edgecore.user.UserManager;
+import net.edgecraft.edgecuboid.other.EdgeItemStack;
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.partitions.Partition;
+import net.edgecraft.edgejobs.partitions.PartitionManager;
 
 public class Timber extends AbstractJob 
 {
 	public static final Timber instance = new Timber();
+	
+	private static final UserManager users = EdgeCoreAPI.userAPI();
 	
 	private final ItemStack _axe = new ItemStack( Material.IRON_AXE );
 	
@@ -33,12 +40,19 @@ public class Timber extends AbstractJob
 		final ArrayList<ItemStack> wood = new ArrayList<>();
 		
 		for( ItemStack stack : inv.getContents() ) 			
-			if( isWood(stack) ) {
+			if( isWood(stack) ) 
+			{
 				wood.add(stack);
 				inv.remove(stack);
 			}
 		
-		// TODO
+		final Partition partition = PartitionManager.getPartitionByParticipant( users.getUser( p.getName() ) );
+		
+		for( ItemStack stack : wood )
+		{
+			partition.getStore().addItem( new EdgeItemStack( stack ), 0 );
+		}
+		return;		
 	}
 	
 	
@@ -57,8 +71,9 @@ public class Timber extends AbstractJob
 	}
 
 	@Override
-	public void equipPlayerImpl(Player p) 
+	public void equipPlayerImpl( Player p ) 
 	{
+		if( p == null ) return;
 		p.getInventory().addItem( _axe );
 	}
 }
