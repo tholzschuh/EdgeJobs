@@ -5,7 +5,7 @@ import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
 import net.edgecraft.edgejobs.api.JobManager;
-import net.edgecraft.edgejobs.job.NoJob;
+import net.edgecraft.edgejobs.job.jobs.NoJob;
 
 import org.bukkit.configuration.file.FileConfiguration;
 

@@ -1,81 +1,68 @@
 package net.edgecraft.edgejobs.partitions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import net.edgecraft.edgecore.user.User;
-import net.edgecraft.edgejobs.api.AbstractJob;
 
 public final class PartitionManager 
 {
-	private static final HashMap<AbstractJob, ArrayList<Partition>> _partitions = new HashMap<>();
+	private final static ArrayList<Partition> _partitions = new ArrayList<>();
+	
 	private PartitionManager() { /* ... */ }
 	
-	public static boolean registerPartition( AbstractJob job, Partition partition )
+	public static boolean registerPartition( Partition partition )
 	{
-		if( !_partitions.containsKey( job ) )
-			_partitions.put( job, new ArrayList<Partition>() );
-		
-		for( ArrayList<Partition> partitions : _partitions.values() )
+		for( Partition tmp : _partitions )
 		{
-			for( Partition p : partitions )
+			if( tmp.getOwnerID() == partition.getOwnerID() ) return false;
+			for( String user : partition.getParticipants() )
 			{
-				if( p.getOwner().equals( partition.getOwner() ) ) return false;
-				for( User pcp : partition.getParticipants() )
-				{
-					if( p.getParticipants().contains( pcp ) ) return false;
-				}
+				if( tmp.getParticipants().contains( user ) ) return false;
 			}
 		}
 		
-		return _partitions.get( job ).add( partition );
+		return _partitions.add( partition );
 	}
 	
-	public static boolean deletePartition( AbstractJob job, Partition partition )
+	public static boolean deletePartition( Partition partition )
 	{
-		if(!_partitions.containsKey( job ) ) return false;
-		
-		return _partitions.get( job ).remove( partition );
+		return _partitions.remove( partition );
 	}
 	
 	public static boolean deletePartition( User owner )
 	{
-		for( ArrayList<Partition> partitions : _partitions.values() )
-			for( Partition p : partitions )
-				if( p.getOwner().equals( owner ) )
-				{
-					partitions.remove( p );
-					return true;
-				}
-
-		return true;
+		for( Partition p : _partitions )
+			if( p.getOwnerID() == owner.getID() ) 
+				return _partitions.remove( p );
+		
+		return false;
 	}
 	
-	public static ArrayList<Partition> getPartitions( AbstractJob job )
+	public static Partition getPartition( Partition p )
 	{
-		return _partitions.get( job );
+		return _partitions.get( _partitions.indexOf( p ) );
 	}
 	
-	public static Partition getPartition( AbstractJob job, int index )
+	public static Partition getPartition( String user )
 	{
-		return _partitions.get( job ).get( index );
-	}
-	
-	public static Partition getPartitionByOwner( User owner )
-	{
-		for( ArrayList<Partition> partitions : _partitions.values() )
-			for( Partition p : partitions )
-				if( p.getOwner().equals( owner ) ) return p;
+		for( Partition p : _partitions )
+		{
+			if( p.getOwner().getName() == user ) return p;
+			if( p.getParticipants().contains( user ) ) return p;
+		}
 		
 		return null;
 	}
 	
-	public static Partition getPartitionByParticipant( User participant )
+	public static Partition getPartition( User u )
 	{
-		for( ArrayList<Partition> partitions : _partitions.values() )
-			for( Partition p : partitions )
-				if( p.getParticipants().contains( participant ) ) return p;
-		
-		return null;
+		return getPartition( u.getName() );
 	}
+	
+	public static List<Partition> getPartitions()
+	{
+		return _partitions;
+	}
+	
 }

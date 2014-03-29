@@ -72,13 +72,8 @@ public class JobCommand extends AbstractCommand
 	{
 		final String userLang = user.getLanguage();
 		
-		if( args[1].equalsIgnoreCase( "join" ) ) 
+		if( args[1].equalsIgnoreCase( "join" ) && ( args.length == 2 || args.length == 3 ) ) 
 		{
-			if( args.length < 1 || args.length > 2 ) 
-			{
-				sendUsage( player );
-				return false;
-			}
 			
 			if( JobManager.isWorking( player ) ) 
 			{
@@ -86,12 +81,12 @@ public class JobCommand extends AbstractCommand
 				return true;
 			}
 			
-			AbstractJob job = JobManager.getJob( args[1] );
+			AbstractJob job = JobManager.getJob( user );
 			
-			if( args.length == 2 ) 
+			if( args.length == 3 ) 
 			{
 				job = null;
-				job = JobManager.getJobByName( args[1] );
+				job = JobManager.getJobByName( args[2] );
 		
 				if( job == null ) job = JobManager.getSidejobByName( args[1] );
 			} 	
@@ -108,7 +103,7 @@ public class JobCommand extends AbstractCommand
 			return true;
 		}
 		
-		else if( args[1].equalsIgnoreCase( "leave" ) ) 
+		if( args[1].equalsIgnoreCase( "leave" ) ) 
 		{
 			if( args.length != 2 ) 
 			{
