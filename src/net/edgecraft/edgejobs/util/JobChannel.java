@@ -20,10 +20,12 @@ public class JobChannel extends Channel
 	}
 	
 	@Override
-	public void addMember( User u ) 
+	public boolean addMember( User u ) 
 	{
 		if( JobManager.getJob( u ).equals( _requiredJob ) )
-			super.addMember( u );
+			return super.addMember( u );
+		
+		return false;
 	}
 	
 	private final void setRequiredJob( AbstractJob requiredJob ) 

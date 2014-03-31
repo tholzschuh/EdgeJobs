@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import net.edgecraft.edgecore.EdgeCore;
 import net.edgecraft.edgecore.EdgeCoreAPI;
-import net.edgecraft.edgecore.command.CommandCollection;
+import net.edgecraft.edgecore.command.CommandContainer;
 import net.edgecraft.edgecore.command.CommandHandler;
 import net.edgecraft.edgejobs.api.tasks.JobPayTask;
 import net.edgecraft.edgejobs.api.tasks.SidejobPayTask;
@@ -55,7 +55,7 @@ public class EdgeJobs extends JavaPlugin
 		commands.registerCommand( Firefighter.FireCommand.getInstance() );
 		FireCommand.getInstance().fire();
 		
-		commands.registerCommand( new CommandCollection( JobCommands.getInstance() ) );
+		commands.registerCommand( new CommandContainer( JobCommands.getInstance() ) );
 		
 		startSchedulers();
 		
