@@ -4,10 +4,17 @@ package net.edgecraft.edgejobs.job.jobs;
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
 import net.edgecraft.edgecore.user.User;
+import net.edgecraft.edgecuboid.EdgeCuboidAPI;
+import net.edgecraft.edgecuboid.cuboid.Cuboid;
+import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.job.LeatherJob;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -29,9 +36,17 @@ public class Firefighter extends LeatherJob
 	
 	public static class FireCommand extends AbstractCommand 
 	{ 
+		private static final FireCommand instance = new FireCommand();
 
-//		private boolean enabled = true;
-//		private static final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
+		private boolean enabled = true;
+		private static final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
+		
+		private FireCommand() { /* ... */ }
+		
+		public static final FireCommand getInstance()
+		{
+			return instance;
+		}
 		
 		@Override
 		public Level getLevel() 
@@ -45,11 +60,33 @@ public class Firefighter extends LeatherJob
 			return new String[]{ "fire" };
 		}
 
-//		private boolean turn()
-//		{
-//			if( new Random().nextInt( 1 ) == 1 ) return true;
-//			return false;
-//		}
+		private void setRandomFire()
+		{
+			final Cuboid random = cuboids.getCuboid( CuboidType.Survival, false );
+			
+			random.getCenter().getBlock().setType( Material.FIRE );
+
+			final double x = random.getSpawn().getX();
+			final double y = random.getSpawn().getY();
+			final double z = random.getSpawn().getZ();
+			new Location( Bukkit.getWorlds().get(0),  x, y+1, z ).getBlock().setType( Material.FIRE );
+			
+			random.getMaxLocation().getBlock().setType( Material.FIRE );
+			random.getMinLocation().getBlock().setType( Material.FIRE );
+		}
+		
+		public void fire()
+		{
+			Bukkit.getScheduler().runTaskTimer( EdgeJobs.getInstance(), new Runnable() {
+
+				@Override
+				public void run() {
+					if( enabled )
+						setRandomFire();
+				}
+				
+			}, 20L, 20L * 60 );
+		}
 		
 		@Override
 		public boolean runImpl( Player p, User u, String[] args ) 
@@ -57,14 +94,17 @@ public class Firefighter extends LeatherJob
 			
 			if( args[1].equalsIgnoreCase( "enable" ) )
 			{
+				enabled = true;
 				return true;
 			}
 			
 			if( args[1].equalsIgnoreCase( "disable" ) )
 			{
+				enabled = false;
 				return true;
 			}
 			
+			sendUsage( p );
 			return true;
 		}
 
