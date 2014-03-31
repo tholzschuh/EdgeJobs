@@ -116,7 +116,7 @@ public final class JobManager
 		if( another == null ) return null;
 		
 		for( AbstractSidejob job : sidejobs ) 
-			if( job.equals( another ) ) return job;
+			if( job.getName().equals( another ) ) return job;
 		
 		return null;
 	}
@@ -126,7 +126,7 @@ public final class JobManager
 		if( name == null || name.trim().length() == 0 ) return null;
 		
 		for( AbstractSidejob job : sidejobs ) 
-			if( job.equals( name ) ) return job;
+			if( job.getName().equals( name ) ) return job;
 			
 		return null;
 	}
