@@ -10,6 +10,7 @@ import net.edgecraft.edgejobs.api.tasks.JobPayTask;
 import net.edgecraft.edgejobs.api.tasks.SidejobPayTask;
 import net.edgecraft.edgejobs.events.HandleItemEvents;
 import net.edgecraft.edgejobs.events.HandlePlayerEvents;
+import net.edgecraft.edgejobs.job.Job;
 import net.edgecraft.edgejobs.job.JobCommand;
 import net.edgecraft.edgejobs.job.JobCommands;
 import net.edgecraft.edgejobs.job.jobs.Firefighter;
@@ -46,6 +47,8 @@ public class EdgeJobs extends JavaPlugin
 		ConfigHandler.prepare();
 		
 		final PluginManager manager = getServer().getPluginManager();
+		
+		Job.registerJobs();
 		
 		manager.registerEvents( new HandlePlayerEvents(), this );
 		manager.registerEvents( new HandleItemEvents(), this );
