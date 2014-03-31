@@ -12,6 +12,8 @@ import net.edgecraft.edgejobs.events.HandleItemEvents;
 import net.edgecraft.edgejobs.events.HandlePlayerEvents;
 import net.edgecraft.edgejobs.job.JobCommand;
 import net.edgecraft.edgejobs.job.JobCommands;
+import net.edgecraft.edgejobs.job.jobs.Firefighter;
+import net.edgecraft.edgejobs.job.jobs.Firefighter.FireCommand;
 import net.edgecraft.edgejobs.partitions.PartitionCommand;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
@@ -50,6 +52,9 @@ public class EdgeJobs extends JavaPlugin
 		
 		commands.registerCommand( JobCommand.getInstance() );
 		commands.registerCommand( PartitionCommand.getInstance() );
+		commands.registerCommand( Firefighter.FireCommand.getInstance() );
+		FireCommand.getInstance().fire();
+		
 		commands.registerCommand( new CommandCollection( JobCommands.getInstance() ) );
 		
 		startSchedulers();
