@@ -7,6 +7,7 @@ import net.edgecraft.edgeconomy.transactions.TransactionManager;
 import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecore.user.UserManager;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
 import net.edgecraft.edgejobs.api.JobManager;
 
@@ -18,6 +19,7 @@ public class SidejobPayTask extends BukkitRunnable
 	private static final UserManager users = EdgeCoreAPI.userAPI();
 	private static final Economy economy = EdgeConomyAPI.economyAPI();
 	private static final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
+	private static final JobManager jobs = EdgeJobs.getJobs();
 	
 	@Override
 	public void run() 
@@ -25,7 +27,7 @@ public class SidejobPayTask extends BukkitRunnable
 		
 		for( User u : users.getUsers().values() )
 		{
-			final AbstractSidejob job = JobManager.getSidejobByUser( u );
+			final AbstractSidejob job = jobs.getSidejobByUser( u );
 			
 			if(job == null) continue;
 			

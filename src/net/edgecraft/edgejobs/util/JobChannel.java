@@ -4,12 +4,15 @@ import org.bukkit.Material;
 
 import net.edgecraft.edgecore.chat.Channel;
 import net.edgecraft.edgecore.user.User;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.job.Job;
 
 public class JobChannel extends Channel 
 {
+	private static final JobManager jobs = EdgeJobs.getJobs();
+	
 	private AbstractJob _requiredJob;
 	
 	public JobChannel(String name, boolean listed, Material requiredItem, Job requiredJob) 
@@ -22,7 +25,7 @@ public class JobChannel extends Channel
 	@Override
 	public boolean addMember( User u ) 
 	{
-		if( JobManager.getJob( u ).equals( _requiredJob ) )
+		if( jobs.getJob( u ).equals( _requiredJob ) )
 			return super.addMember( u );
 		
 		return false;

@@ -73,11 +73,13 @@ public enum Job
 		return new Job[]{ Job.NO_JOB, Job.FIREFIGHTER, Job.POLICEMAN, Job.DOCTOR, Job.MINER, Job.FARMER, Job.TIMBER, Job.BLACKSMITH, Job.DRIVING_INSTRUCTOR, Job.AIRMAN, Job.SAILOR, Job.BROKER, Job.REPORTER, Job.CRIMINAL, Job.KILLER };
 	}
 	
-	public final static void registerJobs()
+	public final static void registerJobs( JobManager manager )
 	{
+		if( manager == null ) return;
+		
 		for( Job j : getJobs() )
 		{
-			JobManager.registerJob( j.getJob() );
+			manager.registerJob( j.getJob() );
 		}
 		return;
 	}

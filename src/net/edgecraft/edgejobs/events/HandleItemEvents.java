@@ -6,6 +6,7 @@ import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecore.user.UserManager;
 import net.edgecraft.edgecuboid.cuboid.Cuboid;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.JobManager;
 
 import org.bukkit.block.Chest;
@@ -24,13 +25,14 @@ public class HandleItemEvents implements Listener
 
 	private static final UserManager users = EdgeCoreAPI.userAPI();
 	private static final LanguageHandler lang = EdgeCoreAPI.languageAPI();
+	private static final JobManager jobs = EdgeJobs.getJobs();
 	
 	@EventHandler
 	public void handleInventoryOpen( InventoryOpenEvent e )
 	{
 		final Player p = (Player) e.getPlayer();
 		
-		if( !JobManager.isWorking( p ) ) return;
+		if( !jobs.isWorking( p ) ) return;
 		
 		final InventoryHolder holder = e.getInventory().getHolder();
 		
@@ -43,7 +45,7 @@ public class HandleItemEvents implements Listener
 	@EventHandler
 	public void handleItemDrop( PlayerDropItemEvent e )
 	{
-		if( JobManager.isWorking( e.getPlayer() ) ) e.setCancelled( true );
+		if( jobs.isWorking( e.getPlayer() ) ) e.setCancelled( true );
 	}
 	
 	@EventHandler
@@ -55,7 +57,7 @@ public class HandleItemEvents implements Listener
 		
 		if( p == null || u == null || t == null ) return;
 		
-		if( t.equals( CuboidType.Survival ) && !JobManager.isWorking( p ) )
+		if( t.equals( CuboidType.Survival ) && !jobs.isWorking( p ) )
 		{
 			p.sendMessage( lang.getColoredMessage( u.getLanguage(), "cuboid_nopermission" ) );
 			e.setCancelled( true );
@@ -71,7 +73,7 @@ public class HandleItemEvents implements Listener
 		
 		if( p == null || u == null || t == null ) return;
 		
-		if( t.equals( CuboidType.Survival ) && !JobManager.isWorking( p ) )
+		if( t.equals( CuboidType.Survival ) && !jobs.isWorking( p ) )
 		{
 			p.sendMessage( lang.getColoredMessage( u.getLanguage(), "cuboid_nopermission" ) );
 			e.setCancelled( true );

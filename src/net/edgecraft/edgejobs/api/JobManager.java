@@ -10,30 +10,37 @@ import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.entity.Player;
 
-public final class JobManager 
+public class JobManager 
 {
 	
-	private static final ArrayList<AbstractJob> jobs = new ArrayList<>();
-	private static final ArrayList<AbstractSidejob> sidejobs = new ArrayList<>();
-	private static final HashMap<Player, Boolean> isWorking = new HashMap<>();
+	private static final JobManager instance = new JobManager();
+	
+	private final ArrayList<AbstractJob> jobs = new ArrayList<>();
+	private final ArrayList<AbstractSidejob> sidejobs = new ArrayList<>();
+	private final HashMap<Player, Boolean> isWorking = new HashMap<>();
 	
 	private JobManager() { /* ... */ }
 	
-	public static void setWorking( Player p, boolean b ) 
+	public static final JobManager getInstance()
+	{
+		return instance;
+	}
+	
+	public void setWorking( Player p, boolean b ) 
 	{
 		if( p == null ) return;
 		
 		isWorking.put(p, b);
 	}
 	
-	public static boolean isWorking( Player p ) 
+	public boolean isWorking( Player p ) 
 	{
 		if( p == null ) return false;
 		
 		return isWorking.get( p );
 	}
 	
-	public static void registerJob( AbstractJob job ) 
+	public void registerJob( AbstractJob job ) 
 	{
 		
 		if( job instanceof AbstractSidejob )
@@ -43,17 +50,17 @@ public final class JobManager
 			jobs.add( (AbstractJob)job );
 	}
 	
-	public static ArrayList<AbstractJob> getJobs() 
+	public ArrayList<AbstractJob> getJobs() 
 	{
 		return jobs;
 	}
 	
-	public static ArrayList<AbstractSidejob> getSidejobs() 
+	public ArrayList<AbstractSidejob> getSidejobs() 
 	{
 		return sidejobs;
 	}
 	
-	public static AbstractJob getJob( AbstractJob another ) 
+	public AbstractJob getJob( AbstractJob another ) 
 	{
 		AbstractJob job;
 		
@@ -65,7 +72,7 @@ public final class JobManager
 		return job;
 	}
 	
-	public static AbstractJob getJob( String name ) 
+	public AbstractJob getJob( String name ) 
 	{
 		AbstractJob job = getJobByName( name );
 		
@@ -74,7 +81,7 @@ public final class JobManager
 		return job;
 	}
 	
-	public static AbstractJob getJob( User u ) 
+	public AbstractJob getJob( User u ) 
 	{
 		AbstractJob job = getJobByUser( u );
 		
@@ -83,14 +90,14 @@ public final class JobManager
 		return job;
 	}
 	
-	public static AbstractJob getJob( Player p ) 
+	public AbstractJob getJob( Player p ) 
 	{
 		if( p == null ) return null;
 		
 		return getJob( EdgeCoreAPI.userAPI().getUser(p.getName()) );
 	}
 	
-	public static AbstractJob getJobByName( String name ) 
+	public AbstractJob getJobByName( String name ) 
 	{
 		
 		if( name == null || name.trim().length() == 0 ) return null;
@@ -101,7 +108,7 @@ public final class JobManager
 		return null;
 	}
 	
-	public static AbstractJob getJobByInstance( AbstractJob another ) 
+	public AbstractJob getJobByInstance( AbstractJob another ) 
 	{
 		if( another == null ) return null;
 		
@@ -111,7 +118,7 @@ public final class JobManager
 		return null;
 	}
 	
-	public static final AbstractSidejob getSidejobByInstance( AbstractSidejob another ) 
+	public final AbstractSidejob getSidejobByInstance( AbstractSidejob another ) 
 	{
 		if( another == null ) return null;
 		
@@ -121,7 +128,7 @@ public final class JobManager
 		return null;
 	}
 	
-	public static AbstractSidejob getSidejobByName( String name ) 
+	public AbstractSidejob getSidejobByName( String name ) 
 	{
 		if( name == null || name.trim().length() == 0 ) return null;
 		
@@ -131,20 +138,20 @@ public final class JobManager
 		return null;
 	}
 	
-	public static AbstractJob getJobByUser( User u ) 
+	public AbstractJob getJobByUser( User u ) 
 	{
 		return getJobByName( ConfigHandler.getJob( u ) );
 	}
 	
-	public static AbstractSidejob getSidejobByUser( User u ) 
+	public AbstractSidejob getSidejobByUser( User u ) 
 	{
 		return getSidejobByName( ConfigHandler.getSidejob( u ) );
 	}
 	
-	public static final boolean canUse( User u, Job j ) 
+	public final boolean canUse( User u, Job j ) 
 	{
 		if( u == null || j == null ) return false;
-		if( !JobManager.getJob( u ).equals( j ) ) return false;
+		if( !getJob( u ).equals( j ) ) return false;
 		
 		return true;
 	}

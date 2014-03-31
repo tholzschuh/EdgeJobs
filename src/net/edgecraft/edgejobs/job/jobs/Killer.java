@@ -33,6 +33,8 @@ public class Killer extends AbstractSidejob
 {
 	private static final Killer instance = new Killer();
 	
+	private static final JobManager jobs = EdgeJobs.getJobs();
+	
 	private static final HashMap<KillContractPayload, ArrayList<User>> contracts = new HashMap<KillContractPayload, ArrayList<User>>();
 	
 	private Killer() 
@@ -49,7 +51,7 @@ public class Killer extends AbstractSidejob
 	
 	public void addContract( User killer, KillContractPayload details ) 
 	{
-		if( killer == null || details == null || !JobManager.getJob( killer ).equals(Killer.getInstance()))
+		if( killer == null || details == null || !jobs.getJob( killer ).equals(Killer.getInstance()))
 			return;
 		
 		ArrayList<User> killers = contracts.get( details );
@@ -83,7 +85,7 @@ public class Killer extends AbstractSidejob
 		if( killer == null || details == null ) return;
 		
 		for( User cur : killer ) 
-			if( !JobManager.getJob( cur ).equals( Killer.getInstance() ) )
+			if( !jobs.getJob( cur ).equals( Killer.getInstance() ) )
 				return;
 
 		contracts.put( details, killer );
@@ -300,7 +302,7 @@ public class Killer extends AbstractSidejob
 				return true;
 			}
 			
-			if( !JobManager.canUse( user , Job.KILLER ) ) 
+			if( !jobs.canUse( user , Job.KILLER ) ) 
 			{
 				lang.getColoredMessage( user.getLanguage(), "job_wrongjob" );
 				return false;
@@ -316,7 +318,7 @@ public class Killer extends AbstractSidejob
 			
 			if( args.length == 3 && args[1].equalsIgnoreCase( "accept-contract" ) ) 
 			{
-				if( !JobManager.getJob( user ).equals( killer ) ) 
+				if( !jobs.getJob( user ).equals( killer ) ) 
 				{
 					player.sendMessage( lang.getColoredMessage( user.getLanguage(), "job_wrongjob" ) );
 					return false;
@@ -361,7 +363,7 @@ public class Killer extends AbstractSidejob
 			
 			User u = users.getUser( ((Player)sender).getName() );
 			
-			if( u == null || !JobManager.getJob( u ).equals( Killer.getInstance() ) )
+			if( u == null || !jobs.getJob( u ).equals( Killer.getInstance() ) )
 				return;
 			
 			sender.sendMessage( EdgeCore.usageColor + "/killer accept-contract <id>" );
@@ -396,7 +398,7 @@ public class Killer extends AbstractSidejob
 				{
 					for( User u : contracts.get( tmpPayload ) ) 
 					{
-						if( pde.getEntity().getKiller().equals( u.getPlayer() ) && JobManager.getJob( u ).equals( Killer.getInstance() ) && JobManager.isWorking( u.getPlayer() ) ) 
+						if( pde.getEntity().getKiller().equals( u.getPlayer() ) && jobs.getJob( u ).equals( Killer.getInstance() ) && jobs.isWorking( u.getPlayer() ) ) 
 						{					
 							
 							final BankAccount killerAcc = economy.getAccount( u.getID() );

@@ -7,11 +7,14 @@ import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
 
 public abstract class AbstractJob 
 {
+	
+	private static final JobManager jobs = EdgeJobs.getJobs();
 
 	private static final HashMap<Player, PlayerInventory> inventories = new HashMap<>();
 	
@@ -74,7 +77,7 @@ public abstract class AbstractJob
 	
 	public void equipPlayer( Player p ) 
 	{
-		if( p == null || !JobManager.isWorking(p) || !JobManager.getJob(p).equals(JobManager.getJob( _name ))) return;
+		if( p == null || !jobs.isWorking(p) || !jobs.getJob(p).equals(jobs.getJob( _name ))) return;
 		
 		inventories.put( p, p.getInventory() );
 		p.getInventory().clear();
@@ -128,13 +131,13 @@ public abstract class AbstractJob
 	public void join( Player p )
 	{
 		this.equipPlayer( p );
-		JobManager.setWorking( p, true );
+		jobs.setWorking( p, true );
 	}
 	
 	public void leave( Player p )
 	{
 		this.unequipPlayer( p );
 		this.onJobQuit( p );
-		JobManager.setWorking( p, false );
+		jobs.setWorking( p, false );
 	}
 }

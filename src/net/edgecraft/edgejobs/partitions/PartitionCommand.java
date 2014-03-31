@@ -12,6 +12,7 @@ import net.edgecraft.edgecuboid.cuboid.Cuboid;
 import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.shop.Shop;
 import net.edgecraft.edgecuboid.shop.ShopHandler;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.JobManager;
 
@@ -21,6 +22,7 @@ public class PartitionCommand extends AbstractCommand
 	
 	private final static CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
 	private final static ShopHandler shops = EdgeCuboidAPI.shopAPI();
+	private final static JobManager jobs = EdgeJobs.getJobs();
 	
 	private PartitionCommand() { /* ... */ }
 	
@@ -48,7 +50,7 @@ public class PartitionCommand extends AbstractCommand
 		
 		if( args[1].equalsIgnoreCase( "register" ) && args.length >= 5 )
 		{
-			final AbstractJob job = JobManager.getJob( args[2] );
+			final AbstractJob job = jobs.getJob( args[2] );
 			
 			if( job == null )
 			{

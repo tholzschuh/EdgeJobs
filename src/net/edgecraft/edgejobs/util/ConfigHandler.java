@@ -14,6 +14,8 @@ public abstract class ConfigHandler
 	public static final Integer JOB_PAYHOUR = 17;
 	private static final EdgeJobs instance = EdgeJobs.getInstance();
 	
+	private static final JobManager jobs = EdgeJobs.getJobs();
+	
 	public static FileConfiguration config()
 	{
 		return instance.getConfig();
@@ -37,10 +39,10 @@ public abstract class ConfigHandler
 	
 	private static void prepareJobs() 
 	{
-		for( AbstractJob job : JobManager.getJobs() )
+		for( AbstractJob job : jobs.getJobs() )
 			config().addDefault( "pay." + job.getName(), 2000.00 );
 		
-		for( AbstractSidejob job : JobManager.getSidejobs() ) 
+		for( AbstractSidejob job : jobs.getSidejobs() ) 
 			config().addDefault( "pay." + job.getName(), 10.00 );
 	}
 	

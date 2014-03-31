@@ -1,11 +1,10 @@
 package net.edgecraft.edgejobs.job;
 
 import net.edgecraft.edgecore.EdgeCore;
-import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
 import net.edgecraft.edgecore.user.User;
-import net.edgecraft.edgecore.user.UserManager;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.util.ConfigHandler;
@@ -17,7 +16,7 @@ import org.bukkit.entity.Player;
 
 public class JobCommand extends AbstractCommand 
 {
-	private static final UserManager users = EdgeCoreAPI.userAPI();
+	private static final JobManager jobs = EdgeJobs.getJobs();
 
 	private static final String[] jobnames = { "job" };
 	private static final String[] sidejobnames = { "sidejob" };
@@ -75,20 +74,20 @@ public class JobCommand extends AbstractCommand
 		if( args[1].equalsIgnoreCase( "join" ) && ( args.length == 2 || args.length == 3 ) ) 
 		{
 			
-			if( JobManager.isWorking( player ) ) 
+			if( jobs.isWorking( player ) ) 
 			{
 				player.sendMessage(lang.getColoredMessage("de", "job_isworking"));
 				return true;
 			}
 			
-			AbstractJob job = JobManager.getJob( user );
+			AbstractJob job = jobs.getJob( user );
 			
 			if( args.length == 3 ) 
 			{
 				job = null;
-				job = JobManager.getJobByName( args[2] );
+				job = jobs.getJobByName( args[2] );
 		
-				if( job == null ) job = JobManager.getSidejobByName( args[1] );
+				if( job == null ) job = jobs.getSidejobByName( args[1] );
 			} 	
 			
 			if( job == null ) 
@@ -111,13 +110,13 @@ public class JobCommand extends AbstractCommand
 				return true;
 			}
 			
-			if( !JobManager.isWorking( player ) ) 
+			if( !jobs.isWorking( player ) ) 
 			{
 				player.sendMessage(lang.getColoredMessage("de", "job_isnotworking"));
 				return true;
 			}
 			
-			final AbstractJob job = JobManager.getJob( user );
+			final AbstractJob job = jobs.getJob( user );
 			
 			if(job == null)
 			{
@@ -153,7 +152,7 @@ public class JobCommand extends AbstractCommand
 					return true;
 				}		
 
-				final AbstractJob job = JobManager.getJob( args[3] );
+				final AbstractJob job = jobs.getJob( args[3] );
 					
 				if( job == null ) 
 				{
