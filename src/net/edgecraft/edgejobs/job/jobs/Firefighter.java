@@ -1,6 +1,5 @@
 package net.edgecraft.edgejobs.job.jobs;
 
-
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
 import net.edgecraft.edgecore.user.User;
@@ -13,7 +12,6 @@ import net.edgecraft.edgejobs.job.LeatherJob;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -64,15 +62,10 @@ public class Firefighter extends LeatherJob
 		{
 			final Cuboid random = cuboids.getCuboid( CuboidType.Survival, false );
 			
-			random.getCenter().getBlock().setType( Material.FIRE );
-
-			final double x = random.getSpawn().getX();
-			final double y = random.getSpawn().getY();
-			final double z = random.getSpawn().getZ();
-			new Location( Bukkit.getWorlds().get(0),  x, y+1, z ).getBlock().setType( Material.FIRE );
-			
-			random.getMaxLocation().getBlock().setType( Material.FIRE );
-			random.getMinLocation().getBlock().setType( Material.FIRE );
+			random.getMinLocation().add(0, 1, 0).getBlock().setType(Material.FIRE);
+			random.getMaxLocation().add(0, 1, 0).getBlock().setType(Material.FIRE);
+			random.getCenter().add(0, 1, 0).getBlock().setType(Material.FIRE);
+			random.getSpawn().add(0, 1, 0).getBlock().setType(Material.FIRE);
 			
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.sendMessage("§7[DEBUG] Random Fire has been set!");
