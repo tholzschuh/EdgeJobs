@@ -73,6 +73,10 @@ public class Firefighter extends LeatherJob
 			
 			random.getMaxLocation().getBlock().setType( Material.FIRE );
 			random.getMinLocation().getBlock().setType( Material.FIRE );
+			
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				p.sendMessage("§7[DEBUG] Random Fire has been set!");
+			}
 		}
 		
 		public void fire()
@@ -94,7 +98,7 @@ public class Firefighter extends LeatherJob
 			
 			if( args[1].equalsIgnoreCase( "enable" ) )
 			{
-				enabled = true;
+				enabled = true;				
 				return true;
 			}
 			
