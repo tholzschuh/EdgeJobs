@@ -10,6 +10,7 @@ import net.edgecraft.edgecore.user.UserManager;
 import net.edgecraft.edgecuboid.EdgeCuboidAPI;
 import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.job.LeatherJob;
@@ -21,7 +22,9 @@ import org.bukkit.entity.Player;
 public class Policeman extends LeatherJob
 {
 	private static final Policeman instance = new Policeman();
+	
 	private static final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
+	private static final JobManager jobs = EdgeJobs.getJobs();
 	
 	private final HashMap<User, User> _arrested;
 	
@@ -51,7 +54,7 @@ public class Policeman extends LeatherJob
 	public final void arrest( User target, User officer ) 
 	{
 		
-		if( target == null || officer == null  || _arrested.containsKey( target ) || !JobManager.getJob( officer ).equals( this ) ) return;
+		if( target == null || officer == null  || _arrested.containsKey( target ) || !jobs.getJob( officer ).equals( this ) ) return;
 		
 		_arrested.put( target, officer );
 		target.getPlayer().teleport( cuboids.getNearestCuboid(CuboidType.Jail, target.getPlayer().getLocation() ).getSpawn() );

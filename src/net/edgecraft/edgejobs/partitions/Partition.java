@@ -7,11 +7,14 @@ import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecuboid.cuboid.Cuboid;
 import net.edgecraft.edgecuboid.shop.Shop;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.JobManager;
 
 public class Partition {
 
+	private static final JobManager jobs = EdgeJobs.getJobs();
+	
 	private AbstractJob _job;
 	private int _ownerID;
 	private Cuboid _cuboid;
@@ -91,7 +94,7 @@ public class Partition {
 	
 	public boolean addParticipant( User u )
 	{
-		if( !JobManager.getJob( u ).equals( getJob() ) )
+		if( !jobs.getJob( u ).equals( getJob() ) )
 			return false;
 		
 		boolean ret = _participants.add( u.getName() );

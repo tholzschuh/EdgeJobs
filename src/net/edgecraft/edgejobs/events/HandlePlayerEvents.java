@@ -7,6 +7,7 @@ import net.edgecraft.edgecore.user.UserManager;
 import net.edgecraft.edgecuboid.EdgeCuboidAPI;
 import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.util.ConfigHandler;
@@ -27,6 +28,7 @@ public class HandlePlayerEvents implements Listener
 	private static final UserManager users = EdgeCoreAPI.userAPI();
 	private static final LanguageHandler lang = EdgeCoreAPI.languageAPI();
 	private static final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
+	private static final JobManager jobs = EdgeJobs.getJobs();
 
 	
 	@EventHandler
@@ -34,7 +36,7 @@ public class HandlePlayerEvents implements Listener
 	{
 		final Player p = e.getPlayer();
 		
-		JobManager.setWorking( p, false );
+		jobs.setWorking( p, false );
 		
 		User u = users.getUser( p.getName() );
 		
@@ -47,10 +49,10 @@ public class HandlePlayerEvents implements Listener
 	{
 		final Player p = e.getPlayer();
 		
-		if( !JobManager.isWorking( p ) ) return;
+		if( !jobs.isWorking( p ) ) return;
 		
-		JobManager.setWorking( p, false );
-		JobManager.getJob( p ).unequipPlayer( p );
+		jobs.setWorking( p, false );
+		jobs.getJob( p ).unequipPlayer( p );
 	}
 	
 	@EventHandler
@@ -58,9 +60,9 @@ public class HandlePlayerEvents implements Listener
 	{
 		final Player p = e.getPlayer();
 		
-		if( !JobManager.isWorking( p ) ) return;
+		if( !jobs.isWorking( p ) ) return;
 		
-		final AbstractJob job = JobManager.getJob( p );
+		final AbstractJob job = jobs.getJob( p );
 		if( job == null ) return;
 		
 		p.addPotionEffect( new PotionEffect( PotionEffectType.WEAKNESS, 100, 2 ) );
@@ -76,13 +78,13 @@ public class HandlePlayerEvents implements Listener
 		
 		final Player p = (Player) e.getEntity();
 		
-		if( JobManager.isWorking( p ) && e.getDamage() >= p.getHealth() )
+		if( jobs.isWorking( p ) && e.getDamage() >= p.getHealth() )
 		{
 			e.setCancelled( true );
 			
 			p.teleport( cuboids.getNearestCuboid( CuboidType.Hospital, p.getLocation()).getSpawn() );
 			p.getInventory().setContents( AbstractJob.getOldPlayerInventory(p).getContents() );
-			JobManager.setWorking( p, false );
+			jobs.setWorking( p, false );
 			AbstractJob.clearOldPlayerInventory( p );
 			p.sendMessage( lang.getColoredMessage( users.getUser(p.getName()).getLanguage(), "job_died") );
 			return;

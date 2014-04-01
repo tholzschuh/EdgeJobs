@@ -10,6 +10,7 @@ import net.edgecraft.edgecuboid.EdgeCuboidAPI;
 import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.shop.ShopHandler;
 import net.edgecraft.edgecuboid.world.WorldManager;
+import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.job.Job;
 import net.edgecraft.edgejobs.job.JobCommands;
 
@@ -25,6 +26,7 @@ public abstract class AbstractJobCommand extends AbstractCommand
 	protected final WorldManager worlds = EdgeCuboidAPI.worldAPI();
 	protected final Economy economy = EdgeConomyAPI.economyAPI();
 	protected final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
+	protected final JobManager jobs = EdgeJobs.getJobs();
 	
 	public AbstractJobCommand( AbstractJob  job ) 
 	{
@@ -53,7 +55,7 @@ public abstract class AbstractJobCommand extends AbstractCommand
 	public final boolean run( Player player, User user, String[] args ) throws Exception 
 	{
 		
-		final AbstractJob job = JobManager.getJob( user );
+		final AbstractJob job = jobs.getJob( user );
 		
 		if( getJobName().equalsIgnoreCase( job.getName() ) )
 			return super.run( player, args );

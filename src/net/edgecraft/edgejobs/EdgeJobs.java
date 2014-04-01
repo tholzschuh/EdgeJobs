@@ -6,6 +6,7 @@ import net.edgecraft.edgecore.EdgeCore;
 import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.command.CommandContainer;
 import net.edgecraft.edgecore.command.CommandHandler;
+import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.api.tasks.JobPayTask;
 import net.edgecraft.edgejobs.api.tasks.SidejobPayTask;
 import net.edgecraft.edgejobs.events.HandleItemEvents;
@@ -31,6 +32,7 @@ public class EdgeJobs extends JavaPlugin
 	
 	public static final String banner = "[EdgeJobs] ";
 	private static final CommandHandler commands = EdgeCoreAPI.commandsAPI();
+	private static final JobManager jobs = JobManager.getInstance();
 	
 	private static EdgeJobs instance;
 	public static final Logger log = EdgeCore.log;
@@ -39,7 +41,7 @@ public class EdgeJobs extends JavaPlugin
 	public void onLoad() 
 	{
 			instance = this;
-		}
+	}
 	
 	@Override
 	public void onEnable() 
@@ -48,7 +50,7 @@ public class EdgeJobs extends JavaPlugin
 		
 		final PluginManager manager = getServer().getPluginManager();
 		
-		Job.registerJobs();
+		Job.registerJobs( jobs );
 		
 		manager.registerEvents( new HandlePlayerEvents(), this );
 		manager.registerEvents( new HandleItemEvents(), this );
@@ -86,6 +88,11 @@ public class EdgeJobs extends JavaPlugin
 		scheduler.runTaskTimerAsynchronously( this, jpt, 40L, 200L);
 		scheduler.runTaskTimerAsynchronously( this, sjpt, 40L, 250L);
 		
+	}
+	
+	public static JobManager getJobs()
+	{
+		return jobs;
 	}
 	
 }
