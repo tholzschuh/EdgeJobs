@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -40,7 +39,6 @@ public class Killer extends AbstractSidejob
 	private Killer() 
 	{
 		super( "Killer" );
-		Bukkit.getServer().getPluginManager().registerEvents( new ManagePlayerDeathEvent(), EdgeJobs.getInstance() );
 	}
 	
 	public static final Killer getInstance() 

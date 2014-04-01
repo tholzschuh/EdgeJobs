@@ -2,11 +2,9 @@ package net.edgecraft.edgejobs.job.jobs;
 
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.user.User;
-import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,7 +23,6 @@ public class Criminal extends AbstractJob implements Listener
 	private Criminal() 
 	{
 		super( "Criminal" );
-		Bukkit.getServer().getPluginManager().registerEvents(this, EdgeJobs.getInstance());
 	}
 	
 	public static final Criminal getInstance()
