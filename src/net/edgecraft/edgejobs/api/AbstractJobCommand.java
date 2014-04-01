@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 
 public abstract class AbstractJobCommand extends AbstractCommand 
 {
-	private final AbstractJob _job;
+	private final String _job;
 	
 	protected final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
 	protected final ShopHandler shops = EdgeCuboidAPI.shopAPI();
@@ -28,9 +28,9 @@ public abstract class AbstractJobCommand extends AbstractCommand
 	protected final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
 	protected final JobManager jobs = EdgeJobs.getJobs();
 	
-	public AbstractJobCommand( AbstractJob  job ) 
+	public AbstractJobCommand( String  job ) 
 	{
-		if( job == null ) _job = Job.NO_JOB.getJob();
+		if( job == null ) _job = Job.NO_JOB.getJob().getName();
 		else _job = job;
 		
 		JobCommands.getInstance().registerCommand( this );
@@ -38,12 +38,12 @@ public abstract class AbstractJobCommand extends AbstractCommand
 	
 	public AbstractJob getJob() 
 	{
-		return _job;
+		return jobs.getJob( _job );
 	}
 	
 	public String getJobName()
 	{
-		return _job.getName();
+		return _job;
 	}
 	
 	@Override

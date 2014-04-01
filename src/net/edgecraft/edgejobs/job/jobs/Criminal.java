@@ -51,7 +51,7 @@ public class Criminal extends AbstractJob implements Listener
 	{
 		public CocaineCommand() 
 		{
-			super( Criminal.getInstance() );
+			super( "Criminal" );
 		}
 
 		@Override

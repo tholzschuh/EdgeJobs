@@ -106,7 +106,7 @@ public class Policeman extends LeatherJob
 		
 		private ArrestCommand( Policeman job ) 
 		{
-			super( job );
+			super( job.getName() );
 		}
 
 		public static final ArrestCommand getInstance() 
@@ -184,7 +184,7 @@ public class Policeman extends LeatherJob
 		
 		private ReleaseCommand( Policeman job ) 
 		{
-			super(job);
+			super( job.getName() );
 		}
 		
 		public static final ReleaseCommand getInstance() 
@@ -247,7 +247,7 @@ public class Policeman extends LeatherJob
 		
 		private WantedCommand( Policeman job ) 
 		{
-			super(job);
+			super( job.getName() );
 			wanted = new HashMap<User, SearchLevel>();
 		}
 

@@ -43,7 +43,7 @@ public class Broker extends AbstractJob
 		
 		private HabitatUpgradeCommand() 
 		{
-			super( Broker.getInstance() );
+			super( "Broker" );
 		}
 		
 		public static final HabitatUpgradeCommand getInstance()

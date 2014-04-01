@@ -46,7 +46,7 @@ public class Doctor extends LeatherJob
 		
 		private HealCommand() 
 		{
-			super( Doctor.getInstance() );
+			super( "Doctor" );
 		}
 		
 		public static final HealCommand getInstance()

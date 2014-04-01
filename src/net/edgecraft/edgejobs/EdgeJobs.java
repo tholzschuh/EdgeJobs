@@ -62,6 +62,7 @@ public class EdgeJobs extends JavaPlugin
 		commands.registerCommand( JobCommand.getInstance() );
 		commands.registerCommand( PartitionCommand.getInstance() );
 		commands.registerCommand( Firefighter.FireCommand.getInstance() );
+		commands.registerCommand( Killer.KillerCommand.getInstance() );
 		FireCommand.getInstance().fire();
 		
 		commands.registerCommand( new CommandContainer( JobCommands.getInstance() ) );
