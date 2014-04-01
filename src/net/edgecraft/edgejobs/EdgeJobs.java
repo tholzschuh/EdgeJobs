@@ -14,8 +14,10 @@ import net.edgecraft.edgejobs.events.HandlePlayerEvents;
 import net.edgecraft.edgejobs.job.Job;
 import net.edgecraft.edgejobs.job.JobCommand;
 import net.edgecraft.edgejobs.job.JobCommands;
+import net.edgecraft.edgejobs.job.jobs.Criminal;
 import net.edgecraft.edgejobs.job.jobs.Firefighter;
 import net.edgecraft.edgejobs.job.jobs.Firefighter.FireCommand;
+import net.edgecraft.edgejobs.job.jobs.Killer;
 import net.edgecraft.edgejobs.partitions.PartitionCommand;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
@@ -54,6 +56,8 @@ public class EdgeJobs extends JavaPlugin
 		
 		manager.registerEvents( new HandlePlayerEvents(), this );
 		manager.registerEvents( new HandleItemEvents(), this );
+		manager.registerEvents( new Killer.ManagePlayerDeathEvent(), this );
+		manager.registerEvents( Criminal.getInstance(), this );
 		
 		commands.registerCommand( JobCommand.getInstance() );
 		commands.registerCommand( PartitionCommand.getInstance() );
