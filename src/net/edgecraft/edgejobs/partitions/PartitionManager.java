@@ -5,8 +5,8 @@ import java.util.List;
 
 import net.edgecraft.edgecore.user.User;
 
-public final class PartitionManager 
-{
+public final class PartitionManager
+{	
 	private final static ArrayList<Partition> _partitions = new ArrayList<>();
 	
 	private PartitionManager() { /* ... */ }

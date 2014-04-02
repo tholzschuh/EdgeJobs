@@ -7,8 +7,6 @@ import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.command.CommandContainer;
 import net.edgecraft.edgecore.command.CommandHandler;
 import net.edgecraft.edgejobs.api.JobManager;
-import net.edgecraft.edgejobs.api.tasks.JobPayTask;
-import net.edgecraft.edgejobs.api.tasks.SidejobPayTask;
 import net.edgecraft.edgejobs.events.HandleItemEvents;
 import net.edgecraft.edgejobs.events.HandlePlayerEvents;
 import net.edgecraft.edgejobs.job.Job;
@@ -19,6 +17,8 @@ import net.edgecraft.edgejobs.job.jobs.Firefighter;
 import net.edgecraft.edgejobs.job.jobs.Firefighter.FireCommand;
 import net.edgecraft.edgejobs.job.jobs.Killer;
 import net.edgecraft.edgejobs.partitions.PartitionCommand;
+import net.edgecraft.edgejobs.tasks.JobPayTask;
+import net.edgecraft.edgejobs.tasks.SidejobPayTask;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.ChatColor;

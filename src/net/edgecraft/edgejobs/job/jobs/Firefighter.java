@@ -1,5 +1,6 @@
 package net.edgecraft.edgejobs.job.jobs;
 
+import net.edgecraft.edgecore.EdgeCore;
 import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.command.Level;
 import net.edgecraft.edgecore.user.User;
@@ -89,16 +90,25 @@ public class Firefighter extends LeatherJob
 		@Override
 		public boolean runImpl( Player p, User u, String[] args ) 
 		{
+			final String userLang = u.getLang();
 			
 			if( args[1].equalsIgnoreCase( "enable" ) )
 			{
-				enabled = true;				
+				enabled = true;	
+				p.sendMessage( lang.getColoredMessage(  userLang, "job_firecmd_enabled" ) );
 				return true;
 			}
 			
 			if( args[1].equalsIgnoreCase( "disable" ) )
 			{
 				enabled = false;
+				p.sendMessage( lang.getColoredMessage(  userLang, "job_firecmd_disabled" ) );
+				return true;
+			}
+			
+			if( args[1].equalsIgnoreCase( "status" ) )
+			{
+				p.sendMessage( lang.getColoredMessage( userLang, "job_firecmd_isEnabled" ).replace("[0]", Boolean.toString( enabled ) ) );
 				return true;
 			}
 			
@@ -109,8 +119,9 @@ public class Firefighter extends LeatherJob
 		@Override
 		public void sendUsageImpl( CommandSender sender ) 
 		{
-			sender.sendMessage("/fire enable");
-			sender.sendMessage( "/fire disable" );
+			sender.sendMessage( EdgeCore.usageColor + "/fire enable");
+			sender.sendMessage( EdgeCore.usageColor + "/fire disable" );
+			sender.sendMessage( EdgeCore.usageColor + "/fire status" );
 		}
 
 
