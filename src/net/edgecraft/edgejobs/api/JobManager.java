@@ -6,7 +6,6 @@ import java.util.HashMap;
 import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecore.user.UserManager;
-import net.edgecraft.edgejobs.job.Job;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
 import org.bukkit.entity.Player;
@@ -152,10 +151,10 @@ public class JobManager
 		return getSidejobByName( ConfigHandler.getSidejob( u ) );
 	}
 	
-	public final boolean canUse( User u, Job j ) 
+	public final boolean canUse( User u, JobType type ) 
 	{
-		if( u == null || j == null ) return false;
-		if( !getJob( u ).equals( j ) ) return false;
+		if( u == null ) return false;
+		if( getJob( u ).getType() != type ) return false;
 		
 		return true;
 	}

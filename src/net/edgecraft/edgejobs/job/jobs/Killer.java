@@ -23,7 +23,6 @@ import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.api.JobType;
-import net.edgecraft.edgejobs.job.Job;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -301,7 +300,7 @@ public class Killer extends AbstractSidejob
 				return true;
 			}
 			
-			if( !jobs.canUse( user , Job.KILLER ) ) 
+			if( !jobs.canUse( user , JobType.KILLER ) ) 
 			{
 				lang.getColoredMessage( user.getLanguage(), "job_wrongjob" );
 				return false;
