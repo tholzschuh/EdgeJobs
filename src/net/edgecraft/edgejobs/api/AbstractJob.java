@@ -20,11 +20,13 @@ public abstract class AbstractJob
 	
 	private String _name;
 	private double _pay;
+	private JobType _type;
 	
-	public AbstractJob( String name ) 
+	public AbstractJob( String name, JobType type ) 
 	{
 		setName( name );
 		setPay( ConfigHandler.getJobPay( name ) );
+		setType( type );
 	}
 	
 	public final String getName() 
@@ -37,6 +39,11 @@ public abstract class AbstractJob
 		return _pay;
 	}
 	
+	public JobType getType()
+	{
+		return _type;
+	}
+	
 	private final void setName( String name ) 
 	{
 		if( name == null || name.trim().length() == 0 ) return;
@@ -47,6 +54,11 @@ public abstract class AbstractJob
 	private final void setPay( double pay ) 
 	{
 		_pay = Math.abs( pay );
+	}
+	
+	private void setType( JobType type )
+	{
+		_type = type;
 	}
 	
 	// Optional Override-Possibility

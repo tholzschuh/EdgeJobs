@@ -9,6 +9,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgecuboid.other.EdgeItemStack;
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.api.JobType;
 import net.edgecraft.edgejobs.partitions.Partition;
 import net.edgecraft.edgejobs.partitions.PartitionManager;
 
@@ -20,7 +21,7 @@ public class Timber extends AbstractJob
 	
 	private Timber() 
 	{
-		super("Timber");
+		super( "Timber", JobType.SAILOR );
 	}
 	
 	public static final Timber getInstance()

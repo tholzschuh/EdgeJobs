@@ -1,0 +1,21 @@
+package net.edgecraft.edgejobs.api;
+
+public enum JobType {
+
+	NO_JOB,
+	FIREFIGHTER,
+	POLICEMAN,
+	DOCTOR,
+	MINER,
+	FARMER,
+	TIMBER,
+	BLACKSMITH,
+	DRIVING_INSTRUCTOR,
+	AIRMAN,
+	SAILOR,
+	BROKER,
+	REPORTER,
+	CRIMINAL,
+	KILLER;
+	
+}

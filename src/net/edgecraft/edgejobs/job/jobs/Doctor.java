@@ -12,6 +12,7 @@ import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgecuboid.cuboid.Cuboid;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
+import net.edgecraft.edgejobs.api.JobType;
 import net.edgecraft.edgejobs.job.LeatherJob;
 
 public class Doctor extends LeatherJob 
@@ -20,7 +21,7 @@ public class Doctor extends LeatherJob
 	
 	private Doctor() 
 	{
-		super( "Doctor", Color.WHITE );
+		super( "Doctor", JobType.DOCTOR, Color.WHITE );
 	}
 	
 	public static final Doctor getInstance()
@@ -46,7 +47,7 @@ public class Doctor extends LeatherJob
 		
 		private HealCommand() 
 		{
-			super( "Doctor" );
+			super( JobType.DOCTOR );
 		}
 		
 		public static final HealCommand getInstance()

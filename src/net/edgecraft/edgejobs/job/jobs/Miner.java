@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgecuboid.other.EdgeItemStack;
+import net.edgecraft.edgejobs.api.JobType;
 import net.edgecraft.edgejobs.job.DressedJob;
 import net.edgecraft.edgejobs.partitions.Partition;
 import net.edgecraft.edgejobs.partitions.PartitionManager;
@@ -20,7 +21,7 @@ public class Miner extends DressedJob
 	
 	private Miner() 
 	{
-		super( "Miner" );
+		super( "Miner", JobType.MINER );
 		prepareKit();
 		super.other.add( _pickaxe );
 	}

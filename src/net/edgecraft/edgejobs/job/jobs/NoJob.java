@@ -1,6 +1,7 @@
 package net.edgecraft.edgejobs.job.jobs;
 
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.api.JobType;
 
 public class NoJob extends AbstractJob
 {
@@ -8,7 +9,7 @@ public class NoJob extends AbstractJob
 	
 	private NoJob() 
 	{
-		super( "nojob" );
+		super( "nojob", JobType.NO_JOB );
 	}
 	
 	public static final NoJob getInstance()

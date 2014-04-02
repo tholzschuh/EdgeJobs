@@ -4,6 +4,7 @@ import net.edgecraft.edgecore.command.AbstractCommand;
 import net.edgecraft.edgecore.user.User;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
+import net.edgecraft.edgejobs.api.JobType;
 
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -22,7 +23,7 @@ public class Criminal extends AbstractJob implements Listener
 	
 	private Criminal() 
 	{
-		super( "Criminal" );
+		super( "Criminal", JobType.CRIMINAL );
 	}
 	
 	public static final Criminal getInstance()
@@ -51,7 +52,7 @@ public class Criminal extends AbstractJob implements Listener
 	{
 		public CocaineCommand() 
 		{
-			super( "Criminal" );
+			super( JobType.CRIMINAL );
 		}
 
 		@Override

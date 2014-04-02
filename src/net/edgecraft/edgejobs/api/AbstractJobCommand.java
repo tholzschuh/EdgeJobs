@@ -11,7 +11,6 @@ import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.shop.ShopHandler;
 import net.edgecraft.edgecuboid.world.WorldManager;
 import net.edgecraft.edgejobs.EdgeJobs;
-import net.edgecraft.edgejobs.job.Job;
 import net.edgecraft.edgejobs.job.JobCommands;
 
 import org.bukkit.command.CommandSender;
@@ -19,7 +18,7 @@ import org.bukkit.entity.Player;
 
 public abstract class AbstractJobCommand extends AbstractCommand 
 {
-	private final String _job;
+	private final JobType _job;
 	
 	protected final CuboidHandler cuboids = EdgeCuboidAPI.cuboidAPI();
 	protected final ShopHandler shops = EdgeCuboidAPI.shopAPI();
@@ -28,20 +27,13 @@ public abstract class AbstractJobCommand extends AbstractCommand
 	protected final TransactionManager transactions = EdgeConomyAPI.transactionAPI();
 	protected final JobManager jobs = EdgeJobs.getJobs();
 	
-	public AbstractJobCommand( String  job ) 
+	public AbstractJobCommand( JobType  job ) 
 	{
-		if( job == null ) _job = Job.NO_JOB.getJob().getName();
-		else _job = job;
-		
+		_job = job;
 		JobCommands.getInstance().registerCommand( this );
 	}
 	
-	public AbstractJob getJob() 
-	{
-		return jobs.getJob( _job );
-	}
-	
-	public String getJobName()
+	public JobType getJobType()
 	{
 		return _job;
 	}
@@ -57,7 +49,7 @@ public abstract class AbstractJobCommand extends AbstractCommand
 		
 		final AbstractJob job = jobs.getJob( user );
 		
-		if( getJobName().equalsIgnoreCase( job.getName() ) )
+		if( getJobType() == job.getType() )
 			return super.run( player, args );
 		
 		player.sendMessage(lang.getColoredMessage("de", "job_nojob"));

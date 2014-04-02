@@ -13,6 +13,7 @@ import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.JobManager;
+import net.edgecraft.edgejobs.api.JobType;
 import net.edgecraft.edgejobs.job.LeatherJob;
 
 import org.bukkit.Color;
@@ -30,7 +31,7 @@ public class Policeman extends LeatherJob
 	
 	private Policeman() 
 	{
-		super( "Policeman", Color.AQUA );
+		super( "Policeman", JobType.POLICEMAN, Color.AQUA );
 		_arrested = new HashMap<>();
 	}
 	
@@ -102,11 +103,11 @@ public class Policeman extends LeatherJob
 	
 	public static class ArrestCommand extends AbstractJobCommand 
 	{
-		private static final ArrestCommand instance = new ArrestCommand( Policeman.getInstance() );
+		private static final ArrestCommand instance = new ArrestCommand();
 		
-		private ArrestCommand( Policeman job ) 
+		private ArrestCommand() 
 		{
-			super( job.getName() );
+			super( JobType.POLICEMAN );
 		}
 
 		public static final ArrestCommand getInstance() 
@@ -180,11 +181,11 @@ public class Policeman extends LeatherJob
 	
 	public static class ReleaseCommand extends AbstractJobCommand 
 	{
-		private static final ReleaseCommand instance = new ReleaseCommand( Policeman.getInstance() );
+		private static final ReleaseCommand instance = new ReleaseCommand();
 		
-		private ReleaseCommand( Policeman job ) 
+		private ReleaseCommand() 
 		{
-			super( job.getName() );
+			super( JobType.POLICEMAN );
 		}
 		
 		public static final ReleaseCommand getInstance() 
@@ -240,14 +241,14 @@ public class Policeman extends LeatherJob
 	
 	public static class WantedCommand extends AbstractJobCommand 
 	{
-		private static final WantedCommand instance = new WantedCommand( Policeman.getInstance() );
+		private static final WantedCommand instance = new WantedCommand();
 		
 		private final Map<User, SearchLevel> wanted;
 		private final UserManager users = EdgeCoreAPI.userAPI();
 		
-		private WantedCommand( Policeman job ) 
+		private WantedCommand() 
 		{
-			super( job.getName() );
+			super( JobType.POLICEMAN );
 			wanted = new HashMap<User, SearchLevel>();
 		}
 

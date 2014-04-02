@@ -1,5 +1,7 @@
 package net.edgecraft.edgejobs.job;
 
+import net.edgecraft.edgejobs.api.JobType;
+
 import org.bukkit.Color;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
@@ -8,9 +10,9 @@ public class LeatherJob extends DressedJob
 
 	protected final Color color;
 	
-	public LeatherJob( String name, Color c ) 
+	public LeatherJob( String name, JobType type, Color c ) 
 	{
-		super( name );
+		super( name, type );
 		color = c;
 	}
 	

@@ -22,6 +22,7 @@ import net.edgecraft.edgejobs.EdgeJobs;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
 import net.edgecraft.edgejobs.api.AbstractSidejob;
 import net.edgecraft.edgejobs.api.JobManager;
+import net.edgecraft.edgejobs.api.JobType;
 import net.edgecraft.edgejobs.job.Job;
 
 import org.bukkit.event.EventHandler;
@@ -38,7 +39,7 @@ public class Killer extends AbstractSidejob
 	
 	private Killer() 
 	{
-		super( "Killer" );
+		super( "Killer", JobType.KILLER );
 	}
 	
 	public static final Killer getInstance() 

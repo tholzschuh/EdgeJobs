@@ -15,6 +15,7 @@ import net.edgecraft.edgecuboid.cuboid.Upgrade;
 import net.edgecraft.edgecuboid.cuboid.Upgrade.UpgradeType;
 import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.AbstractJobCommand;
+import net.edgecraft.edgejobs.api.JobType;
 
 public class Broker extends AbstractJob 
 {
@@ -22,7 +23,7 @@ public class Broker extends AbstractJob
 	
 	private Broker() 
 	{
-		super( "Broker" );
+		super( "Broker", JobType.BROKER );
 	}
 	
 	public static final Broker getInstance()
@@ -43,7 +44,7 @@ public class Broker extends AbstractJob
 		
 		private HabitatUpgradeCommand() 
 		{
-			super( "Broker" );
+			super( JobType.BROKER );
 		}
 		
 		public static final HabitatUpgradeCommand getInstance()

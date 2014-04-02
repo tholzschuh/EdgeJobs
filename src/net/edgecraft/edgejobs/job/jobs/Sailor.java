@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.api.JobType;
 
 public class Sailor extends AbstractJob 
 {
@@ -15,7 +16,7 @@ public class Sailor extends AbstractJob
 	
 	private Sailor() 
 	{
-		super( "Sailor" );
+		super( "Sailor", JobType.SAILOR );
 	}
 
 	public static final Sailor getInstance()

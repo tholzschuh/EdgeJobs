@@ -1,6 +1,7 @@
 package net.edgecraft.edgejobs.job.jobs;
 
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.api.JobType;
 
 public class Reporter extends AbstractJob 
 {
@@ -9,7 +10,7 @@ public class Reporter extends AbstractJob
 	
 	private Reporter() 
 	{
-		super( "Reporter" );
+		super( "Reporter", JobType.REPORTER );
 	}
 	
 	public static final Reporter getInstance()

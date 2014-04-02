@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.api.JobType;
 
 public abstract class DressedJob extends AbstractJob 
 {
@@ -19,9 +20,9 @@ public abstract class DressedJob extends AbstractJob
 	
 	protected final ArrayList<ItemStack> other;
 	
-	public DressedJob( String name ) 
+	public DressedJob( String name, JobType type ) 
 	{
-		super( name );
+		super( name, type );
 		prepareKit();
 		other = new ArrayList<>();
 	}

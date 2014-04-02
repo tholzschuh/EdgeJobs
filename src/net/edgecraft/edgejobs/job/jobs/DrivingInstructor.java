@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.edgecraft.edgejobs.api.AbstractJob;
+import net.edgecraft.edgejobs.api.JobType;
 
 public class DrivingInstructor extends AbstractJob 
 {
@@ -13,7 +14,7 @@ public class DrivingInstructor extends AbstractJob
 	
 	private DrivingInstructor() 
 	{
-		super( "DrivingInstructor" );
+		super( "DrivingInstructor", JobType.DRIVING_INSTRUCTOR );
 	}
 	
 	public static final DrivingInstructor getInstance()

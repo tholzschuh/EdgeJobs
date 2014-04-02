@@ -8,6 +8,7 @@ import net.edgecraft.edgecuboid.cuboid.Cuboid;
 import net.edgecraft.edgecuboid.cuboid.CuboidHandler;
 import net.edgecraft.edgecuboid.cuboid.types.CuboidType;
 import net.edgecraft.edgejobs.EdgeJobs;
+import net.edgecraft.edgejobs.api.JobType;
 import net.edgecraft.edgejobs.job.LeatherJob;
 
 import org.bukkit.Bukkit;
@@ -23,7 +24,7 @@ public class Firefighter extends LeatherJob
 	
 	private Firefighter() 
 	{
-		super( "Firefighter", Color.RED );
+		super( "Firefighter", JobType.FIREFIGHTER, Color.RED );
 	}
 
 	public static final Firefighter getInstance() 

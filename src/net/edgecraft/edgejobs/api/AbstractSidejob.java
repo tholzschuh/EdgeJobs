@@ -4,9 +4,9 @@ import net.edgecraft.edgecore.user.User;
 
 public abstract class AbstractSidejob extends AbstractJob 
 {
-	public AbstractSidejob( String name ) 
+	public AbstractSidejob( String name, JobType type ) 
 	{
-		super( name );
+		super( name, type );
 	}
 	
 	public abstract boolean hasDoneWork( User u );
