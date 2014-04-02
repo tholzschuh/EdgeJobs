@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import net.edgecraft.edgecore.EdgeCoreAPI;
 import net.edgecraft.edgecore.user.User;
+import net.edgecraft.edgecore.user.UserManager;
 import net.edgecraft.edgejobs.job.Job;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
@@ -14,6 +15,8 @@ public class JobManager
 {
 	
 	private static final JobManager instance = new JobManager();
+	
+	private static final UserManager users = EdgeCoreAPI.userAPI();
 	
 	private final ArrayList<AbstractJob> jobs = new ArrayList<>();
 	private final ArrayList<AbstractSidejob> sidejobs = new ArrayList<>();
@@ -30,7 +33,7 @@ public class JobManager
 	{
 		if( p == null ) return;
 		
-		isWorking.put(p, b);
+		isWorking.put( p, b );
 	}
 	
 	public boolean isWorking( Player p ) 
@@ -42,12 +45,13 @@ public class JobManager
 	
 	public void registerJob( AbstractJob job ) 
 	{
-		
 		if( job instanceof AbstractSidejob )
 			sidejobs.add( (AbstractSidejob)job );
 		
 		else if( job instanceof AbstractJob ) 
 			jobs.add( (AbstractJob)job );
+		
+		else return;
 	}
 	
 	public ArrayList<AbstractJob> getJobs() 
@@ -94,7 +98,7 @@ public class JobManager
 	{
 		if( p == null ) return null;
 		
-		return getJob( EdgeCoreAPI.userAPI().getUser(p.getName()) );
+		return getJob( users.getUser( p.getName() ) );
 	}
 	
 	public AbstractJob getJobByName( String name ) 
@@ -118,16 +122,6 @@ public class JobManager
 		return null;
 	}
 	
-	public final AbstractSidejob getSidejobByInstance( AbstractSidejob another ) 
-	{
-		if( another == null ) return null;
-		
-		for( AbstractSidejob job : sidejobs ) 
-			if( job.equals( another ) ) return job;
-		
-		return null;
-	}
-	
 	public AbstractSidejob getSidejobByName( String name ) 
 	{
 		if( name == null || name.trim().length() == 0 ) return null;
@@ -135,6 +129,16 @@ public class JobManager
 		for( AbstractSidejob job : sidejobs ) 
 			if( job.getName().equals( name ) ) return job;
 			
+		return null;
+	}
+	
+	public final AbstractSidejob getSidejobByInstance( AbstractSidejob another ) 
+	{
+		if( another == null ) return null;
+		
+		for( AbstractSidejob job : sidejobs ) 
+			if( job.equals( another ) ) return job;
+		
 		return null;
 	}
 	

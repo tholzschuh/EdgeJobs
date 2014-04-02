@@ -99,7 +99,6 @@ public abstract class AbstractJob
 	
 	public void unequipPlayer( Player p ) 
 	{
-		
 		if( p == null ) return;
 		p.getInventory().setContents( inventories.get(p).getContents() );
 	}
@@ -142,14 +141,14 @@ public abstract class AbstractJob
 	
 	public void join( Player p )
 	{
-		this.equipPlayer( p );
 		jobs.setWorking( p, true );
+		this.equipPlayer( p );
 	}
 	
 	public void leave( Player p )
 	{
-		this.unequipPlayer( p );
-		this.onJobQuit( p );
 		jobs.setWorking( p, false );
+		this.onJobQuit( p );
+		this.unequipPlayer( p );
 	}
 }

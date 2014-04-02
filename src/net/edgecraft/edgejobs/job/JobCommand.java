@@ -9,7 +9,6 @@ import net.edgecraft.edgejobs.api.AbstractJob;
 import net.edgecraft.edgejobs.api.JobManager;
 import net.edgecraft.edgejobs.util.ConfigHandler;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,9 +16,6 @@ import org.bukkit.entity.Player;
 public class JobCommand extends AbstractCommand 
 {
 	private static final JobManager jobs = EdgeJobs.getJobs();
-
-	private static final String[] jobnames = { "job" };
-	private static final String[] sidejobnames = { "sidejob" };
 	
 	private static final JobCommand instance = new JobCommand();
 	
@@ -39,7 +35,7 @@ public class JobCommand extends AbstractCommand
 	@Override
 	public String[] getNames() 
 	{
-		return (String[]) ArrayUtils.addAll( jobnames, sidejobnames );
+		return new String[]{ "job", "sidejob" };
 	}
 	
 	@Override
@@ -56,7 +52,7 @@ public class JobCommand extends AbstractCommand
 		sender.sendMessage( EdgeCore.usageColor + "/job join [job]" );
 		sender.sendMessage( EdgeCore.usageColor + "/job leave");
 		
-		User u = users.getUser( ((Player)sender).getName() );
+		final User u = users.getUser( ((Player)sender).getName() );
 		
 		if( !Level.canUse( u, Level.MODERATOR ) ) return;
 	
@@ -71,12 +67,18 @@ public class JobCommand extends AbstractCommand
 	{
 		final String userLang = user.getLanguage();
 		
-		if( args[1].equalsIgnoreCase( "join" ) && ( args.length == 2 || args.length == 3 ) ) 
+		if( args[1].equalsIgnoreCase( "join" ) ) 
 		{
+			
+			if( args.length != 2 && args.length != 3 )
+			{
+				sendUsage( player );
+				return false;
+			}
 			
 			if( jobs.isWorking( player ) ) 
 			{
-				player.sendMessage(lang.getColoredMessage("de", "job_isworking"));
+				player.sendMessage(lang.getColoredMessage( userLang, "job_isworking"));
 				return true;
 			}
 			
@@ -92,13 +94,12 @@ public class JobCommand extends AbstractCommand
 			
 			if( job == null ) 
 			{
-				player.sendMessage(lang.getColoredMessage("de", "job_nojob"));
+				player.sendMessage(lang.getColoredMessage( userLang, "job_nojob"));
 				return true;
 			}
 			
 			job.join( player );
-			
-			player.sendMessage(lang.getColoredMessage("de", "job_joinjob"));
+			player.sendMessage( lang.getColoredMessage( userLang, "job_join_success" ).replace( "[0]", job.getName() ) );
 			return true;
 		}
 		
@@ -112,7 +113,7 @@ public class JobCommand extends AbstractCommand
 			
 			if( !jobs.isWorking( player ) ) 
 			{
-				player.sendMessage(lang.getColoredMessage("de", "job_isnotworking"));
+				player.sendMessage(lang.getColoredMessage( userLang, "job_isnotworking"));
 				return true;
 			}
 			
@@ -120,13 +121,13 @@ public class JobCommand extends AbstractCommand
 			
 			if(job == null)
 			{
-				player.sendMessage(lang.getColoredMessage("de", "job_nojob"));
+				player.sendMessage(lang.getColoredMessage( userLang, "job_nojob"));
 				return true;
 			}
 			
 			job.leave( player );
 			
-			player.sendMessage(lang.getColoredMessage("de", "job_leavejob"));
+			player.sendMessage(lang.getColoredMessage( userLang, "job_leave_success").replace( "[0]", job.getName() ) );
 			return true;
 		}
 		
@@ -161,6 +162,7 @@ public class JobCommand extends AbstractCommand
 				}
 					
 				ConfigHandler.setJob( user, job );
+				player.sendMessage( lang.getColoredMessage( userLang, "job_setjob_success" ).replace( "[0]", args[2] ).replace( "[1]", job.getName() ) );
 				return true;
 		}
 		
